@@ -1,0 +1,24 @@
+<div class="container-product{{#if scrolling-products}} container-scrolling-products{{/if}}" data-section-products{{#if ajax-category-url}} data-url="{{ajax-category-url}}"{{/if}} {{#if ajax-products-limit}} data-limit="{{ajax-products-limit}}"{{/if}}{{#if ajax-load '===' 'interaction'}}data-load-on-interacted{{/if}}{{#if data-paginate}}data-paginate="true"{{/if}}>
+    <h2 class="page-heading"><a href="{{title-url}}">{{{title}}}</a></h2>
+    {{#if graphql-category}}
+        <div class="category-description">{{{graphql-category.description}}}</div>
+    {{/if}}
+    {{#if scrolling-products}}
+        <div class="container-scrolling-products-container">
+    {{/if}}
+    <div class="products-container-flickty{{#unless scrolling-products}} productGridFavourite productGrid productGrid--maxCol{{/unless}}">
+    {{#if graphql-category.products.edges}}
+        {{#each graphql-category.products.edges}}
+            {{> components/csd/products/graphql-product-card node settings=../settings theme_settings=../theme_settings show_cart_action=true customer=../customer}}
+        {{/each}}
+    {{/if}}
+    </div>
+    {{#if scrolling-products}}
+        </div>
+    {{/if}}
+    {{#if view-all-btn}}
+    <div class="productGridViewAll">
+        <a href="{{title-url}}" class="button button--primary">View all</a>
+    </div>
+    {{/if}}
+</div>

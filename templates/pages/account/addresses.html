@@ -1,0 +1,26 @@
+{{#partial "page"}}
+    {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+    {{> components/csd/account/header}}
+    <div class="address-book">
+        <div class="address-book-left">
+            {{> components/account/navigation account_page='addresses'}}
+        </div>
+
+        <div class="address-book-right">
+            <h2 class="page-heading">{{lang 'account.addresses.heading' }}</h2>
+
+            <div class="account account--fixedLarge">
+                <div class="account-body">
+                    {{#if customer.error}}
+                        {{>components/common/alert/alert-error customer.error}}
+                    {{/if}}
+                    {{#if customer.success}}
+                        {{>components/common/alert/alert-success customer.success}}
+                    {{/if}}
+                    {{> components/account/address-list }}
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> layout/base}}

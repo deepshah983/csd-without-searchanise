@@ -1,0 +1,26 @@
+<div class="csd-currency-selector">
+  <span class="current-currency">
+    <span class="csd-currency-selector-flag"></span>
+    <span class="csd-currency-selector-currency"></span>
+  </span>
+  {{#if primary}}
+    {{~inject 'currencySelector' currency_selector}}
+    {{~inject 'countryCode' settings.country_code}}
+    {{~inject 'countryFlagCdnBaseUrl' (cdn 'assets/img/country-flags')}}
+    <div class="csd-currency-selector-modal">
+      <div class="csd-currency-selector-modal-panel">
+        <div class="csd-currency-selector-modal-heading">Delivery Destination or Region</div>
+        <div class="csd-currency-selector-modal-close"><i class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></i></div>
+        <div class="csd-currency-selector-modal-info"></div>
+        <div class="form-field">
+          <input class="form-input" name="country" type="text" placeholder="Search for a destination or region" autocomplete="off">
+          <i class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.06 39.06"><path d="M34,34.92a1,1,0,0,1-.67-.28l-9.72-9.71a.2.2,0,0,0-.14-.06.2.2,0,0,0-.13,0,11.75,11.75,0,1,1,1.6-1.6.21.21,0,0,0,0,.27l9.72,9.72A1,1,0,0,1,34,34.92ZM15.86,6a9.83,9.83,0,1,0,9.83,9.82A9.84,9.84,0,0,0,15.86,6Z"></path></svg></i>
+        </div>
+        <div class="csd-currency-selector-modal-countries">
+          <div class="csd-currency-selector-modal-country-options"></div>
+        </div>
+      </div>
+      <div class="csd-currency-selector-modal-background"></div>
+    </div>
+  {{/if}}
+</div>

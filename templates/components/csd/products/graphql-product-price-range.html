@@ -1,0 +1,30 @@
+<div class="price-section price-section--withoutTax price-section--range">
+    {{#if retailPriceRange}}
+        <span data-product-rrp-without-tax class="price price--rrp">{{> components/csd/products/graphql-money-format retailPriceRange.min}} - {{> components/csd/products/graphql-money-format retailPriceRange.max}}</span>
+    {{else if retailPrice}}
+        <span data-product-rrp-without-tax class="price price--rrp">{{> components/csd/products/graphql-money-format retailPrice}}</span>
+    {{/if}}
+	
+    {{#if priceRange}}
+        {{#if priceRange.min.value '!==' priceRange.max.value}}
+            <span data-product-price-without-tax class="price price--withoutTax">{{> components/csd/products/graphql-money-format priceRange.min}} - {{> components/csd/products/graphql-money-format priceRange.max}}</span>
+        {{else}}
+            <span data-product-price-without-tax class="price price--withoutTax">{{> components/csd/products/graphql-money-format priceRange.min}}</span>
+        {{/if}}
+    {{else}}
+        <span data-product-price-without-tax class="price price--withoutTax">{{> components/csd/products/graphql-money-format price}}</span>
+    {{/if}}
+
+    {{#if saved}}
+    <div class="price-section price-section--saving price">
+        <span class="price">Saving: </span>
+        <span data-product-price-saved class="price price--saving">
+            {{> components/csd/products/graphql-money-format saved}}
+        </span>
+        {{#and (if retailPrice) (if saved) }}
+            <span class="price price--saving-percentage">({{round (multiply (divide saved.value retailPrice.value) 100)}}%)</span>
+        {{/and}}
+    </div>
+    {{/if}}
+
+</div>

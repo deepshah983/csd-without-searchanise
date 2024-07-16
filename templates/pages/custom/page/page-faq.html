@@ -1,0 +1,405 @@
+{{#partial "page"}}
+
+<div class="container page-faq">
+    {{#comment}}
+         {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+    {{/comment}}
+    <main class="page">
+        {{#unless theme_settings.hide_page_heading }}
+            <h1 style="display: none;" class="page-heading">{{ page.title }}</h1>
+        {{/unless}}
+    
+        {{#if page.sub_pages}}
+        <nav class="navBar navBar--sub">
+            <ul class="navBar-section account-navigation">
+            {{#each page.sub_pages}}
+                <li class="navBar-item"><a class="navBar-action" href="{{url}}">{{title}}</a></li>
+            {{/each}}
+            </ul>
+        </nav>
+        {{/if}}
+        
+        {{{region name="page_builder_content"}}}
+    
+        <div class="page-content">
+            {{#replace '%%Syndicate%%' page.content}}
+                {{> components/page/rss_feed}}
+            {{else}}
+            
+<div class="page-tabs" itemscope itemtype="https://schema.org/FAQPage">
+    <ul class="tabs tabs-parent" data-tab="tabs-parent">
+        <li class="tab"><a class="tab-title" tabindex="0" href="#tab-parent-1">For The Buyer</a></li>
+        <li class="tab"><a class="tab-title" tabindex="0" href="#tab-parent-2">For The Consignor</a></li>
+        
+        <li class="tab is-active"><a class="tab-title" tabindex="0" href="#tab-parent-4">General FAQ</a></li>
+    </ul>
+    <div id="tab-parent-1" class=" tab-content">
+        <ul class="tabs tabs-child" data-tab="tabs-child">
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-1"><span itemprop="name" class="faqpage-question">What is CSD's authentication process?</span></a>
+                <div id="tab-parent-1-child-1" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">Above all, CSD prides itself in sustaining the integrity of luxury designers through a rigorous authentication process, facilitated by our team of authentication experts.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-2"><span itemprop="name" class="faqpage-question">After I receive my item, what if I have questions or concerns about its authenticity?</span></a>
+                <div id="tab-parent-1-child-2" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">If you have any questions about the authenticity of any products bought from CSD, please contact us at csd@csd.ltd. We are happy to have items re-authenticated and will provide a refund in full if the results are not satisfactory.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-3"><span itemprop="name" class="faqpage-question">How and where do you source your items?</span></a>
+                <div id="tab-parent-1-child-3" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We actively source items from our exclusive global network of private clients, celebrity stylists and other industry influencers and tastemakers.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-4"><span itemprop="name" class="faqpage-question">What is the return policy? How do I return an order?</span></a>
+                <div id="tab-parent-1-child-4" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">An item can be returned within 14 days of delivery date or pickup date for online orders, or 14 days of purchase date for in-store orders. Returns made in-store are free. Return requests submitted online will have return fees deducted from the refund or store credit issued. Items purchased online are eligible to be returned for refund or store credit. Items purchased in store are only eligible to be returned for store credit only. Items sold for £4000 or more can only be returned for store credit regardless of whether purchased online or in-store. 
+<br><br>
+To learn more about our returns policy,  <a href=https://csd.shop/returns/>click here</a><br>
+To learn more about refunds, <a href=https://csd.shop/refunds/>click here</a></p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-5"><span itemprop="name" class="faqpage-question">How do I track my order?</span></a>
+                <div id="tab-parent-1-child-5" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">Once your order has been successfully shipped, you will receive an email confirmation that includes all tracking details. Please note that orders with multiple items may ship separately.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-6"><span itemprop="name" class="faqpage-question">Can I cancel my order?</span></a>
+                <div id="tab-parent-1-child-6" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We process orders within 30 minutes of placing your order, which means that we are unable to cancel orders once they have entered the shipping process. That way, we&rsquo;re able to deliver your items as quickly as possible. Once the hour-long window has passed, you may request a return once you have received your order.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-7"><span itemprop="name" class="faqpage-question">How much will I owe in duties and taxes?</span></a>
+                <div id="tab-parent-1-child-7" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text">
+                    <p class="faqpage-answer">All orders shipped outside of the UK are responsible for paying their own duties and taxes if applicable. Once your package arrives at your local shipping facility, they will contact you with the official duties and taxes (if applicable) cost.</p>
+                  </div>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-8"><span itemprop="name" class="faqpage-question">Can I pay in another currency besides GBP?</span></a>
+                <div id="tab-parent-1-child-8" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We accept payments in GBP, Euro, US Dollar, Canadian Dollar, Australian Dollar and Singapore Dollar.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-9"><span itemprop="name" class="faqpage-question">What are your condition standards?</span></a>
+                <div id="tab-parent-1-child-9" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text">
+                    <p class="faqpage-answer">Each item is carefully inspected to guarantee authenticity and condition. We pride ourselves on quality, and therefore only accept items that are:</p>
+                    <ul>
+                        <li>Pristine - items show no signs of being worn, including original tags.</li>
+                        <li>Excellent - items are clearly unused but do not have tags.</li>
+                        <li>Very Good - items with very light wear, such as minor stains, snags or fading.</li>
+                        <li>Good - items show moderate signs of wear such as scuffs, scratches, discoloration or snags.</li>
+                    </ul>
+                  </div>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-10"><span itemprop="name" class="faqpage-question">What are my payment options?</span></a>
+                <div id="tab-parent-1-child-10" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We accept the following forms of payment: Visa, Mastercard, American Express, PayPal, Apple Pay and Google Pay.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-11"><span itemprop="name" class="faqpage-question">How will I be refunded if I pay in an international currency?</span></a>
+                <div id="tab-parent-1-child-11" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">You will be refunded in the same currency you paid in.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-12"><span itemprop="name" class="faqpage-question">How often do you update your exchange rates?</span></a>
+                <div id="tab-parent-1-child-12" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We update our exchange rates daily.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-13"><span itemprop="name" class="faqpage-question">What are your shipping and delivery options?</span></a>
+                <div id="tab-parent-1-child-13" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We offer standard, express and next day international shipping from our courier partners (DPD, Hermes, P2P, UPS, DHL).</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-1-child-14"><span itemprop="name" class="faqpage-question">How do I make changes to the shipping address on my order?</span></a>
+                <div id="tab-parent-1-child-14" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">You can always update your shipping address within your account preferences. However, once an order is placed it is not possible to change the shipping address. Please contact us at csd@csd.ltd with any further inquiring regarding shipping errors.</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="tab-parent-2" class=" tab-content">
+        <ul class="tabs tabs-child" data-tab="tabs-child">
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-2-child-1"><span itemprop="name" class="faqpage-question">How and when will I be paid?</span></a>
+                <div id="tab-parent-2-child-1" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text" class="faqpage-answer">
+                    <p>You will receive payment by direct deposit or site credit (+5%) after your item sells. We issue payments on the 15th of each month, following the month in which your items were sold. For example, if your item sells inFebruary you will be paid on the 15th of March. You will receive payment in the form of site credit or direct deposit within two weeks.</p>
+                    <p>Payments will be made in your currency, exchanged from the currency in which it was purchased, and at the rate on the day in which the item was sold.</p>
+                  </div>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-2-child-2"><span itemprop="name" class="faqpage-question">What is your commission structure?</span></a>
+                <div id="tab-parent-2-child-2" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text" class="faqpage-answer">
+                    <table class="table-data" style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr><th>Item Type</th><th>Resale Value</th><th>What You Get</th><th>CSD Commission</th></tr>
+<tr>
+<td rowspan="6">Handbags, Clothing, Shoes, Accessories &amp; Jewelry</td>
+<td style="text-align: center;">&pound;20,000+</td>
+<td style="text-align: center;">85%</td>
+<td style="text-align: center;">15%</td>
+</tr>
+<tr>
+<td style="text-align: center;">&pound;10,000 - &pound;19,999</td>
+<td style="text-align: center;">82.5%</td>
+<td style="text-align: center;">17.5%</td>
+</tr>
+<tr>
+<td style="text-align: center;">&pound;5,000 - &pound;9,999</td>
+<td style="text-align: center;">80%</td>
+<td style="text-align: center;">20%</td>
+</tr>
+<tr>
+<td style="text-align: center;">&pound;2,500 - &pound;4,999</td>
+<td style="text-align: center;">75%</td>
+<td style="text-align: center;">25%</td>
+</tr>
+<tr>
+<td style="text-align: center;">&pound;1,000 - &pound;2,499</td>
+<td style="text-align: center;">70%</td>
+<td style="text-align: center;">30%</td>
+</tr>
+<tr>
+<td style="text-align: center;">&pound;65 - &pound;999</td>
+<td style="text-align: center;">65%</td>
+<td style="text-align: center;">35%</td>
+</tr>
+</tbody>
+</table>
+                  </div>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-2-child-3"><span itemprop="name" class="faqpage-question">Can I sell items upfront?</span></a>
+                <div id="tab-parent-2-child-3" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We only accept items on a consignment basis, and do not have an upfront buying program.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-2-child-4"><span itemprop="name" class="faqpage-question">Why is the same item listed at a different price?</span></a>
+                <div id="tab-parent-2-child-4" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">Pricing is dynamic based on the current market demand. Similar items may be priced differently depending on the time when your item was consigned and how the demand for that item has shifted. All items are considered unique, and pricing may differ depending on quality, condition and season released.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-2-child-5"><span itemprop="name" class="faqpage-question">How do you determine pricing?</span></a>
+                <div id="tab-parent-2-child-5" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">Our goal is to sell your items at the highest price that the market will allow. We consider brand resale value, market trends, item condition and recency to help determine the best price for your items.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-2-child-6"><span itemprop="name" class="faqpage-question">Where can I track my sales?</span></a>
+                <div id="tab-parent-2-child-6" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We will send you an email with the offer price made and a link to your product listings on the website once your items are uploaded to the website. For any questions regarding your active listings previous sales please contact us at csd@csd.ltd.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-2-child-7"><span itemprop="name" class="faqpage-question">How can I choose my commission payment method?</span></a>
+                <div id="tab-parent-2-child-7" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We will notify you once your item sells to confirm how you would like to be paid. We offer payment through direct deposit or site credit (+5%).</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-2-child-8"><span itemprop="name" class="faqpage-question">Why is my item priced so much lower compared to its original retail price?</span></a>
+                <div id="tab-parent-2-child-8" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">Certain brands and styles retain a higher resale value and prescribe higher prices than others. We consider brand resale value, market trends, item condition and recency to help determine the best price for your items.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-2-child-9"><span itemprop="name" class="faqpage-question">Do you have a retail shop or consignment office where I can consign my items in person?</span></a>
+                <div id="tab-parent-2-child-9" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We have offices in Battersea which are open to clients for free consultations, as soon as COVID restrictions allow. As soon as COVID restrictions permit, we welcome you to our CSD HQ in Battersea, London for free consultations.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-2-child-10"><span itemprop="name" class="faqpage-question">Which designers do you accept?</span></a>
+                <div id="tab-parent-2-child-10" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">Please see a current list of sought after designers in our Designer list. The brands that we accept, however, are not limited to this list so please submit a Webform request to consult. Or contact us at support@csd.ltd</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-2-child-11"><span itemprop="name" class="faqpage-question">What are your condition standards for submissions?</span></a>
+                <div id="tab-parent-2-child-11" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text" class="faqpage-answer">
+                    <p>We do not accept any items with any of the impairments listed below:</p>
+                    <table class="table-data">
+                        <tbody>
+                            <tr>
+                                <th rowspan="7">Apparel</th>
+                                <td>Non-professional alterations</td>
+                            </tr>
+                            <tr>
+                                <td>Noticeable holes</td>
+                            </tr>
+                            <tr>
+                                <td>Missing or broken zippers or buttons</td>
+                            </tr>
+                            <tr>
+                                <td>Heavy pilling</td>
+                            </tr>
+                            <tr>
+                                <td>Splitting seams</td>
+                            </tr>
+                            <tr>
+                                <td>Larger than penny-size stains</td>
+                            </tr>
+                            <tr>
+                                <td>Prominent tears</td>
+                            </tr>
+                            <tr>
+                                <th rowspan="4">Leather Goods</th>
+                                <td>Broken buckles, buttons or zippers</td>
+                            </tr>
+                            <tr>
+                                <td>Excessive discolouration or fading</td>
+                            </tr>
+                            <tr>
+                                <td>Rips, tears or splitting seams</td>
+                            </tr>
+                            <tr>
+                                <td>Excessive scuffing or scratching</td>
+                            </tr>
+                            <tr>
+                                <th rowspan="3">Sunglasses</th>
+                                <td>Bowed arms</td>
+                            </tr>
+                            <tr>
+                                <td>Crooked frames</td>
+                            </tr>
+                            <tr>
+                                <td>Excessive scratching</td>
+                            </tr>
+                            <tr>
+                                <th rowspan="4">Fine Jewelry &amp; Watches</th>
+                                <td>Loose or missing gemstones</td>
+                            </tr>
+                            <tr>
+                                <td>Severe metal scratching or denting</td>
+                            </tr>
+                            <tr>
+                                <td>Damage to watch functionality</td>
+                            </tr>
+                            <tr>
+                                <td>After-market diamonds on watches</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                  </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    
+    <div id="tab-parent-4" class=" tab-content is-active">
+        <ul class="tabs tabs-child" data-tab="tabs-child">
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-1"><span itemprop="name" class="faqpage-question">1.	What types of luxury items does Consigned Sealed Delivered accept for consignment?</span></a>
+                <div id="tab-parent-4-child-1" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">CSD accepts secondhand women's designer bags, shoes, clothing, and accessories on a consignment basis from a wide range of designers, including coveted brands like Hermes, Chanel, Prada, Fendi, Gucci. You can find the complete list of accepted designers, on our website: <a href="https://csd.shop/brands/" target="_blank">https://csd.shop/brands/</a><br>
+                        Please note that we currently do not accept menswear nor fast fashion.
+                    </p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-2"><span itemprop="name" class="faqpage-question">2.	How does the consignment process work at Consigned Sealed Delivered?</span></a>
+                <div id="tab-parent-4-child-2" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text" class="faqpage-answer">
+                    <p>The consignment process at Consigned Sealed Delivered is designed to make it effortless for our consignors. We handle all the work, from pricing and professional photography to thorough authentication and quality control. Consignors can be emailed a prepaid shipping label, drop off the items in one of CSD’s three London stores, or even schedule a white-glove pickup from their home (White-glove pickup only available in central London). Our dedicated team ensures that your items are presented in the best possible light to attract potential buyers. All these services are included in our commission structure, so you don't have to worry about any upfront fees or additional charges. You can find more details about our consignment process on our website: <a href="https://csd.shop/start-selling/" target="_blank">https://csd.shop/start-selling/</a></p>
+                  </div>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-3"><span itemprop="name" class="faqpage-question">3.	How does Consigned Sealed Delivered authenticate and evaluate luxury items?</span></a>
+                <div id="tab-parent-4-child-3" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">At Consigned Sealed Delivered, we take authentication and evaluation of luxury items seriously. Our dedicated team follows a rigorous process to ensure the authenticity and quality of every item. For more information about our authentication procedures, please visit: <a href="https://csd.shop/authentication/" target="_blank">https://csd.shop/authentication/</a></p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-4"><span itemprop="name" class="faqpage-question">4.	What is the commission structure for consignors at Consigned Sealed Delivered?</span></a>
+                <div id="tab-parent-4-child-4" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">Our commission structure is based on the value of the consigned item. We charge a commission ranging from 15%-35% of the item’s selling price, with the commission percentage decreasing as the item value increases. The remaining balance is paid out to the consignor after the 14 day return window on purchases has elapsed. You can find more details about our commission structure on our website: <a href="https://csd.shop/commission-rate/" target="_blank">https://csd.shop/commission-rate/</a>
+                    </p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-5"><span itemprop="name" class="faqpage-question">5.	How long does it usually take for an item to sell once it's been consigned?</span></a>
+                <div id="tab-parent-4-child-5" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text" class="faqpage-answer">
+                    <p>On average, most items sell within two months of being listed online. However, the timeframe may vary depending on various factors such as demand, desirability, and pricing.</p>
+                  </div>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-6"><span itemprop="name" class="faqpage-question">6.	Are consigned items insured during the shipping and return process?</span></a>
+                <div id="tab-parent-4-child-6" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">Yes, all items shipped by Consigned Sealed Delivered are insured during the shipping process. We have robust security and quality control systems in place to ensure that returns are only processed only for items in the same condition as at the time of sale.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-7"><span itemprop="name" class="faqpage-question">7.	What are the available shipping options for online orders?</span></a>
+                <div id="tab-parent-4-child-7" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We offer free standard shipping for both UK and international orders. Express shipping options are also available for faster delivery. You can choose your preferred shipping option during the checkout process. You can find more details about our shipping options on our website: <a href="https://csd.shop/shipping/" target="_blank">https://csd.shop/shipping/</a>
+                    </p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-8"><span itemprop="name" class="faqpage-question">8.	What is Consigned Sealed Delivered's return policy?</span></a>
+                <div id="tab-parent-4-child-8" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text" class="faqpage-answer">
+                    <p>Our return policy allows a 14-day window for online orders, starting from the delivery date. If you made an in-store purchase, the return window is also 14 days from the purchase date. We want you to be fully satisfied with your purchase, so please refer to our returns and refunds pages on our website.<br>For detailed instructions on initiating a return: <a href="https://csd.shop/returns/" target="_blank">https://csd.shop/returns/</a><br>For detailed instructions on refunds: <a href="https://csd.shop/refunds/" target="_blank">https://csd.shop/refunds/</a></p>
+                  </div>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-9"><span itemprop="name" class="faqpage-question">9.	Can I visit one of Consigned Sealed Delivered's retail stores to see and try on items?</span></a>
+                <div id="tab-parent-4-child-9" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">a.	Yes, you can visit any of our three retail stores located in central London to explore our curated collection and try on items before making a purchase. Everything in store is also available online. For the addresses and store details, please visit our locations page on our website: <a href="https://csd.shop/locations/" target="_blank">https://csd.shop/locations/</a><br><br>
+
+<a href="https://csd.shop/marylebone-lane-store/" target="_blank">CSD Marylebone Lane Store</a><br>
+70 - 72 Marylebone Lane, London, W1U 2PQ, England<br>
+Contact: +44 (0)203 0938 068<br>
+<br>
+<a href="https://csd.shop/battersea-power-station-store/" target="_blank">CSD Battersea Power Station Store</a><br>
+UG 29A, Battersea Power Station, Turbine Hall, London, SW11 8BZ, England<br>
+Contact: +44 (0)203 0938 069<br>
+<br>
+<a href="https://csd.shop/csd-notting-hill-store/" target="_blank">CSD Notting Hill Store</a><br>
+56 Ledbury Rd, London, W11 2AJ, England<br>
+Contact: +44 (0)203 0938 067<br>
+</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-10"><span itemprop="name" class="faqpage-question">10.	How frequently is Consigned Sealed Delivered's inventory updated?</span></a>
+                <div id="tab-parent-4-child-10" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">We update our inventory daily. New items are uploaded online and arrive at our retail stores every day, ensuring a fresh and exciting selection for our customers.</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-11"><span itemprop="name" class="faqpage-question">11.	Does Consigned Sealed Delivered buy luxury items upfront from individuals?</span></a>
+                <div id="tab-parent-4-child-11" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p itemprop="text" class="faqpage-answer">Consigned Sealed Delivered primarily operates on a consignment model and does not buy luxury items directly from individuals. However, we may consider buying exceptional bags upfront on a rare basis. Please contact us directly for further inquiries.
+</p>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-12"><span itemprop="name" class="faqpage-question">12.	Are there any specific brands or types of items that Consigned Sealed Delivered does not accept for consignment?</span></a>
+                <div id="tab-parent-4-child-12" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text" class="faqpage-answer">
+                    <p>We do not accept heavily worn or poor-condition items for consignment. Additionally, we do not accept items from fast fashion brands. For more details on specific brands or item types that we do not accept, please refer to our website or contact our customer support.</p>
+                  </div>
+                </div>
+            </li>
+            <li class="tab" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"><a class="tab-title" tabindex="0" href="#tab-parent-4-child-13"><span itemprop="name" class="faqpage-question">13.	What factors determine the pricing of consigned items at Consigned Sealed Delivered?</span></a>
+                <div id="tab-parent-4-child-13" class="tab-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <div itemprop="text" class="faqpage-answer">
+                    <p>a.	The pricing of consigned items at Consigned Sealed Delivered is determined by several factors, including brand, condition, desirability, current market trends, and original retail value. Our team of experts carefully evaluates each item to ensure it is priced competitively and fairly. We strive to offer our customers exceptional value for luxury items while ensuring the consignor's fair payout. By taking into account these factors, we aim to provide a balance that benefits both buyers and sellers. Please note that pricing may be subject to adjustments based on market demand and other relevant factors like length of time an item is left unsold.</p>
+                  </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+                {{{page.content}}}
+            {{/replace}}
+        </div>
+    
+        {{#if page.feed}}
+            <ul>
+                {{#each page.feed}}
+                    <li>
+                        <h6><a href="{{url}}" target="_blank">{{title}}</a></h6>
+                        <p>{{content}}</p>
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </main>
+</div>
+
+{{/partial}}
+
+{{> layout/base}}

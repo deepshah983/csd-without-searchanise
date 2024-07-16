@@ -1,0 +1,1 @@
+{{#each (split head.meta_tags "<link rel='canonical'") }}{{#if @index '===' 0 }}{{else }}{{#each (split this "href='") }}{{#if @index '===' 0 }}{{else }}{{#each (split this "'") }}{{#if @index '===' 0 }}{{this}}{{/if}}{{/each}}{{/if}}{{/each}}{{/if}}{{/each}}

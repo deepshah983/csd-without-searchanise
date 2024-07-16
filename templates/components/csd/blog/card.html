@@ -1,0 +1,30 @@
+<article class="blog-card {{class}}">
+   <figure class="blog-thumbnail">
+
+        <a href="{{post.url}}">
+
+            {{> components/common/responsive-img
+
+                image=post.thumbnail
+
+                fallback_size=theme_settings.blog_size
+
+                lazyload=theme_settings.lazyload_mode
+
+            }}
+
+        </a>
+
+    </figure>
+
+    <section>
+        <h2><a href="{{post.url}}">{{post.title}}</a></h2>
+        <p>{{{post.summary}}}{{#if post.show_read_more}}...{{/if}}</p>
+
+        {{#if post.show_read_more}}
+        <div class="blog-card-cta">
+            <a class="button button--primary" href="{{url}}">Read</a>
+        </div>
+        {{/if}}
+    </section>
+</article>

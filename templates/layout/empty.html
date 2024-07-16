@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="{{ locale_name }}">
+<head>
+    <title>{{ head.title }}</title>
+    {{{ head.meta_tags }}}
+    {{{ head.config }}}
+    <link href="{{ head.favicon }}" rel="shortcut icon">
+    {{#block "head"}}{{/block}}
+    {{inject 'themeSettings' theme_settings}}
+    {{~inject 'template' template}}
+    {{~inject 'pageType' page_type}}
+    {{~inject 'storefrontApiToken' settings.storefront_api.token}}
+    {{~inject 'clientIpAddress' settings.client_ip_address}}
+    {{#if customer}}
+        {{~inject 'customerId' customer.id}}
+        {{~inject 'customerEmail' customer.email}}
+        {{#if customer.shipping_address}}
+            {{~inject "customerCity" customer.shipping_address.city}}
+            {{~inject "customerState" customer.shipping_address.state}}
+            {{~inject "customerCountry" customer.shipping_address.country}}
+        {{/if}}
+    {{/if}}
+   {{#comment}}
+    <script>
+        var theme_settings = {
+            show_fast_cart: {{theme_settings.show_fast_cart}},
+            linksPerCol: {{theme_settings.nav-links-per-col}},
+        };
+    </script>
+    {{/comment}}
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</head>
+<body>
+    {{#block "page"}}{{/block}}
+	<script>window.__webpack_public_path__ = "{{cdn 'assets/dist/'}}";</script>
+	<script>
+		{{!-- Exported in app.js --}}
+		function onThemeBundleMain() {
+			window.stencilBootstrap("{{page_type}}", {{jsContext}}).load();
+		}
+	</script>
+    <script async defer src="{{cdn 'assets/dist/theme-bundle.main.js'}}" onload="onThemeBundleMain()"></script>
+   
+</body>
+</html>

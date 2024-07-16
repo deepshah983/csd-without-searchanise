@@ -1,0 +1,42 @@
+{{inject 'passwordRequirements' settings.password_requirements}}
+{{#partial "page"}}
+<div class="account account--fixed">
+    
+    {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+    {{> components/csd/account/header}}
+    <div class="address-book">
+        <div class="address-book-left">
+            {{> components/account/navigation account_page='settings'}}
+        </div>
+        <div class="address-book-right" id="EditAccount">
+            <h2 class="page-heading">{{lang 'account.settings.heading' }}</h2>
+            {{#if forms.edit_account.error}}
+            {{> components/common/alert/alert-error forms.edit_account.error}}
+            {{/if}}
+            {{#if forms.edit_account.success}}
+            {{> components/common/alert/alert-success forms.edit_account.success}}
+            {{/if}}
+            {{> components/account/edit-account}}
+        </div>
+
+        <div class="address-book-right" id="SectionItemsforsale" style="display: none;">
+            <h2 class="page-heading">{{lang 'account.nav.items_for_sale' }}</h2>
+            {{> components/account/items-for-sale}}
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+
+        $('#FormField_11_select option[value="United Kingdom"]').attr("selected", true);
+        $('#FormField_11_select option[value="United Kingdom"]').prop("selected", true);
+        $("#FormField_13_input").val("-");
+        $("#FormField_12_input").val("-");
+        $("#FormField_10_input").val("-");
+        $("#FormField_8_input").val("-");
+        $("#FormField_7_input").val("-");
+    })
+     
+</script>
+{{/partial}}
+{{> layout/base}}

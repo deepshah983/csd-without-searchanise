@@ -1,0 +1,1 @@
+{"components/products/custom-fields":"{{#each product.custom_fields}}\r\n<dt class=\"productView-info-name\">{{name}}:</dt>\r\n<dd class=\"productView-info-value\">{{{value}}}</dd>\r\n{{/each}}\r\n"}

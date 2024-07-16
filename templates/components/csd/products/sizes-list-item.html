@@ -1,0 +1,10 @@
+{{#any (if name '==' 'Belt Size') (if name '==' 'Hat Size') (if name '==' 'Clothing Size') (if name '==' 'UK') (if name '==' 'US') (if name '==' 'EU') (if name '==' 'FR') (if name '==' 'IT')}}
+{{!-- Size field should appear for clothing only --}}
+    {{#if name '==' 'Clothing Size'}}
+        {{#any (if value '==' 'OS') (if value '==' 'XXS') (if value '==' 'XS') (if value '==' 'S') (if value '==' 'M') (if value '==' 'L') (if value '==' 'XL') (if value '==' '2XL') (if value '==' '3XL') (if value '==' '4XL') (if value '==' '5XL') (if value '==' '6XL')}}
+            <span class="custom-field">{{value}}</span>
+        {{/any}}
+    {{else}}
+        <span class="custom-field">{{name}} {{value}}<span class="separator">,</span></span>
+    {{/if}}
+{{/any}}

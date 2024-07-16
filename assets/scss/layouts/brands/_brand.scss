@@ -1,0 +1,277 @@
+.brand-image-container {
+
+    @include lazy-loaded-padding("thumb_size");
+    max-width: get-width(stencilString("thumb_size"));
+    position: relative;
+
+    img {
+        @include lazy-loaded-img;
+    }
+}
+
+.brand {
+    .card-img-container {
+
+        @include lazy-loaded-padding("brand_size");
+        max-width: get-width(stencilString("brand_size"));
+    }
+}
+
+/* AZ Brand Layout */
+.page-brands {
+    .page-heading {
+        margin-bottom: 32px;
+    }
+}
+
+.haloAZBrandsTable {
+    display: flex;
+    font-size: 0;
+    letter-spacing: 0;
+    flex-flow: row nowrap;
+    margin: 0 0 30px 0;
+    overflow-x: auto;
+    padding-bottom: 5px;
+
+    li {
+        display: inline-block;
+        vertical-align: top;
+        border: 1px solid #d6d6d6;
+        border-left: none;
+
+        a {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000000;
+            display: block;
+            height: 40px;
+            min-width: 40px;
+            line-height: 40px;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        &:first-child {
+            min-width: 70px;
+            border-left: 1px solid #d6d6d6;
+        }
+
+        &.disable {
+            pointer-events: none;
+
+            a {
+                color: #999999;
+                pointer-events: none;
+            }
+        }
+
+        &.is-active {
+            border-color: #323232;
+            background-color: #232323;
+
+            a {
+                color: #ffffff;
+            }
+        }
+    }
+
+    @media (min-width: 1025px) {
+        margin: 0 0 40px 0;
+
+        li {
+            width: 10%;
+
+            &:hover {
+                border-color: #323232;
+                background-color: #232323;
+
+                a {
+                    color: #ffffff;
+                }
+            }
+        }
+    }
+}
+
+.haloAZBrandsWrapper {
+    .azBrands-group {
+        display: none;
+        margin: 0 0 30px 0;
+
+        &-title {
+            font-size: 16px + 4px;
+            font-weight: 500;
+            color: #000000;
+            line-height: 35px;
+            margin: 0 0 10px 0;
+            padding: 0;
+            text-transform: uppercase;
+        }
+
+        &-list {
+            margin: 0;
+            list-style: none;
+
+            .brand-name {
+                .title {
+                    margin: 0;
+                    // font-family: $fontFamily-sans;
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: #000000;
+                    line-height: 35px;
+                    text-transform: capitalize;
+
+                    .link {
+                        color: #202020;
+                        padding: 0 0 1px 0;
+                        transition: unset;
+                    }
+                }
+            }
+        }
+
+        &.is-active {
+            display: block;
+        }
+    }
+
+    &.active-all {
+        column-count: 2;
+
+        .azBrands-group {
+            display: block;
+            break-inside: avoid;
+            column-break-inside: avoid;
+            page-break-inside: avoid;
+            column-count: unset;
+        }
+    }
+
+    &.is-loading {
+        .loadingOverlay {
+            display: block;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .azBrands-group {
+            column-count: 3;
+        }
+
+        &.active-all {
+            column-count: 3;
+        }
+    }
+
+    @media (min-width: 1025px) {
+        .azBrands-group {
+            column-count: 4;
+
+            &-list {
+                .brand-name {
+                    .title {
+                        .link {
+                            &:hover {
+                                color: #2c60a2;
+                                background-image: linear-gradient(transparent 97%, #2c60a2 3%);
+                                background-repeat: repeat-x;
+                                background-position-y: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &.active-all {
+            column-count: 4;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .azBrands-group {
+            column-count: 5;
+        }
+
+        &.active-all {
+            column-count: 5;
+        }
+    }
+
+    @media (min-width: 1600px) {
+        .azBrands-group {
+            column-count: 6;
+        }
+
+        &.active-all {
+            column-count: 6;
+        }
+    }
+}
+
+
+.haloAZBrandsTable {
+    margin-left: -10px; margin-bottom: 10px;
+    li{
+        border: none; color: #000000;
+        border-radius: 5px;
+        &:first-child {
+            border-left: none;
+            max-width: 40px;
+            min-width: 40px;
+        }
+        &:hover{
+                border-color: #e6e6e6;
+                background-color: #e6e6e6;
+                
+        }
+            a{
+                color: #000000;
+                &:hover{
+                    color: #000000;
+                    font-weight: 700;
+            } 
+        }
+    }
+    
+}
+.azBrands-group{
+    margin-bottom: 20px; scroll-margin-top: 140px; 
+    @media(min-width: 800px) {
+        scroll-margin-top: 170px; margin-bottom: 30px;
+    } 
+    .azBrands-group-title{
+        color: #000000; 
+    }
+    .azBrands-group-list{
+
+        .brand{
+            max-width: 100% !important; border-bottom: 1px solid #f5f5f5;
+            @media(min-width: 468px) {
+                max-width: 50% !important; border-bottom: none !important;
+            } 
+            @media(min-width: 768px) {
+                max-width: 33.33% !important;
+            } 
+            @media(min-width: 1024px) {
+                max-width: 25% !important;
+            } 
+            .brand-name{
+                .title{
+                    .link{
+                        color: #000000; font-size: 14px; line-height: 28px; font-weight: 500;
+                        &:hover {
+                            color: #000000;
+                            background-image: none;
+                            background-position-y: 0;
+                            font-weight: 600;
+                            transition: all ease-in-out 0.9s;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

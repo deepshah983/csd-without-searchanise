@@ -1,0 +1,20 @@
+{{#partial "page"}}
+{{#if settings.show_wishlist}}
+    <div class="account account--fixedLarge">
+        {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+        {{> components/csd/account/header}}
+        
+        <div class="address-book">
+            <div class="address-book-left">
+                {{> components/account/navigation account_page='wishlists'}}
+            </div>
+            <div class="address-book-right">
+                <h2 class="page-heading">{{lang 'account.wishlists.heading' }}</h2>
+                {{#comment}}{{> components/account/wishlist-list}}{{/comment}}
+                {{> components/csd/swym-wishlist-page}}
+            </div>
+        </div>
+    </div>
+{{/if}}
+{{/partial}}
+{{> layout/base}}

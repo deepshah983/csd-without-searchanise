@@ -1,0 +1,252 @@
+<table class="cart" data-cart-quantity="{{cart.quantity}}">
+    <thead class="cart-header">
+        <tr>
+            <th class="cart-header-item" colspan="2">{{lang 'cart.checkout.item'}}</th>
+            <th class="cart-header-item">{{lang 'cart.checkout.price'}}</th>
+            <th class="cart-header-item cart-header-quantity">{{lang 'cart.checkout.quantity'}}</th>
+            <th class="cart-header-item">{{lang 'cart.checkout.total'}}</th>
+        </tr>
+    </thead>
+    <tbody class="cart-list">
+        {{#each cart.items}}
+            <tr class="cart-item" data-product-id="{{product_id}}" data-item-row>
+               
+                <td class="cart-item-block cart-item-figure">
+                    <a href="{{url}}">
+                    {{#if type '==' 'GiftCertificate'}}
+                        <img
+                            class="cart-item-fixed-image"
+                            src="{{cdn ../theme_settings.default_image_gift_certificate}}"
+                            alt="{{lang 'cart.gift_certificates.gift_certificate'}}"
+                            title="{{lang 'cart.gift_certificates.gift_certificate'}}"
+                        >
+                    {{else}}
+                        {{> components/common/responsive-img
+                            image=image
+                            class="cart-item-image"
+                            fallback_size=../theme_settings.productthumb_size
+                            lazyload="lazyload"
+                            default_image=../theme_settings.default_image_product
+                        }}
+                    {{/if}}
+                     </a>
+                </td>
+               
+                <td class="cart-item-block cart-item-title">
+                    {{#if brand.name}}
+                        <a href="/designers/{{dashcase brand.name}}/women"><p class="cart-item-brand">{{brand.name}}</p></a>
+                    {{/if}}
+                    <h2 class="cart-item-name">
+                        <a class="cart-item-name__label" href="{{url}}">{{name}}</a>
+                    </h2>
+                    {{#if release_date}}
+                        <p>({{release_date}})</p>
+                    {{/if}}
+
+                    {{#if options}}
+                        <dl class="definitionList">
+                            {{#each options}}
+                                <dd class="definitionList-value">
+                                    {{#if is_file}}
+                                        <a href="/viewfile.php?attributeId={{id}}&cartitem={{../id}}">{{value}}</a>
+                                    {{else}}
+                                        {{> components/common/product-options}}
+                                    {{/if}}
+                                </dd>
+                            {{/each}}
+                        </dl>
+
+                        {{#if can_modify}}
+                            <a href="#"
+                            data-item-edit="{{id}}"
+                            data-product-id="{{product_id}}"
+                            aria-label="{{lang 'products.change_product_options' name=name}}"
+                            >
+                                {{lang 'common.change'}}
+                            </a>
+                        {{/if}}
+                    {{/if}}
+
+                    {{#if type '==' 'GiftCertificate'}}
+                        <a href="{{edit_url}}"
+                           aria-label="{{lang 'cart.gift_certificates.change_gift_certificate' certificate_name=name}}"
+                        >
+                            {{lang 'common.change'}}
+                        </a>
+                    {{/if}}
+                    {{> components/cart/item-giftwrap this}}
+                    {{#if event_date}}
+                        <dl class="cart-item-options">
+                            <dt class="cart-item-option-title">
+                                {{event_date.name}}
+                            </dt>
+
+                            <dd class="cart-item-option-description">
+                                {{event_date.date}}
+                            </dd>
+                        </dl>
+                    {{/if}}
+
+                </td>
+                <td class="cart-item-block cart-item-info">
+                    <span class="cart-item-label">{{lang 'cart.checkout.price'}}</span>
+                    {{#or ../customer (if ../theme_settings.restrict_to_login '!==' true)}}
+                        <span class="cart-item-value product-price {{#if price_discounted}}price--discounted{{/if}}">{{price.formatted}}</span>
+                        {{#if price_discounted}}
+                            <span class="cart-item-value">{{price_discounted.formatted}}</span>
+                        {{/if}}
+                    {{else}}
+                        {{> components/common/login-for-pricing}}
+                    {{/or}}
+                </td>
+
+                
+                <td class="cart-item-block cart-item-info cart-item-quantity">
+
+                    <label class="form-label cart-item-label" for="qty-{{id}}">{{lang 'products.quantity'}}</label>
+                    <div class="form-increment">
+                        <span class="stock-level" style="display: none;"></span>
+                        <span class="qty-added" style="display: none;">{{quantity}}</span>
+                        <select class="form-select qty-dropdown" id="qty[]" data-cart-itemid="{{id}}" data-cart-update style="display: none;">
+                            <option value="1">1</option>
+                        </select>
+                        <span class="only-one" style="display: none;">1</span>
+                        {{#comment}}
+                        {{#if can_modify}}
+                            <button class="button button--icon"
+                                    data-cart-update
+                                    data-cart-itemid="{{id}}"
+                                    data-action="dec"
+                            >
+                                <span class="is-srOnly">{{lang 'products.quantity_decrease' name=name}}</span>
+                                <i class="icon" aria-hidden="true"><svg><use href="#icon-keyboard-arrow-down" /></svg></i>
+                            </button>
+                        {{/if}}
+                        <input class="form-input form-input--incrementTotal cart-item-qty-input"
+                               id="qty-{{id}}"
+                               name="qty-{{id}}"
+                               type="tel"
+                               value="{{quantity}}"
+                               data-quantity-min="{{min_purchase_quantity}}"
+                               data-quantity-max="{{max_purchase_quantity}}"
+                               data-quantity-min-error="{{lang 'products.quantity_min' quantity=min_purchase_quantity}}"
+                               data-quantity-max-error="{{lang 'products.quantity_max' quantity=max_purchase_quantity}}"
+                               min="1"
+                               pattern="[0-9]*"
+                               data-cart-itemid="{{id}}"
+                               data-action="manualQtyChange"
+                               aria-label="{{name}}"
+                               aria-live="polite"{{#unless can_modify}} disabled{{/unless}}>
+                        {{#if can_modify}}
+                            <button class="button button--icon"
+                                    data-cart-update
+                                    data-cart-itemid="{{id}}"
+                                    data-action="inc"
+                            >
+                                <span class="is-srOnly">{{lang 'products.quantity_increase' name=name}}</span>
+                                <i class="icon" aria-hidden="true"><svg><use href="#icon-keyboard-arrow-up" /></svg></i>
+                            </button>
+                        {{/if}}
+                        {{/comment}}
+                    </div>
+
+                </td>
+                
+
+                <td class="cart-item-block cart-item-info">
+                    <span class="cart-item-label">{{lang 'cart.checkout.total'}}</span>
+                    {{#or ../customer (if ../theme_settings.restrict_to_login '!==' true)}}
+                        <strong class="cart-item-value product-total {{#if total_discounted}}price--discounted{{/if}}">{{total.formatted}}</strong>
+                        {{#if total_discounted}}
+                            <strong class="cart-item-value">{{total_discounted.formatted}}</strong>
+                        {{/if}}
+                    {{else}}
+                        --
+                    {{/or}}
+                    {{#or can_modify (if type '==' 'GiftCertificate')}}
+                        <button class="cart-remove icon"
+                                data-cart-itemid="{{id}}"
+                                data-confirm-delete="{{lang 'cart.confirm_delete'}}"
+                                aria-label="{{lang 'cart.remove_item' name=name}}"
+                        >
+                            <svg><use href="#icon-close"></use></svg>
+                        </button>
+                    {{/or}}
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function(){
+        var tableRows = document.querySelectorAll('.cart .cart-item');
+        var p_ids = [];
+        tableRows.forEach(function(row) {
+            p_ids.push(row.getAttribute('data-product-id'));
+        });
+        console.log(p_ids);
+
+        fetch('/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+            },
+            body: JSON.stringify({
+                query: `
+                query {
+                    site {
+                        products(entityIds: [` + p_ids + `]) {
+                            edges{
+                                node{
+                                    entityId
+                                    inventory {
+                                        aggregated{
+                                            availableToSell
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                `,
+            }),
+        })
+        .then((res) => res.json())
+        .then(function(res){
+            console.log(res);
+            for(var i=0; i<res.data.site.products.edges.length; i++){
+                if(res.data.site.products.edges[i].node.inventory.aggregated.availableToSell == '1'){
+                    $('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .only-one').show();
+                }else{
+                    var qty_added = $('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .qty-added').text();
+                    $('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .cart-item-quantity .stock-level').text(res.data.site.products.edges[i].node.inventory.aggregated.availableToSell);
+                    var stock = parseInt($('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .stock-level').text());
+                    console.log(qty_added);
+                    var select_option = '';
+                    var count = 2;
+                    for(var j=2; j<stock; j++){
+                        select_option += '<option value='+ j +'>' + j + '</option>';
+                        count++;
+                    }
+                    
+                    if(count == stock){
+                        select_option += '<option value='+ j +'>' + stock + '</option>';
+                        $('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .qty-dropdown').append(select_option);
+                        $('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .qty-dropdown option[value='+ qty_added +']').attr('selected', 'selected');
+                        $('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .qty-dropdown').show();
+                    }
+
+                    /* $('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .qty-dropdown').change(function(){
+                        var currency_symbol = $(this).parent().parent('.cart-item-quantity').siblings('.cart-item-info').children('.product-price').text().charAt(0);
+                        var price = $(this).parent().parent('.cart-item-quantity').siblings('.cart-item-info').children('.product-price').text().replace(/[^\d\.]/g, '');
+                        var updated_price = $(this).val() * price;
+                        $(this).parent().parent('.cart-item-quantity').siblings('.cart-item-info').children('.product-total').text(currency_symbol + updated_price);
+                    }); */
+                }
+            }
+        });
+    });
+</script>

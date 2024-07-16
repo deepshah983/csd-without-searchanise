@@ -1,0 +1,71 @@
+---
+category:
+    shop_by_price: true
+    products:
+        limit: {{theme_settings.categorypage_products_per_page}}
+---
+{{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
+{{inject "categoryId" category.id}}
+{{#partial "head"}}
+    {{#if pagination.category.previous}}
+        <link rel="prev" href="{{pagination.category.previous}}">
+    {{/if}}
+    {{#if pagination.category.next}}
+        <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+{{/partial}}
+
+{{#partial "page"}}
+
+<div class="page page--category">
+    <div class="main full grid-bg">
+        <div class="container container--category">
+            <div class="page-content">
+                {{{region name="category_below_header"}}}
+                {{{category.description}}}
+				<ul class="designer-nav">
+				{{#each categories}}
+				{{#if name "==" "DESIGNERS"}}
+					{{#each children}}
+					<li>
+						<a href="#designer_{{name}}"><strong>{{name}}</strong></a>
+					</li>
+					{{/each}}
+				{{/if}}
+				{{/each}}
+				</ul>
+				<ul class="designer-menu">
+				{{#each categories}}
+				{{#if name "==" "DESIGNERS"}}
+				{{#each children}}
+					<li class="designer-item">
+						<div class="designer-letter">
+							<h2 class="designer-anchor" id="designer_{{name}}">{{name}}</h2>
+						</div>
+						<ul class="designer-submenu">
+						{{#each children}}
+						{{#if count ">" "0"}}
+							<li class="designer-subitem designer-active">
+								<a class="designer-action" href="{{url}}">{{name}}</a>
+							</li>
+						{{else}}
+							<li class="designer-subitem designer-inactive">
+								<span class="designer-action">{{name}}</li>
+						{{/if}}
+						{{/each}}
+						</ul>
+					</li>
+				{{/each}}
+				{{/if}}
+				{{/each}}
+				</ul>
+            </div>
+            <main class="page-content" id="product-listing-container">
+				{{{region name="category_below_content"}}}
+            </main>
+        </div>
+    </div>
+</div>
+
+{{/partial}}
+{{> layout/base}}

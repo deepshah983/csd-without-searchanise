@@ -1,0 +1,1 @@
+{"components/common/product-options":"{{#if value '==' 'Yes'}}\r\n{{lang 'common.yes'}}\r\n{{else if value '==' 'No'}}\r\n{{lang 'common.no'}}\r\n{{else}}\r\n{{{sanitize value}}}\r\n{{/if}}\r\n"}

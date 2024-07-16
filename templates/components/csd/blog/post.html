@@ -1,0 +1,14 @@
+<article class="blog{{#if post.body}} full-post{{/if}}">
+    <div class="blog-post-body">
+        <div class="blog-post">
+            {{#if post.body}}
+                {{{post.body}}}
+            {{/if}}
+        </div>
+
+        {{>components/common/share url=post.url}}
+    </div>
+
+    {{>components/csd/blog/recent-posts}}
+
+</article>

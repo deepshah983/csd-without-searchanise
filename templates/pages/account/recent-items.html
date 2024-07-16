@@ -1,0 +1,22 @@
+{{#partial "page"}}
+<div class="account">
+    {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+    {{> components/csd/account/header}}
+    <div class="address-book">
+        <div class="address-book-left">
+            {{> components/account/navigation account_page='recent_items'}}
+        </div>
+        <div class="address-book-right">
+            <h2 class="page-heading">{{lang 'account.recent_items.heading' }}</h2>
+            {{#unless customer.recently_viewed_products.items}}
+                {{> components/common/alert/alert-info (lang 'account.recent_items.no_items')}}
+            {{/unless}}
+
+            <div>
+                {{> components/products/grid products=customer.recently_viewed_products.items show_compare=customer.recently_viewed_products.show_compare}}
+            </div>
+        </div>
+    </div>
+</div>
+{{/partial}}
+{{> layout/base}}

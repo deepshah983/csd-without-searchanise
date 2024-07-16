@@ -1,0 +1,156 @@
+<div class="previewCartWrapper">
+    <div class="previewCart">
+        <h4>My Cart</h4>
+        <!-- <a href="javascript:;" class="popup-cart-icon">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 407.453 407.453" xml:space="preserve"><g><path d="M255.099,116.515c4.487,0,8.129-3.633,8.129-8.129c0-4.495-3.642-8.129-8.129-8.129H143.486 c-4.487,0-8.129,3.633-8.129,8.129c0,4.495,3.642,8.129,8.129,8.129H255.099z"></path><path d="M367.062,100.258H311.69c-4.487,0-8.129,3.633-8.129,8.129c0,4.495,3.642,8.129,8.129,8.129h47.243 v274.681H48.519V116.515h44.536c4.487,0,8.129-3.633,8.129-8.129c0-4.495-3.642-8.129-8.129-8.129H40.391 c-4.487,0-8.129,3.633-8.129,8.129v290.938c0,4.495,3.642,8.129,8.129,8.129h326.671c4.487,0,8.129-3.633,8.129-8.129V108.386 C375.191,103.891,371.557,100.258,367.062,100.258z"></path><path d="M282.59,134.796c4.487,0,8.129-3.633,8.129-8.129V67.394C290.718,30.238,250.604,0,201.101,0 c-49.308,0-89.414,30.238-89.414,67.394v59.274c0,4.495,3.642,8.129,8.129,8.129s8.129-3.633,8.129-8.129V67.394 c0-28.198,32.823-51.137,73.36-51.137c40.334,0,73.157,22.939,73.157,51.137v59.274 C274.461,131.163,278.095,134.796,282.59,134.796z"></path><path d="M98.892,147.566c0,11.526,9.389,20.907,20.923,20.907c11.534,0,20.923-9.38,20.923-20.907 c0-4.495-3.642-8.129-8.129-8.129s-8.129,3.633-8.129,8.129c0,2.561-2.089,4.65-4.666,4.65c-2.569,0-4.666-2.089-4.666-4.65 c0-4.495-3.642-8.129-8.129-8.129S98.892,143.071,98.892,147.566z"></path><path d="M282.59,168.473c11.534,0,20.923-9.38,20.923-20.907c0-4.495-3.642-8.129-8.129-8.129 c-4.487,0-8.129,3.633-8.129,8.129c0,2.561-2.089,4.65-4.666,4.65c-2.577,0-4.666-2.089-4.666-4.65 c0-4.495-3.642-8.129-8.129-8.129c-4.487,0-8.129,3.633-8.129,8.129C261.667,159.092,271.055,168.473,282.59,168.473z"></path></g></svg>
+            <span class="countPill cart-quantity"></span>
+        </a> -->
+        {{#if cart.items.length}}
+          <ul class="previewCartList">
+              {{#each cart.items}}
+                  <li class="previewCartItem">
+                      <div class="previewCartItem-image">
+                          <a href="{{url}}" alt="{{name}}" title="{{name}}" >
+                          {{#if type '==' 'GiftCertificate'}}
+                              <img
+                                  alt="GiftCertificate"
+                                  title="GiftCertificate"
+                                  src="{{cdn ../theme_settings.default_image_gift_certificate}}"
+                              >
+                          {{else}}
+                              {{> components/common/responsive-img
+                                  image=image
+                                  fallback_size=../theme_settings.productthumb_size
+                                  lazyload=../theme_settings.lazyload_mode
+                                  default_image=../theme_settings.default_image_product
+                              }}
+                          {{/if}}
+                         </a>
+                      </div>
+                          <div class="previewCartItem-content">
+                             
+
+                              <span class="previewCartItem-brand">
+                                   <a href="/designers/{{dashcase brand.name}}/women">{{brand.name}}</a>
+                              </span>
+                              <h6 class="previewCartItem-name">
+                                  <a href="{{url}}" alt="{{name}}" title="{{name}}" >{{name}}</a>
+                              </h6>
+                                
+                              
+                                {{#if options}}
+                                    <dl class="definitionList">
+                                        {{#each options}}
+                                            <dd class="definitionList-value">
+                                                {{#if is_file}}
+                                                    <a href="/viewfile.php?attributeId={{id}}&cartitem={{../id}}">{{value}}</a>
+                                                {{else}}
+                                                    {{> components/common/product-options}}
+                                                {{/if}}
+                                            </dd>
+                                        {{/each}}
+                                    </dl>                                   
+                                {{else}}
+                                    <div class="custom-fields-list">
+                                        {{assignVar "shoesCategory" 0}}
+                                        {{#each custom_fields}}
+                                            {{#if name '==' 'Shoe Fit'}}
+                                                {{assignVar 'shoesCategory' 'true'}}
+                                            {{/if}}
+                                        {{/each}}
+                                        {{#if (getVar 'shoesCategory') '==' 'true'}}
+                                            {{assignVar "field_eu" 0}}
+                                            {{assignVar "field_it" 0}}
+                                            {{#each custom_fields}}
+                                                {{#if this.name "===" "EU"}}
+                                                    {{assignVar "field_eu" 1}}
+                                                {{/if}}
+                                                {{#if name "===" "IT"}}
+                                                    {{assignVar "field_it" 1}}
+                                                {{/if}}
+                                                {{#any (if name '==' 'UK') (if name '==' 'US') (if name '==' 'FR') }}
+                                                    <span class="custom-field">{{name}} {{value}}, </span>
+                                                {{/any}}
+                                            {{/each}}
+                                            {{#all (if (getVar "field_eu") "===" 1) (if (getVar "field_it") "===" 1)}}
+                                                <span class="custom-field">EU/IT {{#each custom_fields}}{{#if name '===' 'EU'}}{{value}}{{/if}}{{/each}}</span>
+                                            {{/all}}
+                                            {{#all (if (getVar "field_eu") "<" 1) (if (getVar "field_it") "===" 1)}}
+                                                <span class="custom-field">IT {{#each custom_fields}}{{#if name '===' 'IT'}}{{value}}{{/if}}{{/each}}</span>
+                                            {{/all}}
+                                            {{#all (if (getVar "field_eu") "===" 1) (if (getVar "field_it") "<" 1)}}
+                                                <span class="custom-field">EU {{#each custom_fields}}{{#if name '===' 'EU'}}{{value}}{{/if}}{{/each}}</span>
+                                            {{/all}}
+                                        {{else}}
+                                            {{#each custom_fields}}{{> components/csd/products/sizes-list-item}}{{/each}}
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                                
+   
+                              <span class="previewCartItem-price">
+                                  {{#if quantity '>' 1}}
+                                      {{quantity}} &times;
+                                  {{/if}}
+                                  {{#or ../customer (if ../theme_settings.restrict_to_login '!==' true)}}
+                                      <span{{#if price_discounted}} class="price--discounted"{{/if}}>{{price.formatted}}</span>
+                                      {{#if price_discounted}}
+                                          {{price_discounted.formatted}}
+                                      {{/if}}
+                                  {{else}}
+                                      {{> components/common/login-for-pricing}}
+                                  {{/or}}
+                              </span>
+                          </div>
+                      <a href="javascript:;" class="remove-product" data-product-id="{{id}}" product-id="{{product_id}}">x</a>
+                      </li>
+                  {{/each}}
+              </ul>
+              <div class="total-price">
+                  <span>Total</span>
+                  <span>{{cart.grand_total.formatted}}</span>
+              </div>
+              <div class="previewCartAction">
+                  {{#if cart.additional_checkout_buttons}}
+                      <div data-cart-accelerated-checkout-buttons class="previewCart-acceleratedCheckoutButtons"></div>
+                  {{/if}}
+                  {{#if cart.show_primary_checkout_button}}
+                      <div class="previewCartAction-checkout">
+                          <a
+                                  href="{{urls.checkout.single_address}}"
+                                  class="button button--small button--primary"
+                                  data-primary-checkout-now-action
+                          >
+                              {{lang 'cart.preview.checkout_now'}}
+                          </a>
+                      </div>
+                  {{/if}}
+  
+                  <div class="previewCartAction-viewCart{{#unless cart.show_primary_checkout_button}} previewCartAction-viewCart--sole{{/unless}}">
+                      <a href="{{urls.cart}}" class="button button--small button--action">
+                          {{lang 'cart.preview.view_cart'}}
+                      </a>
+                  </div>
+  
+                  {{#if cart.show_multiple_address_shipping}}
+                      <div class="previewCartAction-checkoutMultiple">
+                          <a href="{{urls.checkout.multiple_address}}">
+                              {{lang 'cart.preview.checkout_multiple'}}
+                          </a>
+                      </div>
+                  {{/if}}
+              </div>
+              {{#if cart.additional_checkout_buttons}}
+                  <div class="previewCart-additionalCheckoutButtons">
+                      {{#each cart.additional_checkout_buttons}}
+                          {{{this}}}
+                      {{/each}}
+                  </div>
+              {{/if}}
+        {{else}}
+              <div role="alert" aria-live="polite" aria-atomic="false" class="previewCart-emptyBody">
+                You have no items in your shopping cart.
+              </div>
+        {{/if}}
+    </div>
+</div>

@@ -1,0 +1,44 @@
+---
+blog:
+    posts:
+        limit: 12
+        pages: 3
+        summary: 200
+---
+{{#partial "page"}}
+
+<main class="page">
+    {{#unless theme_settings.hide_blog_page_heading }}
+        <div class="blog-page-header expandable popup" style="text-align: center;" dir="ltr">
+            <h1>WEEKLY LUXURY FASHION, BEAUTY AND LIFESTYLE EDITORIAL</h1>
+            <h2>Stay on top of designer resale trends with stories, news and tips from the luxury fashion world of Consigned Sealed Delivered (CSD). We�ve got must-read fashion and lifestyle <a href="/editorial/">editorial coverage</a> reporting on the hottest happenings in the fashion, lifestyle and luxury consignment sphere. <span class="expand-trigger">&nbsp;</span></h2>
+            <div class="expandable-more">
+                <div class="expandable-popup-close-btn collapse-trigger">x</div>
+                <div class="wrapper">
+                    <p>From how to shop the best fashion outfits featured on hit TV shows, to tips for upping your street style game, CSD�s fashion editorial coverage can help you transform into a luxury consignment style icon. Want the low-down on the most covetable <a href="/shop/women/bags/">second hand designer bags</a> and best <a href="/shop/women/shoes/">designer shoes</a> in luxury consignment? Need inspiration for designer resale winter outfits and spring outfit ideas? Check out CSD�s editorial coverage on the best used <a href="/shop/women/clothing/">designer clothing</a> trends and must-wear second hand designer clothes. Learn how to style CSD�s <a href="/shop/women/clothing/coats/">designer coats on sale</a> and how to master winter outfits and outerwear looks. Read the best luxury fashion and beauty coverage. We�ll keep you up to date on the most lust worthy fashion and luxury finds, notably vintage used designer bags, including <a href="/shop/women/vintage/featured-designers/gucci/">vintage Gucci</a> bags and rare <a href="/shop/women/vintage/featured-designers/chanel/">vintage Chanel</a> finds. Get style inspiration from CSD�s fashion luxury shoots and uncover everything there is to know about luxury consignment and vintage designer style, like what are the best vintage Gucci bags to invest in. Find out everything there is to know about fashion and luxury consignment, including what are the best used designer clothes and what is considered vintage.</p>
+                    <p>Think shopping for used designer clothing on the luxury consignment market means missing out on contemporary looks and current trends? CSD�s fashion editorial coverage is here to show you just how wrong that assumption is. Whether you want to know more about covetable revival trends and how to shop them, or you�re keen to discover the most on-trend colours of the season, CSD�s editorial coverage is a must-read. Check out our fashion, beauty and lifestyle coverage to get up to date on all things luxury consignment. Read about and shop need to know coat trends of the season and discover designer coats on sale from all your favourite designer resale brands. Discover more about the beauty of used designer clothes and vintage designer styles by reading CSD�s coverage on revival fashion trends. Let us help you create the best spring, summer, autumn and winter outfits by shopping our selection of used designer clothes and vintage designer styles carefully curated by the CSD editorial team. Learn everything from <a href="/editorial/how-to-create-a-capsule-wardrobe/">how to create a capsule wardrobe</a>, to <a href="/editorial/how-to-wear-bright-colours/">the best way to style bright colours</a> with the help of CSD editorial.</p>
+                    <p>Explore the most enticing handbag trends and score the hottest second hand designer bags, from pre-loved Chanel and <a href="/shop/women/bags/featured-designers/gucci/">used Gucci bags</a>, to vintage <a href="/designers/chanel/women/">Chanel</a> and vintage <a href="/designers/gucci/women/">Gucci</a> bags. Read CSD fashion editorial coverage about every bag trend imaginable and discover how to buy and style <a href="/shop/women/bags/top-handle-bags/">top handle</a> used designer bags, <a href="/shop/women/bags/crossbody-bags/">crossbody</a> second hand designer bags, <a href="/shop/women/vintage/bags/">vintage</a> designer <a href="/shop/women/bags/shoulder-bags/">shoulder bags</a> and many more used designer bags. <a href="/shop/women/bags/mini-bags/">Mini</a> second hand designer bags remain wildly popular in designer resale and are some of the most expensive handbags on the luxury consignment market. Find out more about the rise of microscopic accessories, why they�re still in fashion�s good books and which mini used designer bags to shop now. Discover the rich heritage of vintage Gucci bags like the Gucci Bamboo and popular backpack used designer bags. Read CSD�s editorial coverage on why luxury consignment is obsessed with logomania and logoed second hand designer bags.</p>
+                    <p>Keep up to date with the latest trends in used designer shoes and <a href="/shop/women/shoes/heels/">used designer heels</a> with CSD�s cutting edge fashion editorial coverage. Shoe trends are often some of the most intriguing styles in the world of fashion and luxury consignment, making used designer shoes increasingly sought after designer resale buys. Discover the best luxury consignment boot trends to complete your winter outfits and check out our take on high fashion finds like designer vintage <a href="/shop/women/shoes/mules/">mules</a> and <a href="/shop/women/shoes/pumps/">pumps</a>. Nail spring/summer style with CSD�s spring outfit guides featuring the best designer shoes and detailing the hottest trends in used designer shoes. Uncover the best trends in used designer heels, most notably <a href="/designers/christian-louboutin/women/">used Christian Louboutin</a> styles. Read CSD�s up to date fashion coverage on the <a href="/shop/women/shoes/sneakers/">designer sneaker</a> phenomenon. Discover on-trend used designer shoes and the finest luxury consignment sneakers, including vintage Chanel and Gucci second hand finds.</p>
+                    <p>At CSD, our fashion editorial shoots are the stuff of luxury consignment dreams. Often taking place in London�s most stylish locales, our fashion shoots capture the finest fashion designer resale has to offer. From vintage Chanel jackets against swanky London backdrops, to covetable used Gucci bags and vintage designer styles which are some of the most expensive handbags in the world, CSD�s editorial shoots capture the best used designer clothing and most alluring used designer clothes in luxury consignment. These luxury fashion editorial shoots accompany the CSD editorial lifestyle, fashion and beauty coverage perfectly. The used designer clothing we shoot displays the hottest street style trends which are spotted on the streets of every fashion capital on the planet, from London and New York, to Milan, Paris and other style hubs throughout the globe. CSD�s fashion lookbooks exhibit in demand vintage designer used designer clothes and second hand designer bags to showcase the best of sought after revival trends, notably 1970s glamour and Y2K fashion.</p>
+                </div>
+            </div>
+        </div>
+    {{/unless}}
+    {{> components/csd/blog/breadcrumbs breadcrumbs=breadcrumbs}}
+    {{!--
+    {{#unless theme_settings.hide_blog_page_heading }}
+        <h1 class="page-heading">{{ blog.name }}</h1>
+    {{/unless}}
+    --}}
+    <div class="blog-posts">
+    {{#each blog.posts}}
+         {{> components/csd/blog/card post=this settings=../settings}}
+    {{/each}}
+    </div>
+    {{> components/common/paginator pagination.blog}}
+    {{!-- Instagram --}}
+    <script src="https://apps.elfsight.com/p/platform.js" defer></script>
+    <div class="elfsight-app-73e3eeb3-8d75-452f-aa6b-f0779149574b"></div>
+</main>
+{{/partial}}
+{{> layout/base}}

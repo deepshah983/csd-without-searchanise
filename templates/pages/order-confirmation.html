@@ -1,0 +1,116 @@
+{{#partial "head"}}
+{{{ checkout.checkout_head }}}
+{{{ stylesheet '/assets/css/optimized-checkout.css' }}}
+{{ getFontsCollection }}
+<script src="{{cdn 'assets/js/jquery-3.6.3.min.js'}}"></script>
+<script src="https://cdn.attn.tv/csd/dtag.js"></script>
+<script type="text/javascript">
+    window.language = {{{langJson 'optimized_checkout'}}};
+</script>
+
+{{{head.scripts}}}
+
+{{/partial}}
+
+{{#partial "page"}}
+<header class="checkoutHeader optimizedCheckout-header">
+    <div class="checkoutHeader-content">
+        <h1 class="is-srOnly">{{lang 'checkout.title'}}</h1>
+        <h2 class="checkoutHeader-heading">
+            <a class="checkoutHeader-link" href="{{urls.home}}">
+                {{#if checkout.header_image}}
+                    <img alt="{{settings.store_logo.title}}" class="checkoutHeader-logo" id="logoImage" src="{{ checkout.header_image }}"/>
+                {{ else }}
+                    <span class="header-logo-text">{{settings.store_logo.title}}</span>
+                {{/if}}
+            </a>
+        </h2>
+    </div>
+</header>
+
+{{{ checkout.order_confirmation_content }}}
+
+{{{ footer.scripts }}}
+
+{{/partial}}
+
+{{> layout/empty}}
+
+<script>
+
+    $(document).ready(function(){
+        fetch('/api/storefront/order/{{checkout.order.id}}', {credentials: 'include'})
+                .then((res) => res.json()).then(function (res) {
+                console.log("res", res);
+               
+              var coupon = ''; 
+            if(res.coupons.length > 0){
+                coupon = res.coupons[0].code;
+            };
+            var product_array = [];
+            let response = res.lineItems.physicalItems;
+            response.forEach(element => {
+            
+                    var obj =  {
+                                productId: element.productId,
+                                productVariantId: element.variantId,
+                                name: element.name,
+                                productImage: element.imageUrl,
+                                price: {
+                                  value: element.salePrice,
+                                  currency: '{{currency_selector.active_currency_code}}',
+                                },
+                                quantity: element.quantity
+                            };
+                            
+             product_array.push(obj);
+            });
+            
+           window.attentive.analytics.purchase(
+                    {
+                        items: product_array,
+                        cart: {
+                            cartId: res.cartId,
+                            cartCoupon: coupon
+                        },
+                        order: {
+                            orderId: res.orderId
+                        },
+                        user: {
+                            phone: res.billingAddress.phone
+                        }
+                    }
+                );
+        
+        //BODL events
+    
+        window.dataLayer = window.dataLayer || [];
+           
+        // If window.bodlEvents.checkout.orderPurchased is available, then...
+          if (typeof window.bodlEvents.checkout.orderPurchased === 'function') {
+              
+              window.dataLayer = window.dataLayer || [];
+            // run the orderPurchase function to get the payload
+            window.bodlEvents.checkout.orderPurchased((payload) => {
+              // log the event payload
+              
+              var bodl_data = {
+                  'event': 'bodl_v1_order_purchased'
+              }
+              
+              console.log(
+                'window.bodlEvents.checkout.orderPurchased ~ payload',
+                payload
+              );
+              
+                bodl_data.bodl_ecommerce = payload;
+          
+                window.dataLayer.push(bodl_data);
+                console.log("dataLayer", dataLayer);
+            });
+          }
+        });
+        
+    });
+    
+</script>

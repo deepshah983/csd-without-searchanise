@@ -1,0 +1,112 @@
+---
+product:
+    videos:
+        limit: {{theme_settings.productpage_videos_count}}
+    reviews:
+        limit: {{theme_settings.productpage_reviews_count}}
+    related_products:
+        limit: {{theme_settings.productpage_related_products_count}}
+    similar_by_views:
+        limit: {{theme_settings.productpage_similar_by_views_count}}
+---
+{{inject 'productId' product.id}}
+
+{{#partial "page"}}
+
+    {{> components/csd/breadcrumbs-product breadcrumbs=breadcrumbs}}
+
+    {{#each product.shipping_messages}}
+        {{> components/common/alert/alert-info message}}
+    {{/each}}
+
+    <div class="prdct-detail">
+        {{> components/products/product-view}}
+
+        {{{region name="product_below_content"}}}
+
+        {{#if product.videos.list.length}}
+            {{> components/products/videos product.videos}}
+        {{/if}}
+
+        {{#all settings.show_product_reviews theme_settings.show_product_reviews (if theme_settings.show_product_details_tabs '!==' true)}}
+            {{> components/products/reviews reviews=product.reviews product=product urls=urls}}
+        {{/all}}
+        
+        {{#comment}}
+        <div class="searchanise-recommendations" id="3T7E5T9N3R6I9K8"></div>
+         {{/comment}}
+        
+        {{#if product.similar_by_views}}
+        <div class="customer-viewed-products">
+            <h2 class="btm-line">{{lang 'products.similar_by_views'}}</h2>
+            {{> components/products/carousel products=product.similar_by_views columns=4 list="Customers Also Viewed"}}
+        </div>
+        {{/if}}
+
+        <!--{{> components/products/tabs}}-->
+    </div>
+
+    {{> components/products/schema}}
+    <script>
+        let interval = setInterval(function(){
+        if($(".laybuy-inline-widget img").length > 0){
+            clearInterval(interval);
+            
+            $(".laybuy-inline-widget img").attr("src", "https://integration-assets.laybuy.com/price-breakdown/laybuy_badge_neon_grape.svg");
+            setTimeout(function(){
+                 $(".laybuy-inline-widget img").attr("src", "https://integration-assets.laybuy.com/price-breakdown/laybuy_badge_neon_grape.svg");
+            },1500)
+        }
+    },100);
+    </script>
+{{/partial}}
+{{> layout/base}}
+
+<script type="text/javascript">
+    var _learnq = _learnq || [];
+    var item = {
+        Name: "{{product.title}}",
+        ProductID: "{{product.id}}",
+        ImageURL: "{{getImage product.main_image 'product_size' (cdn theme_settings.default_image_product)}}",
+        URL: "{{product.url}}",
+        Brand: "{{product.brand.name}}",
+        Price: "{{product.price.without_tax.value}}",
+        CompareAtPrice: "{{product.price.rrp_without_tax.value}}"
+    };
+    _learnq.push(['track', 'Viewed Product', item]);
+    _learnq.push(['trackViewedItem', {
+        Title: item.Name,
+        ItemId: item.ProductID,
+        ImageUrl: item.ImageURL,
+        Url: item.URL,
+        Metadata: {
+            Brand: item.Brand,
+            Price: item.Price,
+            CompareAtPrice: item.CompareAtPrice
+        }
+    }]);
+    
+    window.attentive.analytics.productView(
+        {
+            items:[
+                {
+                    productId: '{{product.id}}',
+                    productVariantId: '{{product.variant.id}}',
+                    name: '{{product.title}}',
+                    productImage: '{{getImage product.main_image 'product_size' (cdn theme_settings.default_image_product)}}',
+                    category: '{{product.category}}',
+                    price: {
+                      value: '{{product.price.without_tax.value}}',
+                      currency: '{{currency_selector.active_currency_code}}',
+                    },
+                    quantity: 1,
+                }
+            ], 
+            user: {
+                phone: '{{customer.phone}}'
+            }
+        }
+    );
+    
+ 
+</script>

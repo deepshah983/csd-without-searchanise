@@ -1,0 +1,834 @@
+<div class="productView"
+    data-event-type="product"
+    data-entity-id="{{product.id}}"
+    data-name="{{product.title}}"
+    data-product-category="
+    {{#each product.category}}
+        {{#if @last}}{{this}}{{else}}{{this}}, {{/if}}
+    {{/each}}"
+    data-product-brand="{{product.brand.name}}"
+    data-product-price="
+    {{#or customer (unless theme_settings.restrict_to_login)}}
+        {{#if product.price.with_tax}}
+            {{product.price.with_tax.value}}
+        {{else}}
+            {{product.price.without_tax.value}}
+        {{/if}}
+    {{else}}
+        {{lang 'common.login_for_pricing'}}
+    {{/or}}"
+    data-product-variant="single-product-option">
+
+    {{#each product.reviews.messages}}
+        {{#if error}}
+            {{> components/common/alert/alert-error error}}
+        {{/if}}
+        {{#if success}}
+            {{> components/common/alert/alert-success success}}
+        {{/if}}
+    {{/each}}
+
+    <div class="productView-images-wrapped">
+        <div class="small-slider product-slider">
+        {{#each product.images}}
+        <div class="thumbnail_item">
+            <a data-fancybox="group"
+                class="productView-thumbnail-link main-link" href="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}">
+                 <img src="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}" alt="{{this.alt}}" title="{{this.alt}}" class="productView-image--default lazyload">
+            </a>
+        </div>
+        {{/each}}
+        </div>
+        <div class="out--of--stock">    
+            {{#if product.out_of_stock}}
+                {{#if product.out_of_stock_message}}
+                    <p class="alertBox-column alertBox-message">
+                        <span id="alertBox-message-text">Sold</span>
+                    </p>
+                {{/if}}
+            {{/if}}
+        </div>
+        <div class="productView-images" data-image-gallery>
+            <div class="slider_thumbnail">
+                {{#each product.images}}
+                <div class="thumbnail_item">
+                    <a
+                        class="productView-thumbnail-link" href="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}" data-image-gallery-item data-image-gallery-new-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.product_size}}" data-image-gallery-new-image-srcset="{{getImageSrcset this use_default_sizes=true}}" data-image-gallery-zoom-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}">
+                        {{> components/common/responsive-img
+                            image=this
+                            fallback_size=../theme_settings.productview_thumb_size
+                            lazyload=../theme_settings.lazyload_mode
+                        }}
+                    </a>
+                </div>
+                {{/each}}
+            </div>
+            <div class="slider_image">
+                {{#each product.images}}
+                <div class="mainImage">
+                    <figure class="productView-image" data-image-gallery-main data-zoom-image="{{getImageSrcset this (cdn theme_settings.default_image_product) 1x=theme_settings.zoom_size }}" >
+                        <div class="productView-img-container">
+                            {{!-- Remove the surrounding a-element if there is no main image. --}}
+                                <a class="main-link" href="{{getImage this (cdn theme_settings.default_image_product) 1x=theme_settings.zoom_size}}">
+                             <img src="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}" alt="{{this.alt}}" title="{{this.alt}}" class="productView-image--default lazyload">
+                            {{!-- Remove the surrounding a-element if there is no main image. --}}
+                                </a>
+                        </div>
+                    </figure>
+                </div>
+                {{/each}}
+            </div>
+            <div class="view-more-related-products">
+                <div class="view-more-related-products-title">View more</div>
+                <ul class="view-more-related-products-links" style="order: 4;">
+                    {{#and (if product) (if product.brand)}}
+                        <li class="view-more-related-products-link brand"><a href="{{product.brand.url}}">{{{product.brand.name}}}</a></li>
+                    {{/and}}
+                    {{assignVar 'main-category' 'none'}}
+                    {{#each product.category}}
+                        {{#contains this 'Sale'}}
+                        {{else}}
+                            {{#contains this 'Featured Designers'}}
+                            {{else}}
+                                {{#contains this 'New'}}
+                                {{else}}
+                                    {{#contains this "Clothing/"}}
+                                        {{#if (getVar 'main-category') '===' 'none'}}
+                                            {{#each (split this '/')}}
+                                                {{#if @index '===' 0}}
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    {{assignVar 'main-category' 'clothing'}}
+                                                {{/if}}
+                                                {{#if @index '===' 1}}
+                                                    {{#contains this "Jumpsuits"}}
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/jumpsuits">{{this}}</a></li>
+                                                    {{else}}
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    {{/contains}}
+                                                {{/if}}
+                                            {{/each}}
+                                        {{/if}}
+                                    {{/contains}}
+                                    {{#contains this "Bags/"}}
+                                        {{#if (getVar 'main-category') '===' 'none'}}
+                                            {{#each (split this '/')}}
+                                                {{#if @index '===' 0}}
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    {{assignVar 'main-category' 'bags'}}
+                                                {{/if}}
+                                                {{#if @index '===' 1}}
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                {{/if}}
+                                            {{/each}}
+                                        {{/if}}
+                                    {{/contains}}
+                                    {{#contains this "Shoes/"}}
+                                        {{#if (getVar 'main-category') '===' 'none'}}
+                                            {{#each (split this '/')}}
+                                                {{#if @index '===' 0}}
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    {{assignVar 'main-category' 'shoes'}}
+                                                {{/if}}
+                                                {{#if @index '===' 1}}
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                {{/if}}
+                                            {{/each}}
+                                        {{/if}}
+                                    {{/contains}}
+                                    {{#contains this "Accessories/"}}
+                                        {{#if (getVar 'main-category') '===' 'none'}}
+                                            {{#each (split this '/')}}
+                                                {{#if @index '===' 0}}
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    {{assignVar 'main-category' 'accessories'}}
+                                                {{/if}}
+                                                {{#if @index '===' 1}}
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                {{/if}}
+                                            {{/each}}
+                                        {{/if}}
+                                    {{/contains}}
+                                {{/contains}}
+                            {{/contains}}
+                        {{/contains}}
+                    {{/each}}
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    
+    <div class="productView-details product-data">
+        <div class="productView-product">
+
+            <div class="brand-badge">
+                {{#if product.brand}}
+                    <h2 class="productView-brand">
+                        <a href="{{product.brand.url}}">{{product.brand.name}}</a>
+                    </h2>
+                {{/if}}
+                <div class="badges">
+                    {{#each product.custom_fields}}
+                        {{#if value '===' 'Never worn, with tag'}}
+                        <div class="badges">
+                            <div class="badge-never-worn"><img src="https://cdn11.bigcommerce.com/s-5zask1yt8t/images/stencil/original/image-manager/new-with-tag-updated-04.png?t=1712227057" alt="new with tag"></div>
+                            </div>
+                        {{else if value '===' 'Never worn'}}
+                            <div class="badge-never-worn"><i class="icon" aria-hidden="true"><svg><use xlink:href="#icon-badge-never-worn" /></svg></i></div>
+                        {{else}}
+                        {{/if}}
+                    {{/each}}
+                    {{#contains (dashcase (join product.category '/')) "vintage"}}
+                        <div class="badge-vintage"><i class="icon" aria-hidden="true"><svg><use xlink:href="#icon-badge-vintage" /></svg></i></div>
+                    {{/contains}}
+                </div>
+            </div>
+
+            <h1 class="productView-title btm-space">{{{product.title}}}</h1>
+                    {{#each product.custom_fields}}
+                        {{#if name '===' 'Model No'}}
+                            <dl class="custom-fields">
+                                <dt class="productView-info-name">Model:</dt>
+                                <dd class="productView-info-value">{{{value}}}</dd>
+                            </dl>
+                        {{/if}}
+                    {{/each}}
+            {{#if product.out_of_stock}}
+            {{else}}
+                {{#if product.call_for_price}}
+                    <div class="price-wrapper">
+                        <p class="productView-price">
+                            <span>{{product.call_for_price}}</span>
+                        </p>
+                        {{#comment}} <div class="csd-native-share supported"><i class="icon" aria-hidden="true"><svg id="shareBtn"><use xlink:href="#icon-share"></use></svg></i></div> {{/comment}}
+                    </div>
+                {{/if}}
+                <div class="price-wrapper">
+                    <div class="productView-price btm-space">
+                        {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
+                            {{> components/products/price price=product.price}}
+                        {{else}}
+                            {{> components/common/login-for-pricing}}
+                        {{/or}}                    
+                    </div>
+    
+                {{#comment}}
+                    {{#unless product.out_of_stock}}
+                    <div class="klarna-msg">
+                         Placement v2 
+                        <klarna-placement
+                        data-key="credit-promotion-badge"
+                        data-locale="en-{{#if currency_selector.active_currency_code '===' 'USD'}}US{{else if currency_selector.active_currency_code '===' 'CAD'}}GB{{else}}GB{{/if}}"
+                        data-purchase-amount="{{round (multiply product.price.without_tax.value 100)}}"
+                        ></klarna-placement>
+                         end Placement 
+                    </div>
+                    {{/unless}}
+                {{/comment}}
+                    {{#comment}} <div class="csd-native-share supported"><i class="icon" aria-hidden="true"><svg id="shareBtn"><use xlink:href="#icon-share"></use></svg></i></div> {{/comment}}
+                </div>
+                 
+                <div class="product-below-price-wrapper" style="margin-bottom: 10px; display: none !important;">
+                    {{{region name="product_below_price"}}}
+                </div>
+                
+                <div class="price-wrapper">
+                    {{#unless product.out_of_stock}}
+                    <div class="klarna-msg">
+                        <!-- Placement v2 -->
+                        <klarna-placement
+                        data-key="credit-promotion-badge"
+                        data-locale="en-{{#if currency_selector.active_currency_code '===' 'USD'}}US{{else if currency_selector.active_currency_code '===' 'CAD'}}GB{{else}}GB{{/if}}"
+                        data-purchase-amount="{{round (multiply product.price.without_tax.value 100)}}"
+                        ></klarna-placement>
+                        <!-- end Placement -->
+                    </div>
+                    {{/unless}}
+                </div>
+                
+            {{/if}}
+            
+            {{#if settings.bulk_discount_enabled}}
+                <div class="productView-info-bulkPricing">
+                    {{> components/products/bulk-discount-rates bulk_discount_rates=product.bulk_discount_rates}}
+                </div>
+            {{/if}}
+
+            <div class="in-detail btm-space">
+                <div class="size-section">
+                    <div class="left-part">
+
+                    {{assignVar "field_availability" 0}}
+                    {{#each product.custom_fields}}
+                        {{#if name '===' 'Availability'}}
+                            {{#if this.value '===' 'Available in various sizes'}}
+                                <span class="custom-field">{{value}},&nbsp;</span>
+                                {{assignVar "field_availability" 1}}
+                            {{/if}}
+                        {{/if}}
+                    {{/each}}
+                    {{#if (getVar "field_availability") '===' 0}}
+                        {{#each product.category}}
+                            {{#if @first}}
+                                {{#if this '===' 'Shoes'}}
+                                    {{assignVar "categoryShoes" "true"}}
+                                {{else}}
+                                    {{assignVar "categoryShoes" "false"}}
+                                {{/if}}
+                            {{/if}}
+                        {{/each}}
+                    
+                        {{#if (getVar "categoryShoes") '===' 'true'}}
+                            {{assignVar "field_eu" 0}}
+                            {{assignVar "field_it" 0}}                            
+                            {{#each product.custom_fields}}
+                                {{#if name "===" "EU"}}
+                                    {{assignVar "field_eu" 1}}
+                                {{/if}}
+                                {{#if name "===" "IT"}}
+                                    {{assignVar "field_it" 1}}
+                                {{/if}}
+                                {{#any (if name '==' 'UK') (if name '==' 'US') (if name '==' 'FR') }}
+                                    <span class="custom-field">{{name}} {{value}}<span class="last">,</span></span>
+                                {{/any}}
+                                {{assignVar 'shoeGuide' "true"}}
+                            {{/each}}
+                            {{#all (if (getVar "field_eu") "===" 1) (if (getVar "field_it") "===" 1)}}
+                                <span class="custom-field">EU/IT {{#each product.custom_fields}}{{#if name '===' 'EU'}}{{value}}{{/if}}{{/each}}<span class="last">,</span></span>
+                            {{/all}}
+                            {{#all (if (getVar "field_eu") "<" 1) (if (getVar "field_it") "===" 1)}}
+                                <span class="custom-field">IT {{#each product.custom_fields}}{{#if name '===' 'IT'}}{{value}}{{/if}}{{/each}}<span class="last">,</span></span>
+                            {{/all}}
+                            {{#all (if (getVar "field_eu") "===" 1) (if (getVar "field_it") "<" 1)}}
+                                <span class="custom-field">EU {{#each product.custom_fields}}{{#if name '===' 'EU'}}{{value}}{{/if}}{{/each}}<span class="last">,</span></span>
+                            {{/all}}
+                        {{else}}
+                            {{#each product.custom_fields}} 
+                                {{#if name '==' 'SML'}}
+                                    <span>{{value}}, </span>
+                                {{/if}}
+                            {{/each}} 
+                            {{#each product.custom_fields}} 
+                                {{#or (if name "==" "UK") (if name "==" "US") (if name "==" "EU") (if name "==" "FR") (if name "==" "IT") (if name "==" "JP")}} 
+                                    <span>{{{name}}}</span>&nbsp;<span>{{{value}}}<span class="last">,</span> </span>
+                                    {{assignVar 'shoeGuide' "true"}}
+                                {{/or}}
+                            {{/each}} 
+                        {{/if}}
+                    {{/if}}
+                    </div>
+                    {{#if (getVar 'shoeGuide') '===' 'true'}}
+                    <div class="right-part">
+                        {{> components/csd/products/size-guide}}
+                    </div>
+                    {{/if}}
+                </div>
+
+                <div class="condition-section">
+                    <div class="left-part">
+                    {{#each product.custom_fields}} 
+                        {{#or (if name "==" "Condition")}} 
+                                {{#if value "==" "Never worn, with tag"}}
+                                 <span>New with tag</span> 
+                                {{else}}
+                                 <span>{{{value}}}</span>
+                                {{/if}}
+                        {{/or}} 
+                    {{/each}} 
+                    </div>
+                    <div class="right-part">
+                        {{> components/csd/products/condition-guide}}
+                    </div>
+                </div>
+
+                <div class="color-section">
+                    {{#each product.custom_fields}} 
+                        {{#or (if name "==" "Colour")}} 
+                            <span>{{{value}}}</span>
+                        {{/or}} 
+                    {{/each}} 
+                </div>
+            </div>
+            
+            <div class="productView-rating ">
+                {{#if settings.show_product_rating}}
+                    {{> components/products/ratings rating=product.rating}}
+                    {{#if product.num_reviews '>' 0}}
+                        <a href="{{product.url}}{{#if is_ajax}}#product-reviews{{/if}}" id="productReview_link">
+                            {{lang 'products.reviews.link_to_review' total=product.num_reviews}}
+                        </a>
+                    {{else}}
+                        <span>{{lang 'products.reviews.link_to_review' total=product.num_reviews}}</span>
+                    {{/if}}
+                {{/if}}
+                {{#comment}}
+                {{#if settings.show_product_reviews}}
+                    <a href="{{product.url}}{{#if is_ajax}}#write_review{{/if}}"
+                       class="productView-reviewLink productView-reviewLink--new"
+                       {{#unless is_ajax}}data-reveal-id="modal-review-form"{{/unless}}
+                       role="button"
+                    >
+                       {{lang 'products.reviews.new'}}
+                    </a>
+                    
+                    {{#unless is_ajax}}
+                        {{> components/products/modals/writeReview}}
+                    {{/unless}}
+                {{/if}}
+                {{/comment}}
+            </div>
+            
+            <a href="javascript:;" data-miros-entry="custom" data-miros-item="{{product.sku}}">Show Similar Products</a>
+            
+            {{product.detail_messages}}
+            <dl class="productView-info btm-space">
+                {{#comment}}
+                <dt class="productView-info-name sku-label"{{#unless product.sku}} style="display: none;"{{/unless}}>{{lang 'products.sku'}}</dt>
+                <dd class="productView-info-value" data-product-sku>{{product.sku}}</dd>
+                <dt class="productView-info-name upc-label"{{#unless product.upc}} style="display: none;"{{/unless}}>{{lang 'products.upc'}}</dt>
+                <dd class="productView-info-value" data-product-upc>{{product.upc}}</dd>
+                {{/comment}}
+                {{#if product.condition}}
+                    <dt class="productView-info-name">{{lang 'products.condition'}}</dt>
+                    <dd class="productView-info-value">{{product.condition}}</dd>
+                {{/if}}
+                {{#if product.availability}}
+                    <dt class="productView-info-name">{{lang 'products.availability'}}</dt>
+                    <dd class="productView-info-value">{{product.availability}}</dd>
+                {{/if}}
+                {{#all product.weight theme_settings.show_product_weight}}
+                    <dt class="productView-info-name">{{lang 'products.weight'}}</dt>
+                    <dd class="productView-info-value" data-product-weight>{{product.weight}}</dd>
+                {{/all}}
+                {{#all product.width product.height product.depth theme_settings.show_product_dimensions}}
+                    <dt class="productView-info-name">{{lang 'products.width'}}</dt>
+                    <dd class="productView-info-value" data-product-width>
+                        {{product.width}}
+                        {{#if settings.measurements.length '==' 'Centimeters'}}
+                        ({{lang 'products.measurement.metric'}})
+                        {{else}}
+                        ({{lang 'products.measurement.imperial'}})
+                        {{/if}}
+                    </dd>
+                    <dt class="productView-info-name">{{lang 'products.height'}}</dt>
+                    <dd class="productView-info-value" data-product-height>
+                        {{product.height}}
+                        {{#if settings.measurements.length '==' 'Centimeters'}}
+                        ({{lang 'products.measurement.metric'}})
+                        {{else}}
+                        ({{lang 'products.measurement.imperial'}})
+                        {{/if}}
+                    </dd>
+                    <dt class="productView-info-name">{{lang 'products.depth'}}</dt>
+                    <dd class="productView-info-value" data-product-depth>
+                        {{product.depth}}
+                        {{#if settings.measurements.length '==' 'Centimeters'}}
+                        ({{lang 'products.measurement.metric'}})
+                        {{else}}
+                        ({{lang 'products.measurement.imperial'}})
+                        {{/if}}
+                    </dd>
+                {{/all}}
+                
+                {{#if product.min_purchase_quantity}}
+                    <dt class="productView-info-name">{{lang 'products.min_purchase_quantity'}}</dt>
+                    <dd class="productView-info-value">{{lang 'products.purchase_units' quantity=product.min_purchase_quantity}}</dd>
+                {{/if}}
+                {{#if product.max_purchase_quantity}}
+                    <dt class="productView-info-name">{{lang 'products.max_purchase_quantity'}}</dt>
+                    <dd class="productView-info-value">{{lang 'products.purchase_units' quantity=product.max_purchase_quantity}}</dd>
+                {{/if}}
+                
+                {{#if product.gift_wrapping_available}}
+                    <dt class="productView-info-name">{{lang 'products.gift_wrapping'}}</dt>
+                    <dd class="productView-info-value">{{lang 'products.gift_wrapping_available'}}</dd>
+                {{/if}}
+                {{#if product.shipping}}
+                    {{#if product.shipping.calculated}}
+                        <dt class="productView-info-name">{{lang 'products.shipping'}}</dt>
+                        <dd class="productView-info-value">{{lang 'products.shipping_calculated'}}</dd>
+                    {{else}}
+                        {{#if product.shipping.price.value '===' 0}}
+                            <dt class="productView-info-name">{{lang 'products.shipping'}}</dt>
+                            <dd class="productView-info-value">{{lang 'products.shipping_free'}}</dd>
+                        {{else}}
+                            <dt class="productView-info-name">{{lang 'products.shipping'}}</dt>
+                            <dd class="productView-info-value">{{lang 'products.shipping_fixed' amount=product.shipping.price.formatted}}</dd>
+                        {{/if}}
+                    {{/if}}
+                {{/if}}
+
+                {{#comment}}
+                {{#if theme_settings.show_custom_fields_tabs '!==' true}}
+                    {{> components/products/custom-fields }}
+                {{/if}}
+                {{/comment}}
+                   
+            </dl>
+            <dl class="custom-fields">
+                {{#each product.custom_fields}}
+                    {{#if name '===' 'Branch Status'}}
+                        {{#if value '===' 'Marylebone'}}
+                            <dt class="productView-info-name">Location:</dt>
+                            <dd class="productView-info-value"><a href="https://csd.shop/marylebone-lane-store/">Marylebone Lane Store</a></dd>
+                        {{else if value '===' 'BPS STORE'}}
+                            <dt class="productView-info-name">Location:</dt>
+                            <dd class="productView-info-value"><a href="https://csd.shop/battersea-power-station-store/">Battersea Power Station Store</a></dd>
+                        {{else if value '===' 'Notting Hill Store'}}
+                            <dt class="productView-info-name">Location:</dt>
+                            <dd class="productView-info-value"><a href="https://csd.shop/csd-notting-hill-store/">Notting Hill Store</a></dd>
+                        {{else}}
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+            </dl>
+            {{> components/csd/verified-and-authenticated}}
+
+        </div>
+    </div>
+
+    <div class="productView-details product-options">
+        <div class="productView-options {{#if product.out_of_stock}}sold-out{{/if}}" >
+            {{#if product.release_date }}
+                <p>{{product.release_date}}</p>
+            {{/if}}
+            <form class="form" method="post" action="{{product.cart_url}}" enctype="multipart/form-data" data-cart-item-add>
+                <input type="hidden" name="action" value="add">
+                <input type="hidden" name="product_id" value="{{product.id}}">
+                {{#if product.cart_order_source}}
+                    <input type="hidden" name="cart_order_source" value="{{product.cart_order_source}}"/>
+                {{/if}}
+                <div data-product-option-change style="display:none;">
+                    {{inject 'showSwatchNames' theme_settings.show_product_swatch_names}}
+                    {{#each product.options}}
+                        {{{dynamicComponent 'components/products/options'}}}
+                    {{/each}}
+                </div>
+                <span class="stock-level" style="display: none;">{{product.stock_level}}</span>
+                
+                {{> components/products/add-to-cart with_wallet_buttons=true}}
+                
+            </form>
+            {{#unless product.out_of_stock}}
+                {{#if settings.show_wishlist}}
+                    {{#comment}}{{> components/common/wishlist-dropdown}}{{/comment}}
+                    <a class="button button--secondary csd-swym-wishlist-btn" href="#">
+                        <span class="csd-swym-wishlist-btn-contents">Wishlist <i class="icon unlisted" aria-hidden="true"><svg><use xlink:href="#icon-heart" /></svg></i><i class="icon listed" aria-hidden="true"><svg><use xlink:href="#icon-heart-solid" /></svg></i></span>
+                    </a>                    
+                {{/if}}
+            {{/unless}}
+        </div>
+        {{#if product.out_of_stock}}
+        <p class="out_of_stock_message"><span class="oos_message_title">You just missed it!</span><br><span class="oos_message_subtitle">Don't worry we have plenty of great options in stock</span></p>
+            {{assignVar 'main-category_view-more' 'none'}}
+            {{#each product.category}}
+                {{#contains this 'Sale'}}
+                {{else}}
+                    {{#contains this 'Featured Designers'}}
+                    {{else}}
+                        {{#contains this 'New'}}
+                        {{else}}
+                            {{#contains this "Clothing/"}}
+                                {{#if (getVar 'main-category_view-more') '===' 'none'}}
+                                    {{#each (split this '/')}}
+                                        {{#if @index '===' 0}}
+                                            {{assignVar 'main-category_view-more' 'clothing'}}
+                                        {{/if}}
+                                        {{#if @index '===' 1}}
+                                            {{#contains this "Jumpsuits"}}
+                                            <a class="button button--primary view-more-btn" href="/women/{{getVar 'main-category_view-more'}}/jumpsuits">View More {{this}}</a>
+                                            {{else}}
+                                            <a class="button button--primary view-more-btn" href="/women/{{getVar 'main-category_view-more'}}/{{dashcase (toLowerCase this)}}">View More {{this}}</a>
+                                            {{/contains}}
+                                        {{/if}}
+                                    {{/each}}
+                                {{/if}}
+                            {{/contains}}
+                            {{#contains this "Bags/"}}
+                                {{#if (getVar 'main-category_view-more') '===' 'none'}}
+                                    {{#each (split this '/')}}
+                                        {{#if @index '===' 0}}
+                                            {{assignVar 'main-category_view-more' 'bags'}}
+                                        {{/if}}
+                                        {{#if @index '===' 1}}
+                                            <a class="button button--primary view-more-btn" href="/women/{{getVar 'main-category_view-more'}}/{{dashcase (toLowerCase this)}}">View More {{this}}</a>
+                                        {{/if}}
+                                    {{/each}}
+                                {{/if}}
+                            {{/contains}}
+                            {{#contains this "Shoes/"}}
+                                {{#if (getVar 'main-category_view-more') '===' 'none'}}
+                                    {{#each (split this '/')}}
+                                        {{#if @index '===' 0}}
+                                            {{assignVar 'main-category_view-more' 'shoes'}}
+                                        {{/if}}
+                                        {{#if @index '===' 1}}
+                                            <a class="button button--primary view-more-btn" href="/women/{{getVar 'main-category_view-more'}}/{{dashcase (toLowerCase this)}}">View More {{this}}</a>
+                                        {{/if}}
+                                    {{/each}}
+                                {{/if}}
+                            {{/contains}}
+                            {{#contains this "Accessories/"}}
+                                {{#if (getVar 'main-category_view-more') '===' 'none'}}
+                                    {{#each (split this '/')}}
+                                        {{#if @index '===' 0}}
+                                            {{assignVar 'main-category_view-more' 'accessories'}}
+                                        {{/if}}
+                                        {{#if @index '===' 1}}
+                                            <a class="button button--primary view-more-btn" href="/women/{{getVar 'main-category_view-more'}}/{{dashcase (toLowerCase this)}}">View More {{this}}</a>
+                                        {{/if}}
+                                    {{/each}}
+                                {{/if}}
+                            {{/contains}}
+                        {{/contains}}
+                    {{/contains}}
+                {{/contains}}
+            {{/each}}
+        {{/if}}
+        {{#unless product.out_of_stock}}
+            {{> components/csd/products/shipping-timer}}
+        
+            <div id="prdct-description">
+                <div class="description-tabs">
+                    {{{product.description}}}
+                </div>
+                {{#if product.upc}}
+                    <dl class="productUPC btm-space">
+                        <dt class="productView-info-name upc-label">{{lang 'products.upc'}}</dt>
+                        <dd class="productView-info-value" data-product-upc>{{product.upc}}</dd>
+                    </dl>
+                {{/if}}
+                <p class="product-price-GBP"></p>
+                <div class="productView-authenticity">
+                    <img class="btm-space" src="{{cdn 'assets/img/authenticity.png'}}" alt="CSD Seal" height="121" width="120">
+                    <div class="productView-authenticity-content">With the CSD Seal, It's Guaranteed Real.</div>
+                </div>
+            </div>
+        {{/unless}}
+
+        {{#comment}}
+        {{> components/common/share url=product.url}}
+        {{/comment}}
+    </div>
+
+
+    {{#comment}}
+    <article class="productView-description">
+        {{#if theme_settings.show_product_details_tabs}}
+            {{> components/products/description-tabs}}
+        {{else}}
+            {{> components/products/description}}
+        {{/if}}
+    </article>
+    {{/comment}}
+</div>
+
+
+<div class="miros-section">
+    <h3 class="miros-title">You May Also Like</h3>
+    <div class="container-scrolling-products-container">
+        <div class="products-container-flickty miros-products-custom">
+            
+        </div>
+    </div>
+</div>
+
+
+<div id="previewModal" class="modal modal--large" data-reveal>
+    {{> components/common/modal/modal-close-btn }}
+    <div class="modal-content"></div>
+    <div class="loadingOverlay"></div>
+</div>
+
+<input type="hidden" id="product_sku" value="{{product.sku}}">
+
+
+<!--Miros Inline recommendation for PDP-->
+<script>
+$(document).ready(function(){
+    var product_sku = $('#product_sku').val();
+    
+    
+    let graphqlQuery = `query Recommendation($integration_id: String, $customer_id: String!, $itemSku: String!) {
+      recommendations(query: {
+        integration_id: $integration_id,
+        customer_id: $customer_id,
+        alias: $itemSku,
+        version: 2,
+        limit: 32
+      }) {
+        alias
+      }
+    }`;
+    
+    const variables = {
+      integration_id: '7fb78fcf-d37e-4021-abab-74d146bc9997',
+      customer_id: '13778ea8-ae7a-4188-af58-8a52501c90f3',
+      itemSku: product_sku
+    };
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+    };
+    
+    $.ajax({
+      type: 'POST',
+      url: 'https://api.miros.services/graphql',
+      headers: headers,
+      data: JSON.stringify({ 
+        query: graphqlQuery,
+        variables: variables
+      }),
+      dataType: 'json',
+      success: function (res) {
+     
+        var skus = [];
+        for(var i=0; i<res.data.recommendations.length; i++){
+            skus.push(res.data.recommendations[i].alias);
+        }
+       
+        
+        for(var j=0; j<skus.length; j++){
+            var sku = skus[j];
+            
+            let productQuery = `query {
+                site{
+                    product(sku: "${sku}"){
+                                name
+                                path
+                                entityId
+                                brand{
+                                    name
+                                }
+                                defaultImage {
+                                    url640wide: url(width: 640)
+                                }
+                                images {
+                                    edges {
+                                      node {
+                                        url(width: 640)
+                                      }
+                                    }
+                                }
+                                customFields {
+                                    edges {
+                                      node {
+                                        name
+                                        value
+                                      }
+                                    }
+                                  }
+                                prices{
+                                    basePrice{
+                                        value
+                                        formatted
+                                    }
+                                    salePrice{
+                                        value
+                                        formatted
+                                    }
+                                    retailPrice{
+                                        value
+                                        formatted
+                                    }
+                                }
+                    }
+                }
+            }`
+            var product_card = '';
+            $.ajax({
+                        type: 'POST',
+                        url: '/graphql',
+                        headers: headers,
+                        data: JSON.stringify({ query: productQuery }),
+                        dataType: 'json',
+                        success: function (res) {
+                            
+                            if(res.data.site.product){
+                                
+                                product_card += '<div class="product"><article class="card" data-entity-id="'+ res.data.site.product.entityId +'" data-name="'+ res.data.site.product.name +'" data-product-price="'+ res.data.site.product.prices.basePrice.formatted +'"> <figure class="card-figure"> <div class="badge-wishlist-wrapper"> <a href="'+ res.data.site.product.path +'" class="card-alt-img--hover card-image-normal" data-event-type="product-click"> <div class="card-img-container"> <span class="card-main-image"> <img class="card-image" src="'+ res.data.site.product.defaultImage.url640wide +'" data-src="'+ res.data.site.product.defaultImage.url640wide +'" alt="'+ res.data.site.product.name +'" title="'+ res.data.site.product.name +'"></span>';
+                                if(res.data.site.product.images.edges[1]){
+                                    product_card += '<span class="card-alt-image"><img class="card-image" src="'+ res.data.site.product.images.edges[1].node.url +'" data-src="'+ res.data.site.product.images.edges[1].node.url +'" alt="'+ res.data.site.product.name +'" title="'+ res.data.site.product.name +'"></span>';
+                                }else{
+                                    product_card += '<span class="card-alt-image"><img class="card-image" src="'+ res.data.site.product.defaultImage.url640wide +'" data-src="'+ res.data.site.product.defaultImage.url640wide +'" alt="'+ res.data.site.product.name +'" title="'+ res.data.site.product.name +'"></span>';
+                                }
+                                product_card += '</div> </a> ';
+                                
+                                product_card += '<span class="product-wishlist" data-product-id="'+ res.data.site.product.entityId +'"> <button aria-label="wishlist_'+ res.data.site.product.entityId +'"> <i class="icon" aria-hidden="true"> <svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/></svg> <svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"/></svg> </i> </button></span>';
+                                
+                                product_card += '</div> </figure> <div class="card-body"> <div> <a class="card-link" href="'+ res.data.site.product.path +'"> <h3 class="card-text brand-name">'+ res.data.site.product.brand.name +'</h3> <h4 class="card-title">'+ res.data.site.product.name +'</h4> ';
+                                if(res.data.site.product.customFields.edges){
+                                    product_card += '<div class="card-fields"> <div class="custom-fields-list"> ';
+                                    var UK = '';
+                                    var US = '';
+                                    var FR = '';
+                                    var IT = '';
+                                    var SML = '';
+                                    var EU = '';
+                                    var both = '';
+                                    var count = 0;
+                                    for(var i=0; i<res.data.site.product.customFields.edges.length; i++){
+                                        var node = res.data.site.product.customFields.edges[i].node;
+                                        if(node.name == 'SML'){
+                                            SML = '' + node.value +',&nbsp;';    
+                                        } 
+                                        if(node.name == 'UK'){
+                                            UK = '' + node.name + '&nbsp;' + node.value +',&nbsp;' ;  
+                                        }
+                                        if(node.name == 'US'){
+                                            US = '' + node.name + '&nbsp;' + node.value +',&nbsp;';  
+                                        }
+                                        if(node.name == 'FR'){
+                                            FR = '' + node.name + '&nbsp;' + node.value +',&nbsp;';
+                                        }
+                                        if(node.name == 'EU'){
+                                            count++;
+                                            EU = '' + node.name + '&nbsp;' + node.value +'';    
+                                        }
+                                        if(node.name == 'IT'){
+                                            count++;
+                                            IT = '' + node.name + '&nbsp;' + node.value +'';    
+                                        }
+                                        if(count == 2){
+                                            both = 'EU/IT' + '&nbsp;' + node.value +'';    
+                                        } 
+                                        
+                                    }
+                                    if(both){
+                                        product_card += '' + SML + UK + US + FR + both +'</div> </div>';
+                                    }else{
+                                        product_card += '' + SML + UK + US + FR + EU + IT +'</div> </div>';
+                                    }
+                                }
+                                product_card += '<div class="card-text" data-test-info-type="price"><div class="price-section price-section--withoutTax">';
+                                    
+                                if(res.data.site.product.prices.retailPrice){        
+                                    product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ res.data.site.product.prices.retailPrice.formatted +'</span></div>';
+                                }        
+                                if(res.data.site.product.prices.salePrice){
+                                    var old = res.data.site.product.prices.basePrice.value;
+                                    var sale = res.data.site.product.prices.salePrice.value;
+                                    var discount = parseInt(Math.round((100 * (old - sale)) / old)) ;
+                                    product_card += '<span class="price price--non-sale">'+ res.data.site.product.prices.basePrice.formatted +'</span> <div class="price price--listPrice has-sale-price"> <div class="price price--saving"> <span class="saving-percentage">-'+ discount +'%</span></div><span class="price price--withoutTax">'+ res.data.site.product.prices.salePrice.formatted +'</span> </div> </div> </div>';
+                                }else{
+                                    product_card += '<span class="price price--withoutTax">'+ res.data.site.product.prices.basePrice.formatted +'</span> </div> </div> </div>';
+                                }
+                                product_card += '</a> </div> </div> </article></div>';
+                                
+                                $('.miros-products-custom').html(product_card);
+                            }
+                        }
+            });
+            
+            
+        }
+        
+        
+      }
+    });
+    
+
+});
+</script>
+
+

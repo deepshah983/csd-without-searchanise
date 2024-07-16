@@ -1,0 +1,87 @@
+<div class="csd-account-content-container">
+{{!-- 
+	<h2>page_type: {{page_type}}</h2>
+	<h2>account_page: {{account_page}}</h2>
+--}}
+	<div class="csd-account-content-item orders">
+    <a class="csd-account-content-link" href="{{urls.account.orders.all}}">{{lang 'account.nav.orders'}}</a>
+    {{#or (if page_type '===' 'account_orderstatus') (if page_type '===' 'account_order')}}
+	    <div class="csd-account-content">
+				{{#block "account-content"}} {{/block}}
+	    </div>
+    {{/or}}
+	</div>
+
+	<div class="csd-account-content-item details">
+    <a class="csd-account-content-link" href="{{urls.account.details}}">{{lang 'account.nav.settings'}}</a>
+    {{#if page_type '===' 'editaccount'}}
+	    <div class="csd-account-content">
+				{{#block "account-content"}} {{/block}}
+	    </div>
+    {{/if}}
+	</div>
+
+	<div class="csd-account-content-item items-for-sale">
+    <a class="csd-account-content-link" href="{{urls.account.details}}&consignor=items_for_sale">Items for Sale</a>
+    {{#if page_type '===' 'editaccount'}}
+	    <div class="csd-account-content">
+		    <h1 class="page-heading consignor-profile-title">Items for Sale</h1>
+		    <div id="ConsignorProfile"></div>
+	    </div>
+    {{/if}}
+	</div>
+
+	<div class="csd-account-content-item addresses">
+    <a class="csd-account-content-link" href="{{urls.account.addresses}}">{{lang 'account.nav.addresses'}}</a>
+    {{#or (if page_type '===' 'account_addressbook') (if page_type '===' 'shippingaddressform')}}
+	    <div class="csd-account-content">
+				{{#block "account-content"}} {{/block}}
+	    </div>
+    {{/or}}
+	</div>
+
+	<div class="csd-account-content-item inbox">
+    <a class="csd-account-content-link" href="{{urls.account.inbox}}">{{lang 'account.nav.messages' num_new_messages=customer.num_new_messages}}</a>
+    {{#if page_type '===' 'account_inbox'}}
+	    <div class="csd-account-content">
+				{{#block "account-content"}} {{/block}}
+	    </div>
+    {{/if}}
+	</div>
+
+	<div class="csd-account-content-item wishlists">
+    <a class="csd-account-content-link" href="{{urls.account.wishlists.all}}">Wishlist</a>
+    {{#if page_type '===' 'wishlists'}}
+	    <div class="csd-account-content">
+				{{#block "account-content"}} {{/block}}
+	    </div>
+    {{/if}}
+	</div>
+
+	<div class="csd-account-content-item recent-items">
+    <a class="csd-account-content-link" href="{{urls.account.recent_items}}">{{lang 'account.nav.recently_viewed'}}</a>
+    {{#if page_type '===' 'account_recentitems'}}
+	    <div class="csd-account-content">
+				{{#block "account-content"}} {{/block}}
+	    </div>
+    {{/if}}
+	</div>
+
+	<div class="csd-account-content-item returns">
+    <a class="csd-account-content-link" href="{{urls.account.returns}}">{{lang 'account.nav.returns'}}</a>
+    {{#if page_type '===' 'account_returns'}}
+	    <div class="csd-account-content">
+				{{#block "account-content"}} {{/block}}
+	    </div>
+    {{/if}}
+	</div>
+
+	<div class="csd-account-content-item terms">
+    <a class="csd-account-content-link" href="/consignor-terms/">Terms &amp; Conditions</a>
+	</div>
+
+	<div class="csd-account-content-item logout">
+    <a class="csd-account-content-link" href="{{urls.auth.logout}}">{{lang 'common.logout'}}</a>
+	</div>
+
+</div>

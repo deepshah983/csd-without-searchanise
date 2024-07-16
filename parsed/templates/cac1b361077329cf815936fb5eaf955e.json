@@ -1,0 +1,1 @@
+{"components/csd/head/meta-tag":"{{#each (split head.meta_tags \"<meta\") }}{{#if @index '===' 0 }}{{else }}{{#contains this (concat (concat 'name=\"' ../../name) '\"')}}{{#each (split this 'content=\"') }}{{#if @index '===' 0 }}{{else }}{{#each (split this '\"') }}{{#if @index '===' 0 }}{{this}}{{/if}}{{/each}}{{/if}}{{/each}}{{/contains}}{{/if}}{{/each}}\r\n"}

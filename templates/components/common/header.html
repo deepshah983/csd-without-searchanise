@@ -1,0 +1,96 @@
+{{#comment}}
+<a href="#main-content" class="skip-to-main-link">{{lang 'header.skip_to_main'}}</a>
+{{#if banners.top}}
+<div class="banners" data-banner-location="top">
+    {{#each (limit banners.top_metadata 1)}}
+    <div class="banner" data-event-type="promotion" data-entity-id="{{this.id}}" data-name="{{this.banner-name}}" data-position="{{this.location}}" data-banner-id="{{this.banner-name}}">
+        <div data-event-type="promotion-click">
+            {{{this.content}}}
+        </div>
+    </div>
+    {{/each}} 
+</div>
+{{/if}}
+{{/comment}}
+<header class="header" role="banner">
+    <div class="top-bar"> 
+        {{{region name="header_top--global"}}}
+    </div>
+    <div class="header-inner">
+        <div class="container">
+            <a href="#" class="mobileMenu-toggle" data-mobile-menu-toggle="menu">
+                <span class="mobileMenu-toggleIcon">Toggle menu</span>
+            </a>
+            <div class="header-wrapper">
+                <div class="header-left">
+                        <div class="header-logo header-logo--{{theme_settings.logo-position}}">
+                            {{> components/common/store-logo}}
+                        </div>
+                </div>
+                <div class="header-right">
+                    {{> components/common/navigation}}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#comment}}
+    {{{region name="header_navigation_bottom--global"}}}
+    {{/comment}}
+    <div class="navPages-container" id="menu" data-menu>
+        <div class="navpages-wrap">
+            {{> components/csd/navigation-menu}}
+            <div class="search-box">
+                {{> components/common/quick-search name='nav-quick-search-header'}}
+            </div>
+            <nav class="navPages mobile-currency-wrap">
+                <ul class="navPages-list navPages-list--user trial">
+                    {{#if currency_selector.currencies.length '>' 1}}
+                    <li class="navPages-item mobile-currency">
+                        <a class="navPages-action has-subMenu" href="#" data-collapsible="navPages-currency" aria-controls="navPages-currency" aria-expanded="false"  aria-label="{{lang 'common.currency' code=currency_selector.active_currency_code}}" >
+                            {{{lang 'common.currency' code=currency_selector.active_currency_code flag=currency_selector.active_currency_flag}}}
+                            <i class="icon navPages-action-moreIcon" aria-hidden="true">
+                                <svg>
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-chevron-down"></use>
+                                </svg>
+                            </i>
+                        </a>
+                        <div class="navPage-subMenu" id="navPages-currency" aria-hidden="true" tabindex="-1">
+                            <div class="container">
+                                <ul class="navPage-subMenu-list">
+                                    {{#each currency_selector.currencies}}
+                                        <li class="navPage-subMenu-item">
+                                            <a class="navPage-subMenu-action navPages-action" href="{{{switch_url}}}" aria-label="{{name}}" data-currency-code="{{{code}}}" {{#if cart_currency_switch_url.length '>' 0 }} data-cart-currency-switch-url="{{{cart_currency_switch_url}}}" {{/if}} data-warning="{{lang 'common.currency_switch_promotion'}}" >
+                                                {{#if is_active}} {{{flag}}} <strong>{{name}}</strong> {{else}} {{{flag}}}   {{name}} {{/if}}
+                                            </a>
+                                        </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    {{/if}}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="promo-text">
+        {{{region name="header_bottom--global"}}}
+    </div>
+    <div class="bg-overlay"></div>
+    <div class="cy-overlay"></div>
+    {{#comment}}
+    <div class="btm-mob-search search-box">
+        {{> components/common/quick-search name='nav-quick-search'}}
+    </div>
+    {{/comment}}
+</header>
+{{{region name="region_before_body"}}}
+
+{{#comment}}
+<div class="container">
+{{{region name="header_bottom--global"}}}
+{{{region name="header_bottom"}}}
+</div>
+{{/comment}}
+
+{{#block "customBreadcrumbs"}} {{/block}}

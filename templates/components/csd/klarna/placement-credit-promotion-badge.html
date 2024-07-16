@@ -1,0 +1,112 @@
+{{#if price}}
+	{{#if currency_selector.active_currency_code '===' 'USD'}}
+		<div class="klarna-wrapper">
+			<div class="klarna-noborder"></div>
+			<klarna-placement
+				data-key="credit-promotion-badge"
+				data-locale="en-US"
+				data-purchase-amount="{{round (multiply price 100)}}"
+			></klarna-placement>
+		</div>
+	{{else if currency_selector.active_currency_code '===' 'CAD'}}
+		<div class="klarna-wrapper">
+			<div class="klarna-noborder"></div>
+			<klarna-placement
+				data-key="credit-promotion-badge"
+				data-locale="en-CA"
+				data-purchase-amount="{{round (multiply price 100)}}"
+			></klarna-placement>
+		</div>
+	{{else if currency_selector.active_currency_code '===' 'GBP'}}
+		<div class="klarna-wrapper">
+			<div class="klarna-noborder"></div>
+			<klarna-placement
+				data-key="credit-promotion-badge"
+				data-locale="en-GB"
+				data-purchase-amount="{{round (multiply price 100)}}"
+			></klarna-placement>
+		</div>
+	{{else if currency_selector.active_currency_code '===' 'EUR'}}
+	        <div class="klarna-wrapper">
+				<div class="klarna-noborder"></div>
+				<klarna-placement
+					data-key="credit-promotion-badge"
+					data-locale="en-AT"
+					data-purchase-amount="{{round (multiply price 100)}}"
+				></klarna-placement>
+			</div>
+		{{#if settings.country_code '===' 'AT'}}
+			<div class="klarna-wrapper">
+				<div class="klarna-noborder"></div>
+				<klarna-placement
+					data-key="credit-promotion-badge"
+					data-locale="en-AT"
+					data-purchase-amount="{{round (multiply price 100)}}"
+				></klarna-placement>
+			</div>
+		{{else if settings.country_code '===' 'DE'}}
+			<div class="klarna-wrapper">
+				<div class="klarna-noborder"></div>
+				<klarna-placement
+					data-key="credit-promotion-badge"
+					data-locale="en-DE"
+					data-purchase-amount="{{round (multiply price 100)}}"
+				></klarna-placement>
+			</div>
+		{{else if settings.country_code '===' 'NL'}}
+			<div class="klarna-wrapper">
+				<div class="klarna-noborder"></div>
+				<klarna-placement
+					data-key="credit-promotion-badge"
+					data-locale="en-NL"
+					data-purchase-amount="{{round (multiply price 100)}}"
+				></klarna-placement>
+			</div>
+		{{else if settings.country_code '===' 'FI'}}
+			<div class="klarna-wrapper">
+				<div class="klarna-noborder"></div>
+				<klarna-placement
+					data-key="credit-promotion-badge"
+					data-locale="en-FI"
+					data-purchase-amount="{{round (multiply price 100)}}"
+				></klarna-placement>
+			</div>
+		{{else if settings.country_code '===' 'BE'}}
+			<div class="klarna-wrapper">
+				<div class="klarna-noborder"></div>
+				<klarna-placement
+					data-key="credit-promotion-badge"
+					data-locale="en-BE"
+					data-purchase-amount="{{round (multiply price 100)}}"
+				></klarna-placement>
+			</div>
+		{{/if}}
+	{{else if settings.country_code '===' 'DKK'}}
+		<div class="klarna-wrapper">
+			<div class="klarna-noborder"></div>
+			<klarna-placement
+				data-key="credit-promotion-badge"
+				data-locale="en-DK"
+				data-purchase-amount="{{round (multiply price 100)}}"
+			></klarna-placement>
+		</div>
+	{{else if settings.country_code '===' 'NOK'}}
+		<div class="klarna-wrapper">
+			<div class="klarna-noborder"></div>
+			<klarna-placement
+				data-key="credit-promotion-badge"
+				data-locale="en-NO"
+				data-purchase-amount="{{round (multiply price 100)}}"
+			></klarna-placement>
+		</div>
+	{{else if settings.country_code '===' 'SEK'}}
+		<div class="klarna-wrapper">
+			<div class="klarna-noborder"></div>
+			<klarna-placement
+				data-key="credit-promotion-badge"
+				data-locale="en-SE"
+				data-purchase-amount="{{round (multiply price 100)}}"
+			></klarna-placement>
+		</div>
+	{{/if}}
+{{/if}}

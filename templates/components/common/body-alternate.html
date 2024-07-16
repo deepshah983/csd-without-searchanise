@@ -1,0 +1,34 @@
+<main class="body {{#if theme_settings.promo_text}}with-promo{{/if}}" id="main-content" role="main" data-currency-code="{{currency_selector.active_currency_code}}">
+    <div class="bg-overlay"></div>
+    {{#block "hero"}} {{/block}}
+    <div class="container-full-width">
+
+        <div class="page-startselling">
+            <main class="page">
+                <section class="page-section no-widget-padding">{{{region name="page_content_fullwidth_1"}}}</section>
+                <section class="page-section"><div class="container">{{{region name="page_content_boxed_1"}}}</div></section>
+        
+                <section class="page-section no-widget-padding">{{{region name="page_content_fullwidth_2"}}}</section>
+                <section class="page-section"><div class="container">{{{region name="page_content_boxed_2"}}}</div></section>
+        
+                <section class="page-section no-widget-padding">{{{region name="page_content_fullwidth_3"}}}</section>
+                <section class="page-section"><div class="container">{{{region name="page_content_boxed_3"}}}</div></section>
+        
+                <section class="page-section no-widget-padding">{{{region name="page_content_fullwidth_4"}}}</section>
+                <section class="page-section"><div class="container">{{{region name="page_content_boxed_4"}}}</div></section>
+        
+                <section class="page-section no-widget-padding">{{{region name="page_content_fullwidth_5"}}}</section>
+                <section class="page-section"><div class="container">{{{region name="page_content_boxed_5"}}}</div></section>
+        
+                <section class="page-section no-widget-padding">{{{region name="page_content_fullwidth_6"}}}</section>
+                <section class="page-section"><div class="container">{{{region name="page_content_boxed_6"}}}</div></section>
+            </main>
+        </div>
+        
+    </div>
+    <div class="container">
+        {{#block "page"}} {{/block}}
+    </div>
+    {{> components/common/modal/modal}}
+    {{> components/common/alert/alert-modal}}
+</main>

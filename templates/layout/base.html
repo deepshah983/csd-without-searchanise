@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ locale_name }}">
+    <head>
+		{{#if (merge settings csdLoadingImage="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN8/R8AAtsB7JKxzdUAAAAASUVORK5CYII=")}}{{/if}}
+		
+        <title>{{ head.title }}</title>
+        {{{ resourceHints }}}
+        {{{ head.meta_tags }}}
+        {{{ head.config }}}
+        {{#block "head"}} {{/block}} 
+
+        <link href="{{ head.favicon }}" rel="shortcut icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {{#if page_type '===' 'product'}}
+            <link rel="stylesheet" class="lazycss" data-href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css">
+        {{/if}}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.css">
+        {{#if page_type "==" "createaccount"}}
+            <link href="https://www.jquery-az.com/jquery/css/intlTelInput/demo.css" rel="stylesheet">
+            <link href="https://www.jquery-az.com/jquery/css/intlTelInput/intlTelInput.css" rel="stylesheet">
+        {{/if}}
+        
+        <!--<script src="{{cdn 'assets/js/jquery-3.6.3.min.js'}}"></script>-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        
+        <script>
+            document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+        </script>
+
+        {{> components/common/polyfill-script }}
+        <script>window.consentManagerTranslations = `{{{langJson 'consent_manager'}}}`;</script>
+
+        {{!-- Load Lazysizes script ASAP so images will appear --}}
+        <script>
+            window.lazySizesConfig = window.lazySizesConfig || {};
+            window.lazySizesConfig.loadMode = 1;
+        </script>
+        <script async src="{{cdn 'assets/dist/theme-bundle.head_async.js'}}"></script>
+        
+        {{getFontsCollection font-display='block'}}
+        <script async src="{{cdn 'assets/dist/theme-bundle.font.js' resourceHint='preload' as='script'}}"></script>
+
+        {{{stylesheet '/assets/css/theme.css'}}}
+    
+        {{{head.scripts}}}
+        
+        {{~inject 'zoomSize' theme_settings.zoom_size}}
+        {{~inject 'productSize' theme_settings.product_size}}
+        {{~inject 'genericError' (lang 'common.generic_error')}}
+        {{~inject 'maintenanceModeSettings' settings.maintenance}}
+        {{~inject 'adminBarLanguage' (langJson 'admin')}}
+        {{~inject 'urls' urls}}
+        {{~inject 'secureBaseUrl' settings.secure_base_url}}
+        {{~inject 'cartId' cart_id}}
+        {{~inject 'channelId' settings.channel_id}}
+        {{~inject 'template' template}}
+        {{~inject 'validationDictionaryJSON' (langJson 'validation_messages')}}
+        {{~inject 'validationFallbackDictionaryJSON' (langJson 'validation_fallback_messages')}}
+        {{~inject 'validationDefaultDictionaryJSON' (langJson 'validation_default_messages')}}
+        {{~inject 'carouselArrowAndDotAriaLabel' (lang 'carousel.arrow_and_dot_aria_label')}}
+        {{~inject 'carouselActiveDotAriaLabel' (lang 'carousel.active_dot_aria_label')}}
+        {{~inject 'carouselContentAnnounceMessage' (lang 'carousel.content_announce_message')}}
+		{{~inject 'categories' categories}}
+        {{~inject 'storefrontApiToken' settings.storefront_api.token}}
+        {{~inject 'clientIpAddress' settings.client_ip_address}}
+
+        {{~inject 'themeSettings' theme_settings}}
+		
+		{{#if customer}}
+            {{~inject 'customerId' customer.id}}
+            {{~inject 'customerEmail' customer.email}}
+            {{~inject "customerWishlists" customer.wishlists}}
+            {{#if customer.shipping_address}}
+                {{~inject "customerCity" customer.shipping_address.city}}
+                {{~inject "customerState" customer.shipping_address.state}}
+                {{~inject "customerCountry" customer.shipping_address.country}}
+            {{/if}}
+        {{/if}}
+		
+		{{#comment}}
+		 <script>
+            var theme_settings = {
+                show_fast_cart: {{theme_settings.show_fast_cart}},
+                linksPerCol: {{theme_settings.nav-links-per-col}},
+            };
+        </script>
+    
+		{{#if page_type '===' 'product'}}
+            {{> components/common/facebook-like}}
+        {{else if page_type '===' 'blog' }}
+            {{> components/common/facebook-like}}
+        {{else if page_type '===' 'blog_post' }}
+            {{> components/common/facebook-like}}
+        {{/if}}
+        {{/comment}}
+
+        {{!-- Get this loading ASAP --}}
+        <link rel="preload" href="{{cdn 'assets/dist/theme-bundle.main.js'}}" as="script">
+		{{> components/csd/head/custom-meta-tags }}
+		{{#comment}}
+			<script type="module" src="https://content.miros.services/frontend/public/main/container/assets/container.bundle.js"></script>
+			{{/comment}}
+    </head>
+    <body class="page-{{page_type}} {{#if page_type '==' 'page'}}page-{{page.title}}{{/if}}">
+        
+        <!-- Google Tag Manager (noscript) --> 
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TWHDKXX"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+        
+        <svg data-src="{{cdn 'img/icon-sprite.svg'}}" class="icons-svg-sprite"></svg>
+
+        {{> components/csd/klarna/base-script }}
+        {{> components/common/header }}
+        {{> components/common/body }}
+        {{> components/common/footer }}
+
+        <div class="error-popup-wrapper" style="display: none;">
+            <div class="error-popup">
+                <p></p>
+                <button class="button button--primary">OK</button>
+            </div>
+        </div>
+
+        <!-- Custom View cart popup -->
+        <div class="cart-popup-wrapper"></div>
+
+        <script>window.__webpack_public_path__ = "{{cdn 'assets/dist/'}}";</script>
+        <script>
+            {{!-- Exported in app.js --}}
+            function onThemeBundleMain() {
+                window.stencilBootstrap("{{page_type}}", {{jsContext}}).load();
+
+                function browserSupportsFormData() {
+                    return typeof FormData !== 'undefined' 
+                        && !!FormData.prototype.keys;
+                }
+                function loadFormDataPolyfillScript(src) {
+                    var formDataPolyfillScript = document.createElement('script');
+                    formDataPolyfillScript.src = src;
+                    formDataPolyfillScript.onerror = function () {
+                        console.error('Failed to load formData polyfill script ' + src);
+                    };
+                    document.body.appendChild(formDataPolyfillScript);
+                }
+
+                if (!browserSupportsFormData()) {
+                    loadFormDataPolyfillScript('{{cdn 'assets/dist/theme-bundle.polyfill_form_data.js'}}');
+                }
+            }
+        </script>
+        <script async defer src="{{cdn 'assets/dist/theme-bundle.main.js'}}" onload="onThemeBundleMain()"></script>
+
+        
+        {{{footer.scripts}}}
+        
+        
+        <input id="cart-id" type="hidden">
+        
+        <script>
+            $(document).ready(function(){
+                $('.body').click(function(){
+                    $('.cart-popup-wrapper').removeClass('is-open');
+                    $('.body').removeClass('overlay');
+                    $('body').removeClass('fixed');
+                });
+                $('.navUser-item--cart').click(function(){
+                    $('.cart-popup-wrapper').addClass('is-open');
+                    $('.body').addClass('overlay');
+                    $('body').addClass('fixed');
+                });
+            
+                
+                //attentive script
+                $.ajax({
+                            url:'/cart.php',
+                            type:'GET',
+                            success: function(res){
+                                var cart_id = $(res).find('.page-content').attr('data-cart-id');
+                                //console.log(cart_id);
+                                $('#cart-id').val(cart_id);
+                            }
+                        });
+                
+                $(document).on('mousedown', '.custom-add-to-cart', function(){
+                        var product_id = $(this).attr('data-product-id');
+                        var variant_id = $(".form-option-wrapper input:checked + .form-option span").text();
+                        var name = $(this).attr('data-product-name');
+                        var image_url = $(this).attr('data-product-img');
+                        var cat = $(this).attr('data-product-cat');
+                        var price = $(this).attr('data-product-price');
+                        var cart_id = $('#cart-id').val();
+                        
+                        {{#comment}}
+                        //Miros event
+                                window.dispatchEvent(
+                                  new CustomEvent('ExternalAddItemToCart', 
+                                  {
+                                    detail: {
+                                      alias: product_id,
+                                      price: price, 
+                                      quantity: 1,
+                                	  currency: '{{currency_selector.active_currency_code}}'
+                                    }
+                                  })
+                                );
+                                {{/comment}}
+                        
+                                window.attentive.analytics.addToCart(
+                                    {
+                                        items:[
+                                            {
+                                                productId: product_id,
+                                                productVariantId: variant_id,
+                                                name: name,
+                                                productImage: image_url,
+                                                category: cat,
+                                                price: {
+                                                  value: price,
+                                                  currency: '{{currency_selector.active_currency_code}}',
+                                                },
+                                                quantity: 1,
+                                            }
+                                        ],
+                                        cart: {
+                                            cartId: cart_id
+                                        },
+                                        user: {
+                                            phone: '{{customer.phone}}'
+                                        }
+                                    }
+                                )
+                            
+                        
+                });
+            });
+        </script>
+		
+		
+        {{#if page_type '===' 'product' }}
+        {{#unless product.out_of_stock}}
+		<!-- Begin Clearpay Stencil Snippet for BigCommerce v3.1.1 -->
+        <script>
+            (function(){
+                let locale = 'en_GB'; // 'fr_FR' || 'es_ES' || 'it_IT'
+                const supported = ["GBP", "EUR"];
+                const currency = '{{currency_selector.active_currency_code}}';
+                if (supported.indexOf(currency) > -1) {
+                    {{#if page_type '===' 'product'}}
+                        let targetSelector = '.productView .productView-price';
+                    {{#if product.price.with_tax}}
+                        let priceSelector = '.productView-price .price--withTax';
+                        let cachedAmount = '{{product.price.with_tax.value}}';
+                    {{else}}
+                        let priceSelector = '.productView-price .price--withoutTax';
+                        let cachedAmount = '{{product.price.without_tax.value}}';
+                    {{/if}}
+                    {{else if page_type '===' 'cart'}}
+                        let targetSelector = '.cart-clearpay';
+                        let priceSelector = '.cart-total-grandTotal';
+                        let cachedAmount = '{{cart.grand_total.value}}';
+                    {{/if}}
+                    if(cachedAmount < 3000) {
+                        const init = function(){
+                            Afterpay.createPlacements({
+                                targetSelector: targetSelector,
+                                attributes: {
+                                    locale: locale,
+                                    currency: currency,
+                                    amount: cachedAmount,
+                                }
+                            });
+                        };
+                        const script = document.createElement('script');
+                        script.src = "https://js.afterpay.com/afterpay-1.x.js";
+                        script.dataset.min = "1.00";
+                        script.dataset.max = "3000.00";
+                        script.onload = function () {
+                            init();
+                            setInterval(() => {
+                                if (cachedAmount != document.querySelector(priceSelector).innerText) {
+                                   cachedAmount = document.querySelector(priceSelector).innerText;
+                                   if (document.querySelector('afterpay-placement')) {
+                                       document.querySelector('afterpay-placement').dataset.amount = cachedAmount;
+                                   } else {
+                                       init();
+                                   }
+                                }
+                            }, 400);
+                        };
+                        document.head.appendChild(script);
+                    }
+                }
+            })();
+		</script>
+        <!-- End Clearpay Stencil Snippet for BigCommerce v3.1.1 -->
+        <script>
+            // check the number of shoppers that added product to cart.
+            let counter = 0;
+            var refreshIntervalId = setInterval(function(){
+                let countCustomers = $(".wishlist-and-cart-product-count-container > .count").text();
+                if(countCustomers == 1) {
+                    $(".wishlist-and-cart-product-count-container > .change_on_count").text("shopper");
+                    $(".wishlist-and-cart-product-count-container").addClass("counter-updated");
+                }
+                // console.log($(".wishlist-and-cart-product-count-container > .count").text());
+                counter++;
+                if(counter == 20) {
+                    clearInterval(refreshIntervalId);
+                }
+            }, 1000);
+            setInterval(function(){
+                if($('#currencySelection .active-currency').attr('data-currency-code') == 'GBP'){
+                    //console.log("Active currency GBP");
+                    $(".page-product .laybuy-inline-widget").show();
+                }else if($('#currencySelection .active-currency').attr('data-currency-code') == 'CAD'){
+                    $("klarna-placement").hide();
+                }else{
+                    
+                }
+                
+                $('#bc-smart-payment-buttons .show-more-button').trigger('click');
+            }, 1000);
+        </script> 
+        {{/unless}}
+        {{/if}}
+        
+        <script>
+            var form = new FormData();
+            var email = '{{customer.email}}';
+            form.append("email", email);
+
+            var settings = {
+                "url": "https://consignor.csd.shop/wp-json/csd/v1/statement/",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Accept": "*/*",
+                    "Authorization": "Basic c2FtZWVyQGJsaXNzd2Vic29sdXRpb24uY29tOk9VczE3N2VENXF1c0pWUUVYV2JCQ2x4dw=="
+                },
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": form
+            };
+
+            $.ajax(settings).done(function (response) {
+                response = JSON.parse(response);
+                //console.log(response);
+                var item = "";
+                var item_count = response.length;
+                var count = 0;
+                
+                for(var i=0; i<response.length; i++){
+                    var product_sku = response[i].sku;
+                    var date_sold = '';
+                    var date_del = '';
+                    var pay_date = '';
+                    var pay_out = '';
+                    var product_id = response[i].bicommerce_product_id;
+                    var img_url = ' https://csd.shop/product_images/';
+                
+                    if(response[i].date_sold){
+                        date_sold = response[i].date_sold;
+                    }else{
+                        date_sold = 'TBC';
+                    }
+                    if(response[i].date_delivered){
+                        date_del = response[i].date_delivered;
+                    }else{
+                        date_del = 'TBC';
+                    }
+                    if(response[i].pay_date){
+                        pay_date = response[i].pay_date;
+                    }else{
+                        pay_date = 'TBC';
+                    }
+                    if(response[i].payout){
+                        pay_out = response[i].payout;
+                        pay_out = pay_out.replace('£', '');
+                        pay_out = pay_out.replace('¬', '');
+                        pay_out = pay_out.toString().replace(/,/g, '');
+                        pay_out = pay_out.split('.');
+                        pay_out[0] = pay_out[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        if (pay_out[1]) {
+                            pay_out[1] = pay_out[1].substring(0, 2);
+                        } else {
+                            pay_out[1] = "00";
+                        }
+                        pay_out = pay_out.join('.');
+                        pay_out = '£' + pay_out;
+                    }else{
+                        pay_out = '-';
+                    }
+                    if(response[i].sold_price){
+                        var sold_price = response[i].sold_price;
+                        sold_price = sold_price.replace('£', '');
+                        sold_price = parseFloat(sold_price.replace('¬', ''));
+                        sold_price = sold_price.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                        sold_price = '£' + sold_price;
+                    }else{
+                        sold_price = '-';
+                    }
+                    if(response[i].image){
+                        img_url = img_url + response[i].image;
+                    }
+                    else{
+                        img_url = 'https://cdn11.bigcommerce.com/s-5zask1yt8t/stencil/75d402c0-09be-013c-004a-228823beff49/e/fdcba740-a658-013c-90b5-6e3cc13d04f8/img/ProductDefault.gif';
+                    }
+                    item += '<li class="account-listItem" data-product-id="'+ product_id +'"> <div class="account-product"> <div class="account-product-figure"> <img class="product-image" alt="Item" title="Item" src="'+ img_url +'" data-src="https://cdn11.bigcommerce.com/s-5zask1yt8t/stencil/75d402c0-09be-013c-004a-228823beff49/e/fdcba740-a658-013c-90b5-6e3cc13d04f8/img/ProductDefault.gif"> </div> <div class="account-product-body"> <h5 class="account-product-title brand-name">'+ response[i].brand +' </h5> <h5 class="account-product-title product-name">'+ response[i].product_name +'</h5> <div class="account-product-details"> <div class="account-product-detail"> <h6 class="account-product-detail-heading">Date Sold</h6> <span class="date-sold">'+ date_sold +'</span> </div> <div class="account-product-detail"> <h6 class="account-product-detail-heading">Date Delivered</h6> <span class="date-del">'+ date_del +'</span> </div> <div class="account-product-detail"> <h6 class="account-product-detail-heading">Sold Price</h6> <span class="sold-price">'+ sold_price +'</span> </div> <div class="account-product-detail"> <h6 class="account-product-detail-heading">Pay Out</h6> <span class="payout-price">'+ pay_out +'</span> </div> <div class="account-product-detail"> <h6 class="account-product-detail-heading">Payment Status</h6> <span class="status">'+ response[i].payment_status +'</span> </div> <div class="account-product-detail"> <h6 class="account-product-detail-heading">Pay Date</h6> <span class="pay-date">'+ pay_date +'</span> </div> </div> </div> </div> </li>'
+                    count++;
+                    
+                }
+                if(item_count == count){
+                    $('.account-list').html(item);
+                }
+                /* var array = [];
+                var count = 0;
+                var totalCount = 0;
+                for(var j=0; j<response.length; j++){
+                    var product_id = response[j].bicommerce_product_id;
+                    count++;
+                    totalCount++;
+                    array.push(product_id);
+                    //console.log(response.length, totalCount);
+                    if(count == 49 || response.length == totalCount){
+                        graphql(array)
+                        count = 0;
+                        array = [];
+                    }
+                } */
+               /* function graphql(array){     
+                        fetch('/graphql', {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer' + '{{ settings.storefront_api.token }}'
+                            },
+                            body: JSON.stringify({
+                            query: `
+                            query TestProduct {
+                                site {
+                                    products(entityIds: [` + array + `], first:50) {
+                                        edges{
+                                            node{
+                                                entityId
+                                                defaultImage {
+                                                    url: url(width: 320)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            `
+                            })
+                        })
+                        .then((res) => res.json())
+                        .then(function(res){
+                            if(res.data.site.products){
+                                var response = res.data.site.products.edges;
+                                response.forEach(element => {
+                                    if(element.node){
+                                        img_url = element.node.defaultImage.url;
+                                    }else{
+                                        img_url = 'https://cdn11.bigcommerce.com/s-5zask1yt8t/stencil/75d402c0-09be-013c-004a-228823beff49/e/fdcba740-a658-013c-90b5-6e3cc13d04f8/img/ProductDefault.gif';
+                                    }
+                                    $('.account-list').find('li[data-product-id="'+ element.node.entityId +'"] .product-image').attr('src', img_url);
+                                });
+                            }
+                            
+                        });
+                    } */
+                /* var array = [];
+                for(var j=0; j<response.length; j++){
+                    var product_id = response[j].bicommerce_product_id;
+                    array.push(product_id);
+                }
+                    
+                        fetch('/graphql', {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer' + '{{ settings.storefront_api.token }}'
+                            },
+                            body: JSON.stringify({
+                            query: `
+                            query TestProduct {
+                                site {
+                                    products(entityIds: [` + array + `], first:50) {
+                                        edges{
+                                            node{
+                                                entityId
+                                                defaultImage {
+                                                    url: url(width: 320)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            `
+                            })
+                        })
+                        .then((res) => res.json())
+                        .then(function(res){
+                            if(res.data.site.product){
+                                img_url = res.data.site.product.defaultImage.url;
+                            }else{
+                                img_url = 'https://cdn11.bigcommerce.com/s-5zask1yt8t/stencil/75d402c0-09be-013c-004a-228823beff49/e/fdcba740-a658-013c-90b5-6e3cc13d04f8/img/ProductDefault.gif';
+                            }
+                            $('.account-list').find('li[data-product-id="'+ product_id +'"] .product-image').attr('src', img_url);
+                        }); */
+                    
+                setTimeout(function(){
+                    $('.account-list').show();
+                }, 1500);
+            });
+        </script>
+        <script>
+            var liArray = new Array();
+            document.addEventListener('DOMContentLoaded', function () {
+                var ulElement = document.getElementById('navPages-item');
+                var liElements = ulElement.querySelectorAll('li.navPages-item');
+                var timeoutId;
+                liArray = Array.from(liElements);
+                liArray.forEach(function (element) {
+                     var childElement =element.querySelector('.navPage-subMenu');
+                    $(element).hover(function(){
+                        if(childElement !== null){
+                        timeoutId = setTimeout(function () {
+                                $(childElement).css('display', 'block');
+                            }, 500);
+                        }
+                        }, function(){
+                          if(childElement !== null){
+                              clearTimeout(timeoutId);
+                            $(childElement).css('display', 'none');
+                        }
+                    });
+         });
+        });
+        </script>
+
+        <script>
+            var stock = parseInt($('.stock-level').text());
+            var select_option = '';
+            var count = 2;
+            for(var i=2; i<stock; i++){
+                select_option += '<option>' + i + '</option>';
+                count++;
+            }
+            if(count == stock){
+                select_option += '<option>' + stock + '</option>';
+                $('.qty-dropdown').append(select_option);
+            }
+            
+        </script>
+        
+    <script>
+        
+     // if window.dataLayer doesn't exist, make it an empty array
+      window.dataLayer = window.dataLayer || [];
+      
+     
+      // If window.bodlEvents.banner.viewed is available, then...
+      if (typeof window.bodlEvents.banner.viewed === 'function') {
+        
+        window.dataLayer = window.dataLayer || [];
+        // run the viewed function to get the payload
+        
+        window.bodlEvents.banner.viewed((payload) => {
+          // log the event payload
+          
+          var bodl_data = {
+              'event': 'bodl_v1_view_banner'
+          }
+          console.log(
+            'window.bodlEvents.banner.viewed ~ payload',
+            payload
+          );
+          
+        bodl_data.bodl_ecommerce = payload;
+          
+        window.dataLayer.push(bodl_data);
+        console.log("dataLayer", dataLayer);
+    
+        });
+      }   
+      
+      // If window.bodlEvents.product.pageViewed is available, then...
+      if (typeof window.bodlEvents.product.pageViewed === 'function') {
+          
+          window.dataLayer = window.dataLayer || [];
+        // run the pageViewed function to get the payload
+        window.bodlEvents.product.pageViewed((payload) => {
+          // log the event payload
+          
+          var bodl_data = {
+              'event': 'bodl_v1_product_page_viewed'
+          }
+          
+          console.log(
+            'window.bodlEvents.product.pageViewed ~ payload',
+            payload
+          );
+           
+            bodl_data.bodl_ecommerce = payload;
+              
+            window.dataLayer.push(bodl_data);
+            console.log("dataLayer", dataLayer);
+    
+        });
+      }
+        
+      // If window.bodlEvents.product.categoryViewed is available, then...
+      if (typeof window.bodlEvents.product.categoryViewed === 'function') {
+        
+        window.dataLayer = window.dataLayer || [];
+        // run the categoryViewed function to get the payload
+        window.bodlEvents.product.categoryViewed((payload) => {
+          // log the event payload
+          
+          var bodl_data = {
+              'event': 'bodl_v1_product_category_viewed'
+          }
+           
+          console.log(
+            'window.bodlEvents.product.categoryViewed ~ payload',
+            payload
+          );
+          
+            bodl_data.bodl_ecommerce = payload;
+          
+            window.dataLayer.push(bodl_data);
+            console.log("dataLayer", dataLayer);
+        });
+      }
+        
+      // If window.bodlEvents.cart.addItem is available, then...
+      if (typeof window.bodlEvents.cart.addItem === 'function') {
+          window.dataLayer = window.dataLayer || [];
+          
+        // run the addItem function to get the payload
+        window.bodlEvents.cart.addItem((payload) => {
+          // log the event payload
+          
+          var bodl_data = {
+              'event': 'bodl_v1_cart_product_added'
+          }
+          
+          console.log(
+            'window.bodlEvents.cart.addItem ~ payload',
+            payload
+          );
+          
+            bodl_data.bodl_ecommerce = payload;
+          
+            window.dataLayer.push(bodl_data);
+            console.log("dataLayer", dataLayer);
+        });
+      }
+        
+      // If window.bodlEvents.cart.viewed is available, then...
+      if (typeof window.bodlEvents.cart.viewed === 'function') {
+          
+          window.dataLayer = window.dataLayer || [];
+        // run the viewed function to get the payload
+        window.bodlEvents.cart.viewed((payload) => {
+          // log the event payload
+          
+          var bodl_data = {
+              'event': 'bodl_v1_cart_viewed'
+          }
+          
+          console.log(
+            'window.bodlEvents.cart.viewed ~ payload',
+            payload
+          );
+          
+            bodl_data.bodl_ecommerce = payload;
+              
+            window.dataLayer.push(bodl_data);
+            console.log("dataLayer", dataLayer);
+        });
+      }
+        
+      // If window.bodlEvents.cart.removeItem is available, then...
+      if (typeof window.bodlEvents.cart.removeItem === 'function') {
+          
+          window.dataLayer = window.dataLayer || [];
+        // run the removeItem function to get the payload
+        window.bodlEvents.cart.removeItem((payload) => {
+          // log the event payload
+          
+          var bodl_data = {
+              'event': 'bodl_v1_cart_product_removed'
+          }
+          
+          console.log(
+            'window.bodlEvents.cart.removeItem ~ payload',
+            payload
+          );
+          
+            bodl_data.bodl_ecommerce = payload;
+              
+            window.dataLayer.push(bodl_data);
+            console.log("dataLayer", dataLayer);
+        });
+      }
+
+
+        //swym wishlist script
+        window.SwymCallbacks = window.SwymCallbacks || [];
+        window.SwymCallbacks.push(function(swat) {
+          var wishlistContainerElement = document.querySelector("#swym-wishlist-render-container");
+          var queryParams = swat.utils.getEncodedAsObject(window.location.search);
+          // Contains queryParams["lid"] to render a specific list id
+          swat.ui.renderWishlistInContainer(wishlistContainerElement, queryParams);
+        });
+
+
+ 
+    </script>
+    </body>
+</html>
+
+<script>
+  // resize iframe to fit content
+  const iframe = document.querySelector("#as-tracking-page");
+  window.addEventListener("message", (event) => {
+    if (
+      event.data &&
+      event.data.type === "resize" &&
+      typeof event.data.scrollHeight === "number" &&
+      iframe
+    ) {
+      iframe.style.height = event.data.scrollHeight + "px";
+    }
+  });
+
+  // support widget float
+  window.addEventListener("message", (event) => {
+    if (
+      event.data &&
+      event.data.type === "widgetScriptLoad" &&
+      typeof event.data.scripts === "object"
+    ) {
+      event.data.scripts.forEach((script) => {
+        const scriptDom = document.createElement("script");
+        scriptDom.innerHTML = script;
+        document.body.appendChild(scriptDom);
+        window.postMessage({ type: "hideAllWidget" }, "*");
+      });
+    }
+  });
+</script>

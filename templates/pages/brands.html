@@ -1,0 +1,984 @@
+---
+brands:
+    limit: 9999
+shop_by_brand:
+    limit: 9999
+---
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+<main class="page">
+    <h1 class="page-heading">{{lang 'brand.label'}}</h1>
+    <h2 class="page-subheading">{{lang 'brand.sublabel'}}</h2>
+    {{{region name="brands_below_header"}}}
+    {{#if theme_settings.halo_brandAZlayout}}
+        {{> components/halothemes/brand/halo-azbrand}}
+    {{else}}
+    <div class="brandGrid" id="first-container">
+		<div class="brand-col">
+			<table>
+				<tbody>
+				{{#each shop_by_brand}}
+					<tr>
+					<td class="brand-list"><a href="{{url}}">{{name}}</a></td>
+					</tr>
+				{{/each}}
+				</tbody>
+			</table>
+		</div>
+		<div class="my-navigation" >
+			<div class="simple-pagination-first"></div>
+			<div class="simple-pagination-previous"></div>
+			<div class="simple-pagination-page-numbers"></div>
+			<div class="simple-pagination-next"></div>
+			<div class="simple-pagination-last"></div>
+		</div>
+	</div>
+    {{> components/common/paginator pagination.shop_by_brand}}
+    {{/if}}
+    {{{region name="brands_below_content"}}}
+</main>
+
+{{#comment}}
+<main class="page page--full-width">
+
+    <h1 class="page-heading">{{lang 'brand.label'}}</h1>
+    <section class="brands">
+        <ul class="brandlist">
+            <li class="branditem">
+                <a class="brandrange" href="#0-9">0-9</a>
+            </li>
+            <li class="branditem">
+                <a class="brandrange" href="#A">A</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#B">B</a>
+            </li>
+            <li class="branditem">
+                <a class="brandrange" href="#C">C</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#D">D</a>
+            </li>
+            <li class="branditem">
+                <a class="brandrange" href="#E">E</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#F">F</a>
+            </li>
+            <li class="branditem">
+                <a class="brandrange" href="#G">G</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#H">H</a>
+            </li>
+            <li class="branditem">
+                <a class="brandrange" href="#I">I</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#J">J</a>
+            </li>
+            <li class="branditem">
+                <a class="brandrange" href="#K">K</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#L">L</a>
+            </li>
+            <li class="branditem">
+                <a class="brandrange" href="#M">M</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#N">N</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#O">O</a>
+            </li>
+            <li class="branditem">
+                <a class="brandrange" href="#P">P</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#Q">Q</a>
+            </li>
+            <li class="branditem">
+                <a class="brandrange" href="#R">R</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#S">S</a>
+            </li>
+            <li class="branditem">
+                <a class="brandrange" href="#T">T</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#U">U</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#V">V</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#W">W</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#X">X</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#Y">Y</a>
+            </li>
+			<li class="branditem">
+                <a class="brandrange" href="#Z">Z</a>
+            </li>
+        </ul>
+    </section>
+
+    <section class="brands-wrapper">
+
+        <div class="brandscontent" id="0-9">
+          <h2 class="brandheading">0-9</h2>
+          <ul class="brandlist">
+            <li><a href="/designers/16-arlington/women/">16 Arlington</a></li>
+			<li><a href="/designers/3-1-phillip-lim/women/">3.1 Phillip Lim</a></li>
+			<li><a href="/designers/7-for-all-mankind/women/">7 For All Mankind</a></li>
+          </ul>
+        </div>
+
+        <div class="brandscontent" id="A">
+			<h2 class="brandheading">A</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/a-detacher/women/">A Détacher</a></li>
+				<li><a href="/designers/a-l-c/women/">A.L.C</a></li>
+				<li><a href="/designers/acler/women/">Acler</a></li>
+				<li><a href="/designers/acne-studios/women/">Acne Studios</a></li>
+				<li><a href="/designers/adidas/women/">Adidas</a></li>
+				<li><a href="/designers/adriana-degreas/women/">Adriana Degreas</a></li>
+				<li><a href="/adrianna-papell/">Adrianna Papell</a></li>
+				<li><a href="/designers/adrienne-landau/women/">Adrienne Landau</a></li>
+				<li><a href="/designers/agnona/women/">Agnona</a></li>
+				<li><a href="/designers/aidan-mattox/women/">Aidan Mattox</a></li>
+				<li><a href="/designers/aje/women/">Aje</a></li>
+				<li><a href="/designers/akris/women/">Akris</a></li>
+				<li><a href="/designers/alaia/women/">Alaïa</a></li>
+				<li><a href="/designers/alanui/women/">Alanui</a></li>
+				<li><a href="/designers/alberta-ferretti/women/">Alberta Ferretti</a></li>
+				<li><a href="/designers/alcoolique/women/">Alcoolique</a></li>
+				<li><a href="/designers/alessandra-rich/women/">Alessandra Rich</a></li>
+				<li><a href="/designers/alex-perry/women/">Alex Perry</a></li>
+				<li><a href="/designers/alexa-chung/women/">Alexa Chung</a></li>
+				<li><a href="/designers/alexander-mcqueen/women/">Alexander McQueen</a></li>
+				<li><a href="/designers/alexander-wang/women/">Alexander Wang</a></li>
+				<li><a href="/designers/alexandre-birman/women/">Alexandre Birman</a></li>
+				<li><a href="/designers/alexandre-vauthier/women/">Alexandre Vauthier</a></li>
+				<li><a href="/designers/alexis/women/">Alexis</a></li>
+				<li><a href="/designers/alice-olivia/women/">Alice & Olivia</a></li>
+				<li><a href="/designers/alice-mccall/women/">Alice McCall</a></li>
+				<li><a href="/designers/alix/women/">Alix NYC</a></li>
+				<li><a href="/designers/all-saints/women/">All Saints</a></li>
+				<li><a href="/designers/almaz/women/">Almaz</a></li>
+				<li><a href="/designers/alphatauri/women/">AlphaTauri</a></li>
+				<li><a href="/designers/altuzarra/women/">Altuzarra</a></li>
+				<li><a href="/designers/alvaro-gonzalez/women/">Alvaro González</a></li>
+				<li><a href="/designers/amanda-wakeley/women/">Amanda Wakeley</a></li>
+				<li><a href="/designers/amina-muaddi/women/">Amina Muaddi</a></li>
+				<li><a href="/designers/amiri/women/">Amiri</a></li>
+				<li><a href="/designers/ancient-greek-sandals/women/">Ancient Greek Sandals</a></li>
+				<li><a href="/designers/andrew-gn/women/">Andrew Gn</a></li>
+				<li><a href="/designers/anine-bing/women/">Anine Bing</a></li>
+				<li><a href="/designers/ann-demeulemeester/women/">Ann Demeulemeester</a></li>
+				<li><a href="/designers/anna-molinari-blumarine/women/">Anna Molinari Blumarine</a></li>
+				<li><a href="/designers/anna-sui/women/">Anna Sui</a></li>
+				<li><a href="/designers/anne-fontaine/women/">Anne Fontaine</a></li>
+				<li><a href="/designers/anthony-vacarello/women/">Anthony Vacarello</a></li>
+				<li><a href="/designers/antik-batik/women/">Antik Batik</a></li>
+				<li><a href="/designers/antonello-tedde/women/">Antonello Tedde</a></li>
+				<li><a href="/designers/anya-hindmarch/women/">Anya Hindmarch</a></li>
+				<li><a href="/designers/a-p-c/women/">APC</a></li>
+				<li><a href="/designers/aquascutum/women/">Aquascutum</a></li>
+				<li><a href="/designers/aquazurra/women/">Aquazzura</a></li>
+				<li><a href="/designers/arch4/women/">Arch4</a></li>
+				<li><a href="/designers/area/women/">Area</a></li>
+				<li><a href="/designers/aruna-seth/women/">Aruna Seth</a></li>
+				<li><a href="/designers/asceno/women/">Asceno</a></li>
+				<li><a href="/designers/ash/women/">Ash</a></li>
+				<li><a href="/designers/ashish/women/">Ashish</a></li>
+				<li><a href="/designers/aspesi/women/">Aspesi</a></li>
+				<li><a href="/designers/aspinal-of-london/women/">Aspinal of London</a></li>
+				<li><a href="/designers/asprey/women/">Asprey</a></li>
+				<li><a href="/designers/athena-procopiou/women/">Athena Procopiou</a></li>
+				<li><a href="/designers/attico/women/">Attico</a></li>
+				<li><a href="/designers/aviator-nation/women/">Aviator Nation</a></li>
+				<li><a href="/designers/azzaro/women/">Azzaro</a></li>
+			</ul>
+        </div>
+
+		<div class="brandscontent" id="B">
+			<h2 class="brandheading">B</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/bash/women/">ba&sh</a></li>
+				<li><a href="/designers/badgley-mischka/women/">Badgley Mischka</a></li>
+				<li><a href="/designers/balenciaga/women/">Balenciaga</a></li>
+				<li><a href="/designers/bally/women/">Bally</a></li>
+				<li><a href="/designers/balmain/women/">Balmain</a></li>
+				<li><a href="/designers/bape/women/">Bape</a></li>
+				<li><a href="/designers/barbara-bui/women/">Barbara Bui</a></li>
+				<li><a href="/designers/basix/women/">Basix</a></li>
+				<li><a href="/designers/bcbg-max-azria/women/">BCBG Max Azria</a></li>
+				<li><a href="/designers/beau-coops/women/">Beau Coops</a></li>
+				<li><a href="/designers/bec-bridge/women/">Bec + Bridge</a></li>
+				<li><a href="/designers/bella-freud/women/">Bella Freud</a></li>
+				<li><a href="/designers/belstaff/women/">Belstaff</a></li>
+				<li><a href="/designers/benedetta-bruzziches/women/">Benedetta Bruzziches</a></li>
+				<li><a href="/designers/bernadette/women/">Bernadette</a></li>
+				<li><a href="/designers/blaze-milano/women/">Blazé Milano</a></li>
+				<li><a href="/designers/blumarine/women/">Blumarine</a></li>
+				<li><a href="/designers/bogner/women/">Bogner</a></li>
+				<li><a href="/designers/borgo-de-nor/women/">Borgo De Nor</a></li>
+				<li><a href="/designers/bottega-veneta/women/">Bottega Veneta</a></li>
+				<li><a href="/designers/brian-atwood/women/">Brian Atwood</a></li>
+				<li><a href="/designers/brock-collection/women/">Brock Collection</a></li>
+				<li><a href="/designers/brunello-cucinelli/women/">Brunello Cucinelli</a></li>
+				<li><a href="/designers/burberry/women/">Burberry</a></li>
+				<li><a href="/designers/bvlgari/women/">Bvlgari</a></li>
+				<li><a href="/by-far/">By Far</a></li>
+				<li><a href="/designers/by-malene-birger/women/">By Malene Birger</a></li>				
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="C">
+			<h2 class="brandheading">C</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/callipygian/women/">Callipygian</a></li>
+				<li><a href="/designers/calvin-klein/women/">Calvin Klein</a></li>
+				<li><a href="/designers/cami-nyc/women/">Cami NYC</a></li>
+				<li><a href="/designers/camilla/women/">Camilla</a></li>
+				<li><a href="/designers/camilla-and-marc/women/">CAMILLA AND MARC</a></li>
+				<li><a href="/designers/canada-goose/women/">Canada Goose</a></li>
+				<li><a href="/designers/caravana/women/">Caravana</a></li>
+				<li><a href="/designers/carel/women/">Carel</a></li>
+				<li><a href="/designers/carolina-herrera/women/">Carolina Herrera</a></li>
+				<li><a href="/designers/carolina-k/women/">Carolina K</a></li>
+				<li><a href="/designers/carolina-santo-domingo/women/">Carolina Santo Domingo</a></li>
+				<li><a href="/designers/caroline-constas/women/">Caroline Constas</a></li>
+				<li><a href="/designers/cartier/women/">Cartier</a></li>
+				<li><a href="/designers/carvela/women/">Carvela</a></li>
+				<li><a href="/designers/carven/women/">Carven</a></li>
+				<li><a href="/designers/casadei/women/">Casadei</a></li>
+				<li><a href="/cedric-charlier/">Cedric Charlier</a></li>
+				<li><a href="/designers/celia-b/women/">Celia B</a></li>
+				<li><a href="/designers/celia-dragouni/women/">Celia Dragouni</a></li>
+				<li><a href="/designers/celine/women/">Céline</a></li>
+				<li><a href="/designers/cesare-paciotti/women/">Cesare Paciotti</a></li>
+				<li><a href="/designers/chanel/women/">Chanel</a></li>
+				<li><a href="/designers/charles-jourdan/women/">Charles Jourdan</a></li>
+				<li><a href="/designers/charlotte-olympia/women/">Charlotte Olympia</a></li>
+				<li><a href="/designers/chinese-laundry/women/">Chinese Laundry</a></li>
+				<li><a href="/designers/chinti-parker/women/">Chinti & Parker</a></li>
+				<li><a href="/designers/chloe/women/">Chloé</a></li>
+				<li><a href="/designers/christian-lacroix/women/">Christian Lacroix</a></li>
+				<li><a href="/designers/christian-louboutin/women/">Christian Louboutin</a></li>
+				<li><a href="/designers/christopher-kane/women/">Christopher Kane</a></li>
+				<li><a href="/designers/churchs/women/">Church's</a></li>
+				<li><a href="/designers/cinq-a-sept/women/">Cinq à Sept</a></li>
+				<li><a href="/designers/claudie-pierlot/women/">Claudie Pierlot</a></li>
+				<li><a href="/designers/clergerie/women/">Clergerie</a></li>
+				<li><a href="/designers/club-monaco/women/">Club Monaco</a></li>
+				<li><a href="/designers/coach/women/">Coach</a></li>
+				<li><a href="/designers/comme-des-garcons/women/">Comme Des Garcons</a></li>
+				<li><a href="/designers/comptoir-des-cottoniers/women/">Comptoir Des Cottoniers</a></li>
+				<li><a href="/designers/costume-national/women/">Costume National</a></li>
+				<li><a href="/designers/cotton-citizen/women/">Cotton Citizen</a></li>
+				<li><a href="/designers/cult-gaia/women/">Cult Gaia</a></li>
+				<li><a href="/designers/current-elliott/women/">Current/Elliott</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="D">
+			<h2 class="brandheading">D</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/d-zigners/women/">D-Zigners</a></li>
+				<li><a href="/designers/danse-lente/women/">Danse Lente</a></li>
+				<li><a href="/designers/david-koma/women/">David Koma</a></li>
+				<li><a href="/designers/davide-cenci/women/">Davide Cenci</a></li>
+				<li><a href="/designers/de-la-vali/women/">De La Vali</a></li>
+				<li><a href="/designers/delvaux/women/">Delvaux</a></li>
+				<li><a href="/designers/dennis-basso/women/">Dennis Basso</a></li>
+				<li><a href="/designers/derek-lam/women/">Derek Lam</a></li>
+				<li><a href="/desa/">Desa</a></li>
+				<li><a href="/designers/diane-kordas/women/">Diane Kordas</a></li>
+				<li><a href="/designers/diane-von-furstenberg/women/">Diane Von Furstenberg</a></li>
+				<li><a href="/designers/diesel/women/">Diesel</a></li>
+				<li><a href="/designers/dion-lee/women/">Dion Lee</a></li>
+				<li><a href="/designers/dior/women/">Dior</a></li>
+				<li><a href="/dkny/">DKNY</a></li>
+				<li><a href="/designers/dodo-bar-or/women/">Dodo Bar Or</a></li>
+				<li><a href="/designers/doen/women/">DÔEN</a></li>
+				<li><a href="/designers/dolce-gabbana/women/">Dolce & Gabbana</a></li>
+				<li><a href="/designers/donna-ida/women/">Donna Ida</a></li>
+				<li><a href="/designers/donna-karan/women/">Donna Karan</a></li>
+				<li><a href="/designers/dragon-diffusion/women/">Dragon Diffusion</a></li>
+				<li><a href="/designers/dries-van-noten/women/">Dries Van Noten</a></li>
+				<li><a href="/designers/dsquared2/women/">Dsquared2</a></li>
+				<li><a href="/designers/dundas/women/">Dundas</a></li>				
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="E">
+			<h2 class="brandheading">E</h2>
+			<ul class="brandlist">				
+				<li><a href="/designers/each-x-other/women/">Each x Other</a></li>
+				<li><a href="/designers/earring/women/">Earring</a></li>
+				<li><a href="/designers/edie-parker/women/">Edie Parker</a></li>
+				<li><a href="/designers/elie-saab/women/">Elie Saab</a></li>
+				<li><a href="/designers/elie-tahari/women/">Elie Tahari</a></li>
+				<li><a href="/designers/elisabetta-franchi/women/">Elisabetta Franchi</a></li>
+				<li><a href="/designers/elizabeth-james/women/">Elizabeth and James</a></li>
+				<li><a href="/designers/ellery/women/">ELLERY</a></li>
+				<li><a href="/designers/emanuel-ungaro/women/">Emanuel Ungaro</a></li>
+				<li><a href="/designers/emanuela-caruso/women/">Emanuela Caruso</a></li>
+				<li><a href="/designers/emilio-pucci/women/">Emilio Pucci</a></li>
+				<li><a href="/designers/emporio-armani/women/">Emporio Armani</a></li>
+				<li><a href="/designers/equipment/women/">Equipment</a></li>
+				<li><a href="/designers/erdem/women/">Erdem</a></li>
+				<li><a href="/designers/eric-bompard/women/">Eric Bompard</a></li>
+				<li><a href="/designers/erickson-beamon/women/">Erickson Beamon</a></li>
+				<li><a href="/designers/ermanno-scervino/women/">Ermanno Scervino</a></li>
+				<li><a href="/designers/escada/women/">Escada</a></li>
+				<li><a href="/designers/ethan-k/women/">Ethan K</a></li>
+				<li><a href="/designers/etro/women/">Etro</a></li>
+				<li><a href="/designers/eugenia-kim/women/">Eugenia Kim</a></li>
+				<li><a href="/designers/eytys/women/">EYTYS</a></li>				
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="F">
+			<h2 class="brandheading">F</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/frs-for-restless-sleepers/women/">F.R.S For Restless Sleepers</a></li>
+				<li><a href="/designers/fabiana-filippi/women/">Fabiana Filippi</a></li>
+				<li><a href="/designers/faconnable/women/">Faconnable</a></li>
+				<li><a href="/designers/fear-of-god/women/">Fear of God</a></li>
+				<li><a href="/designers/fendi/women/">Fendi</a></li>
+				<li><a href="/designers/fitflop/women/">FitFlop</a></li>
+				<li><a href="/designers/fleur-du-mal/women/">Fleur Du Mal</a></li>
+				<li><a href="/designers/for-love-lemons/women/">For Love & Lemons</a></li>
+				<li><a href="/designers/forte-forte/women/">Forte_Forte</a></li>
+				<li><a href="/designers/frame/women/">FRAME</a></li>
+				<li><a href="/designers/francesco-russo/women/">Francesco Russo</a></li>
+				<li><a href="/designers/francesco-scognamiglio/women/">Francesco Scognamiglio</a></li>
+				<li><a href="/designers/franco-sarto/women/">Franco Sarto</a></li>
+				<li><a href="/designers/frank-gooney/women/">Frank Gooney</a></li>
+				<li><a href="/designers/fred/women/">Fred</a></li>				
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="G">
+			<h2 class="brandheading">G</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/gabriela-hearst/women/">Gabriela Hearst</a></li>
+				<li><a href="/designers/galvan-london/women/">Galvan London</a></li>
+				<li><a href="/designers/ganni/women/">Ganni</a></li>
+				<li><a href="/designers/gas-bijoux/women/">GAS Bijoux</a></li>
+				<li><a href="/designers/gauge-81/women/">Gauge 81</a></li>
+				<li><a href="/designers/gcds/women/">GCDS</a></li>
+				<li><a href="/designers/gedebe/women/">Gedebe</a></li>
+				<li><a href="/designers/genny/women/">Genny</a></li>
+				<li><a href="/designers/georgia-alice/women/">Georgia Alice</a></li>
+				<li><a href="/designers/gerard-darel/women/">Gerard Darel</a></li>
+				<li><a href="/designers/ghost-london/women/">Ghost London</a></li>
+				<li><a href="/designers/gia-borghini/women/">Gia Borghini</a></li>
+				<li><a href="/designers/gia-couture/women/">Gia Couture</a></li>
+				<li><a href="/designers/giambattista-valli/women/">Giambattista Valli</a></li>
+				<li><a href="/designers/gianfranco-ferre/women/">Gianfranco Ferré</a></li>
+				<li><a href="/designers/gianmarco-lorenzi/women/">Gianmarco Lorenzi</a></li>
+				<li><a href="/designers/gianvito-rossi/women/">Gianvito Rossi</a></li>
+				<li><a href="/designers/gigi-c/women/">Gigi C</a></li>
+				<li><a href="/designers/gina/women/">Gina</a></li>
+				<li><a href="/designers/ginger-smart/women/">Ginger & Smart</a></li>
+				<li><a href="/designers/giuseppe-zanotti/women/">Giuseppe Zanotti</a></li>
+				<li><a href="/designers/givenchy/women/">Givenchy</a></li>
+				<li><a href="/designers/gold-sign/women/">Gold Sign</a></li>
+				<li><a href="/designers/golden-goose/women/">Golden Goose</a></li>
+				<li><a href="/designers/goyard/women/">Goyard</a></li>
+				<li><a href="/designers/gucci/women/">Gucci</a></li>
+				<li><a href="/designers/guess/women/">Guess</a></li>
+				<li><a href="/designers/guy-laroche/women/">Guy Laroche</a></li>
+				<li><a href="/gu_de/">gu_de</a></li>				
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="H">
+			<h2 class="brandheading">H</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/haider-ackermann/women/">Haider Ackermann</a></li>
+				<li><a href="/designers/halpern/women/">Halpern</a></li>
+				<li><a href="/designers/halston-heritage/women/">Halston Heritage</a></li>
+				<li><a href="/designers/harmur/women/">HARMUR</a></li>
+				<li><a href="/designers/harrods/women/">Harrods</a></li>
+				<li><a href="/designers/haute-hippie/women/">Haute Hippie</a></li>
+				<li><a href="/designers/hayley-menzies/women/">Hayley Menzies</a></li>
+				<li><a href="/designers/heaven-can-wait/women/">Heaven Can Wait</a></li>
+				<li><a href="/designers/helen-kaminski/women/">Helen Kaminski</a></li>
+				<li><a href="/designers/helmut-lang/women/">Helmut Lang</a></li>
+				<li><a href="/designers/hermes/women/">Hermès</a></li>
+				<li><a href="/designers/herno/women/">Herno</a></li>
+				<li><a href="/designers/heron-preston/women/">Heron Preston</a></li>
+				<li><a href="/designers/herve-leger/women/">Herve Leger</a></li>
+				<li><a href="/designers/high-everyday-couture/women/">HIGH Everyday Couture</a></li>
+				<li><a href="/designers/hockley/women/">Hockley</a></li>
+				<li><a href="/designers/hogan/women/">Hogan</a></li>
+				<li><a href="/designers/hotel-particulier/women/">Hôtel Particulier</a></li>
+				<li><a href="/designers/house-of-harlow-1960/women/">House Of Harlow 1960</a></li>
+				<li><a href="/designers/hugo-boss/women/">Hugo Boss</a></li>
+				<li><a href="/designers/hunter/women/">Hunter</a></li>
+				<li><a href="/designers/hunting-season/women/">Hunting Season</a></li>
+				<li><a href="/hunza-g/">Hunza G</a></li>
+				<li><a href="/designers/hvn/women/">HVN</a></li>
+				<li><a href="/designers/hyein-seo/women/">Hyein Seo</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="I">
+			<h2 class="brandheading">I</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/iceberg/women/">Iceberg</a></li>
+				<li><a href="/designers/ienki-ienki/women/">IENKI IENKI</a></li>
+				<li><a href="/designers/illesteva/women/">Illesteva</a></li>
+				<li><a href="/designers/irene-neuwirth/women/">Irene Neuwirth</a></li>
+				<li><a href="/designers/iro/women/">Iro</a></li>
+				<li><a href="/designers/isa-boulder/women/">Isa Boulder</a></li>
+				<li><a href="/designers/isabel-marant/women/">Isabel Marant</a></li>
+				<li><a href="/designers/issa-london/women/">Issa London</a></li>
+				<li><a href="/designers/issey-miyake/women/">Issey Miyake</a></li>			
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="J">
+			<h2 class="brandheading">J</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/j-brand/women/">J Brand</a></li>
+				<li><a href="/designers/j-mendel/women/">J.Mendel</a></li>
+				<li><a href="/designers/jacquemus/women/">Jacquemus</a></li>
+				<li><a href="/designers/james-perse/women/">James Perse</a></li>
+				<li><a href="/designers/jasmine-di-milo/women/">Jasmine Di Milo</a></li>
+				<li><a href="/designers/jason-wu/women/">Jason Wu</a></li>
+				<li><a href="/designers/jean-paul-gaultier/women/">Jean Paul Gaultier</a></li>
+				<li><a href="/designers/jean-michel-cazabat/women/">Jean-Michel Cazabat</a></li>
+				<li><a href="/designers/jennifer-chamandi/women/">Jennifer Chamandi</a></li>
+				<li><a href="/designers/jenny-peckham/women/">Jenny Packham</a></li>
+				<li><a href="/designers/jerome-dreyfuss/women/">Jérôme Dreyfuss</a></li>
+				<li><a href="/designers/jil-sander/women/">Jil Sander</a></li>
+				<li><a href="/designers/jimmy-choo/women/">Jimmy Choo</a></li>
+				<li><a href="/designers/jitrois/women/">Jitrois</a></li>
+				<li><a href="/designers/johanna-ortiz/women/">Johanna Ortiz</a></li>
+				<li><a href="/designers/john-galliano/women/">John Galliano</a></li>
+				<li><a href="/designers/john-richmond/women/">John Richmond</a></li>
+				<li><a href="/designers/joie/women/">Joie</a></li>
+				<li><a href="/designers/jonathan-saunders/women/">Jonathan Saunders</a></li>
+				<li><a href="/designers/jonathan-simkhai/women/">Jonathan Simkhai</a></li>
+				<li><a href="/designers/joseph/women/">Joseph</a></li>
+				<li><a href="/designers/judith-leiber/women/">Judith Leiber</a></li>
+				<li><a href="/designers/juicy-couture/women/">Juicy Couture</a></li>
+				<li><a href="/designers/julien-macdonald/women/">Julien Macdonald</a></li>
+				<li><a href="/designers/junya-watanabe/women/">Junya Watanabe</a></li>
+				<li><a href="/designers/jw-anderson/women/">JW Anderson</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="K">
+			<h2 class="brandheading">K</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/kalita/women/">Kalita</a></li>
+				<li><a href="/designers/kapital/women/">KAPITAL</a></li>
+				<li><a href="/designers/karen-millen/women/">Karen Millen</a></li>
+				<li><a href="/designers/karl-lagerfeld/women/">Karl Lagerfeld</a></li>
+				<li><a href="/designers/kate-spade/women/">Kate Spade</a></li>
+				<li><a href="/designers/kaufmanfranco/women/">Kaufmanfranco</a></li>
+				<li><a href="/designers/kenzo/women/">Kenzo</a></li>
+				<li><a href="/designers/khaite/women/">Khaite</a></li>
+				<li><a href="/designers/kimberly-ovitz/women/">Kimberly Ovitz</a></li>
+				<li><a href="/designers/kurt-geiger/women/">Kurt Geiger</a></li>
+				<li><a href="/designers/kwanpen/women/">KWANPEN</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="L">
+			<h2 class="brandheading">L</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/lagence/women/">L'Agence</a></li>
+				<li><a href="/designers/lwren-scott/women/">L'Wren Scott</a></li>
+				<li><a href="/designers/l-a-m-b/women/">L.A.M.B</a></li>
+				<li><a href="/designers/l-g-r/women/">L.G.R</a></li>
+				<li><a href="/designers/la-double-j/women/">La Double J</a></li>
+				<li><a href="/designers/la-perla/women/">La Perla</a></li>
+				<li><a href="/designers/lambertson-truex/women/">Lambertson Truex</a></li>
+				<li><a href="/designers/lanvin/women/">Lanvin</a></li>
+				<li><a href="/designers/laurence-dacade/women/">Laurence Dacade</a></li>
+				<li><a href="/le-petite-s/">Le Petite S****</a></li>
+				<li><a href="/designers/le-silla/women/">Le Silla</a></li>
+				<li><a href="/designers/legres/women/">LEGRES</a></li>
+				<li><a href="/designers/lemaire/women/">Lemaire</a></li>
+				<li><a href="/designers/leonard/women/">Leonard</a></li>
+				<li><a href="/designers/les-chiffoniers/women/">Les Chiffoniers</a></li>
+				<li><a href="/designers/les-petits-joueurs/women/">Les Petits Joueurs</a></li>
+				<li><a href="/designers/les-reveries/women/">Les Reveries</a></li>
+				<li><a href="/designers/les-tropeziennes/women/">Les Tropéziennes</a></li>
+				<li><a href="/designers/letanne/women/">Letanne</a></li>
+				<li><a href="/designers/linda-farrow/women/">Linda Farrow</a></li>
+				<li><a href="/designers/lingua-franca/women/">Lingua Franca</a></li>
+				<li><a href="/designers/lisa-marie-fernandez/women/">Lisa Marie Fernandez</a></li>
+				<li><a href="/designers/lisou/women/">Lisou</a></li>
+				<li><a href="/designers/loewe/women/">Loewe</a></li>
+				<li><a href="/designers/longchamp/women/">Longchamp</a></li>
+				<li><a href="/designers/loro-piana/women/">Loro Piana</a></li>
+				<li><a href="/designers/louis-feraud/women/">Louis Féraud</a></li>
+				<li><a href="/designers/louis-vuitton/women/">Louis Vuitton</a></li>
+				<li><a href="/designers/louise-kennedy/women/">Louise Kennedy</a></li>
+				<li><a href="/designers/loulou-studio/women/">Loulou Studio</a></li>
+				<li><a href="/designers/loup-charmont/women/">Loup Charmont</a></li>
+				<li><a href="/designers/loveshackfancy/women/">LoveShackFancy</a></li>
+				<li><a href="/designers/lpa/women/">LPA</a></li>
+				<li><a href="/designers/lucy-choi/women/">Lucy Choi</a></li>
+				<li><a href="/designers/luisa-beccaria/women/">Luisa Beccaria</a></li>
+				<li><a href="/designers/luisa-spagnoli/women/">Luisa Spagnoli</a></li>
+				<li><a href="/designers/lulu-guinness/women/">Lulu Guinness</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="M">
+			<h2 class="brandheading">M</h2>
+			<ul class="brandlist">
+				<li><a href="/mach-mach/">Mach & Mach</a></li>
+				<li><a href="/mackage/">Mackage</a></li>
+				<li><a href="/designers/magda-butrym/women/">Magda Butrym</a></li>
+				<li><a href="/maison-kitsune/">Maison Kitsuné</a></li>
+				<li><a href="/designers/maison-margiela/women/">Maison Margiela</a></li>
+				<li><a href="/designers/maison-michel/women/">Maison Michel</a></li>
+				<li><a href="/maison-ullens/">Maison Ullens</a></li>
+				<li><a href="/designers/maje/women/">Maje</a></li>
+				<li><a href="/mala-mati/">Mala Mati</a></li>
+				<li><a href="/designers/mallarino/women/">Mallarino</a></li>
+				<li><a href="/malone-souliers/">Malone Souliers</a></li>
+				<li><a href="/manning-cartell/">Manning Cartell</a></li>
+				<li><a href="/designers/manolo-blahnik/women/">Manolo Blahnik</a></li>
+				<li><a href="/manoush/">Manoush</a></li>
+				<li><a href="/mansur-gavriel/">Mansur Gavriel</a></li>
+				<li><a href="/designers/mantu/women/">Mantu</a></li>
+				<li><a href="/designers/mara-hoffman/women/">Mara Hoffman</a></li>
+				<li><a href="/marc-jacobs/">Marc Jacobs</a></li>
+				<li><a href="/marcelo-burlon/">Marcelo Burlon</a></li>
+				<li><a href="/designers/marchesa/women/">Marchesa</a></li>
+				<li><a href="/marchesa-notte/">Marchesa Notte</a></li>
+				<li><a href="/designers/marco-de-vincenzo/women/">Marco de Vincenzo</a></li>
+				<li><a href="/maria-grachvogel/">Maria Grachvogel</a></li>
+				<li><a href="/maria-lucia-hohan/">Maria Lucia Hohan</a></li>
+				<li><a href="/marina-raphael/">Marina Raphael</a></li>
+				<li><a href="/marine-serre/">Marine Serre</a></li>
+				<li><a href="/marjolaine/">Marjolaine</a></li>
+				<li><a href="/mark-cross/">Mark Cross</a></li>
+				<li><a href="/markus-lupfer/">Markus Lupfer</a></li>
+				<li><a href="/designers/marni/women/">Marni</a></li>
+				<li><a href="/designers/mary-katrantzou/women/">Mary Katrantzou</a></li>
+				<li><a href="/maryan-mehlhorn/">Maryan Mehlhorn</a></li>
+				<li><a href="/masscob/">Masscob</a></li>
+				<li><a href="/matthew-williamson/">Matthew Williamson</a></li>
+				<li><a href="/max-moi/">Max & Moi</a></li>
+				<li><a href="/designers/max-mara/women/">Max Mara</a></li>
+				<li><a href="/max-studio/">Max Studio</a></li>
+				<li><a href="/mcm/">MCM</a></li>
+				<li><a href="/me-em/">ME+EM</a></li>
+				<li><a href="/melissa-odabash/">Melissa Odabash</a></li>
+				<li><a href="/designers/michael-kors/women/">Michael Kors</a></li>
+				<li><a href="/midnight-00/">Midnight 00</a></li>
+				<li><a href="/milly/">Milly</a></li>
+				<li><a href="/designers/mira-mikati/women/">Mira Mikati</a></li>
+				<li><a href="/mira-zwillinger/">Mira Zwillinger</a></li>
+				<li><a href="/designers/missoni/women/">Missoni</a></li>
+				<li><a href="/designers/miu-miu/women/">Miu Miu</a></li>
+				<li><a href="/designers/moncler/women/">Moncler</a></li>
+				<li><a href="/monies/">Monies</a></li>
+				<li><a href="/monique-lhuillier/">Monique Lhuillier</a></li>
+				<li><a href="/designers/monse/women/">Monse</a></li>
+				<li><a href="/designers/moon-boot/women/">Moon Boot</a></li>
+				<li><a href="/designers/moschino/women/">Moschino</a></li>
+				<li><a href="/mother/">Mother</a></li>
+				<li><a href="/designers/mother-of-pearl/women/">Mother of Pearl</a></li>
+				<li><a href="/mou/">Mou</a></li>
+				<li><a href="/moussy-vintage/">Moussy Vintage</a></li>
+				<li><a href="/designers/mr-mrs-italy/women/">Mr & Mrs Italy</a></li>
+				<li><a href="/designers/msgm/women/">MSGM</a></li>
+				<li><a href="/designers/mugler/women/">Mugler</a></li>
+				<li><a href="/mulberry/">Mulberry</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="N">
+			<h2 class="brandheading">N</h2>
+			<ul class="brandlist">
+				<li><a href="/n-peal/">N. PEAL</a></li>
+				<li><a href="/n-d-c/">n.d.c.</a></li>
+				<li><a href="/nadine-merabi/">Nadine Merabi</a></li>
+				<li><a href="/designers/nancy-gonzalez/women/">Nancy Gonzalez</a></li>
+				<li><a href="/nandita-mahtanitoo/">Nandita Mahtani</a></li>
+				<li><a href="/designers/nanushka/women/">NANUSHKA</a></li>
+				<li><a href="/narciso-rodriguez/">Narciso Rodriguez</a></li>
+				<li><a href="/natasha-zinko/">Natasha Zinko</a></li>
+				<li><a href="/nathalie-trad/">Nathalie Trad</a></li>
+				<li><a href="/needle-thread/">Needle & Thread</a></li>
+				<li><a href="/nicholas/">Nicholas</a></li>
+				<li><a href="/designers/nicholas-kirkwood/women/">Nicholas Kirkwood</a></li>
+				<li><a href="/designers/nick-fouquet/women/">Nick Fouquet</a></li>
+				<li><a href="/nicole-farhi/">Nicole Farhi</a></li>
+				<li><a href="/nicole-miller/">Nicole Miller</a></li>
+				<li><a href="/designers/nike/women/">Nike</a></li>
+				<li><a href="/nila-nila/">Nila & Nila</a></li>
+				<li><a href="/nili-lotan/">Nili Lotan</a></li>
+				<li><a href="/designers/nina-ricci/women/">Nina Ricci</a></li>
+				<li><a href="/nodaleto/">Nodaleto</a></li>
+				<li><a href="/norma-kamali/">Norma Kamali</a></li>
+				<li><a href="/designers/nour-hammour/women/">Nour Hammour</a></li>
+				<li><a href="/designers/no-21/women/">N°21</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="O">
+			<h2 class="brandheading">O</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/off-white/women/">Off-White</a></li>
+				<li><a href="/officine-generale/">Officine Générale</a></li>
+				<li><a href="/oliver-goldsmith/">Oliver Goldsmith</a></li>
+				<li><a href="/oliver-peoples/">Oliver Peoples</a></li>
+				<li><a href="/olivia-von-halle/">Olivia Von Halle</a></li>
+				<li><a href="/designers/olympia-le-tan/women/">Olympia Le Tan</a></li>
+				<li><a href="/designers/oscar-de-la-renta/women/">Oscar de la Renta</a></li>
+				<li><a href="/osman/">Osman</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="P">
+			<h2 class="brandheading">P</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/paco-rabanne/women/">Paco Rabanne</a></li>
+				<li><a href="/designers/paige/women/">Paige Jeans</a></li>
+				<li><a href="/pallas/">Pallas</a></li>
+				<li><a href="/designers/palm-angels/women/">Palm Angels</a></li>
+				<li><a href="/paloma-barcelo/">Paloma Barceló</a></li>
+				<li><a href="/paloma-wool/">Paloma Wool</a></li>
+				<li><a href="/paris-texas/">Paris Texas</a></li>
+				<li><a href="/p-a-r-o-s-h/">PAROSH</a></li>
+				<li><a href="/patrizia-pepe/">Patrizia Pepe</a></li>
+				<li><a href="/paul-joe/">Paul & Joe</a></li>
+				<li><a href="/paul-smith/">Paul Smith</a></li>
+				<li><a href="/paulanadal/">PAULANADAL</a></li>
+				<li><a href="/paul-ka/">Paule Ka</a></li>
+				<li><a href="/pedro-garcia/">Pedro Garcia</a></li>
+				<li><a href="/perfect-moment/">Perfect Moment</a></li>
+				<li><a href="/peter-langner/">Peter Langner</a></li>
+				<li><a href="/designers/peter-pilotto/women/">Peter Pilotto</a></li>
+				<li><a href="/peuterey/">Peuterey</a></li>
+				<li><a href="/philip-treacy/">Philip Treacy</a></li>
+				<li><a href="/designers/philipp-plein/women/">Philipp Plein</a></li>
+				<li><a href="/designers/philosophy-di-lorenzo-serafini/women/">Philosophy di Lorenzo Serafini</a></li>
+				<li><a href="/piaget/">Piaget</a></li>
+				<li><a href="/pierre-balmain/">Pierre Balmain</a></li>
+				<li><a href="/pierre-hardy/">Pierre Hardy</a></li>
+				<li><a href="/piferi/">Piferi</a></li>
+				<li><a href="/designers/pinko/women/">Pinko</a></li>
+				<li><a href="/plein-sud/">Plein Sud</a></li>
+				<li><a href="/ports/">Ports 1961</a></li>
+				<li><a href="/designers/prada/women/">Prada</a></li>
+				<li><a href="/designers/preen-by-thornton-bregazzi/women/">Preen By Thornton Bregazzi</a></li>
+				<li><a href="/pretty-ballerinas/">Pretty Ballerinas</a></li>
+				<li><a href="/pringle-of-scotland/">Pringle of Scotland</a></li>
+				<li><a href="/designers/proenza-schouler/women/">Proenza Schouler</a></li>
+				<li><a href="/project-foce/">Project Foce</a></li>
+				<li><a href="/designers/puma/women/">Puma</a></li>
+				<li><a href="/pura-lopez/">Pura López</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="R">
+			<h2 class="brandheading">R</h2>
+			<ul class="brandlist">
+				<li><a href="/r-soles/">R. Soles</a></li>
+				<li><a href="/rachel-comey/">Rachel Comey</a></li>
+				<li><a href="/designers/racil/women/">Racil</a></li>
+				<li><a href="/racine-carree/">Racine Carree</a></li>
+				<li><a href="/designers/rag-bone/women/">Rag & Bone</a></li>
+				<li><a href="/designers/ralph-and-russo/women/">Ralph & Russo</a></li>
+				<li><a href="/designers/ralph-lauren/women/">Ralph Lauren</a></li>
+				<li><a href="/raquel-allegra/">Raquel Allegra</a></li>
+				<li><a href="/raquel-diniz/">Raquel Diniz</a></li>
+				<li><a href="/ray-ban/">Ray Ban</a></li>
+				<li><a href="/re-done/">RE/DONE</a></li>
+				<li><a href="/rebecca-minkoff/">Rebecca Minkoff</a></li>
+				<li><a href="/designers/redemption/women/">Redemption</a></li>
+				<li><a href="/designers/reem-acra/women/">Reem Acra</a></li>
+				<li><a href="/reformation/">Reformation</a></li>
+				<li><a href="/rejina-pyo/">Rejina Pyo</a></li>
+				<li><a href="/remain-birger-christensen/">Remain Birger Christensen</a></li>
+				<li><a href="/rena-lange/">Rena Lange</a></li>
+				<li><a href="/designers/rene-caovilla/women/">Rene Caovilla</a></li>
+				<li><a href="/renli-su/">Renli Su</a></li>
+				<li><a href="/retrofete/">Retrofête</a></li>
+				<li><a href="/designers/retrosuperfuture/women/">Retrosuperfuture</a></li>
+				<li><a href="/richard-malone/">Richard Malone</a></li>
+				<li><a href="/designers/rick-owens/women/">Rick Owens</a></li>
+				<li><a href="/river/">River</a></li>
+				<li><a href="/designers/rixo/women/">Rixo</a></li>
+				<li><a href="/roberto-botticelli/">Roberto Botticelli</a></li>
+				<li><a href="/designers/roberto-cavalli/women/">Roberto Cavalli</a></li>
+				<li><a href="/rochas/">Rochas</a></li>
+				<li><a href="/rocio/">Rocio</a></li>
+				<li><a href="/rock-republic/">Rock & Republic</a></li>
+				<li><a href="/designers/rodarte/women/">Rodarte</a></li>
+				<li><a href="/designers/roger-vivier/women/">Roger Vivier</a></li>
+				<li><a href="/designers/roksanda/women/">Roksanda</a></li>
+				<li><a href="/designers/roland-mouret/women/">Roland Mouret</a></li>
+				<li><a href="/romeo-gigli/">Romeo Gigli</a></li>
+				<li><a href="/ronny-kobo/">Ronny Kobo</a></li>
+				<li><a href="/designers/rose-carmine/women/">Rose Carmine</a></li>
+				<li><a href="/designers/rosetta-getty/women/">Rosetta Getty</a></li>
+				<li><a href="/rosie-assoulin/">Rosie Assoulin</a></li>
+				<li><a href="/designers/rotate-birger-christensen/women/">Rotate</a></li>
+				<li><a href="/rta/">RTA</a></li>
+				<li><a href="/rupert-sanderson/">Rupert Sanderson</a></li>
+				<li><a href="signers/ruslan-baginskiy/women/">Ruslan Baginskiy</a></li>
+				<li><a href="/ruthie-davis/">Ruthie Davis</a></li>
+				<li><a href="/ryan-roche/">Ryan Roche</a></li>
+			</ul>
+		</div>
+		
+		<div class="brandscontent" id="S">
+			<h2 class="brandheading">S</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/sacai/women/">Sacai</a></li>
+				<li><a href="/sachin-babi/">Sachin & Babi</a></li>
+				<li><a href="/safiyaa/">Safiyaa</a></li>
+				<li><a href="/designers/saint-laurent/women/">Saint Laurent</a></li>
+				<li><a href="/designers/saloni/women/">Saloni</a></li>
+				<li><a href="/salsa/">Salsa</a></li>
+				<li><a href="/designers/salvatore-ferragamo/women/">Salvatore Ferragamo</a></li>
+				<li><a href="/sam/">SAM.</a></li>
+				<li><a href="/designers/sandro/women/">Sandro</a></li>
+				<li><a href="/designers/sara-battaglia/women/">Sara Battaglia</a></li>
+				<li><a href="/designers/sarahs-bag/women/">Sarah’s Bag</a></li>
+				<li><a href="/sartore/">Sartore</a></li>
+				<li><a href="/savas-milano/">Savas Milano</a></li>
+				<li><a href="/scanlan-theodore/">Scanlan Theodore</a></li>
+				<li><a href="/designers/sea-new-york/women/">Sea New York</a></li>
+				<li><a href="/designers/self-portrait/women/">Self-Portrait</a></li>
+				<li><a href="/serena-bute/">Serena Bute</a></li>
+				<li><a href="/designers/sergio-rossi/women/">Sergio Rossi</a></li>
+				<li><a href="/sezane/">Sézane</a></li>
+				<li><a href="/shanghai-tang/">Shanghai Tang</a></li>
+				<li><a href="/designers/shrimps/women/">Shrimps</a></li>
+				<li><a href="/sies-marjan/">Sies Marjan</a></li>
+				<li><a href="/sigerson-morrison/">Sigerson Morrison</a></li>
+				<li><a href="/designers/simon-miller/women/">Simon Miller</a></li>
+				<li><a href="/designers/simone-rocha/women/">Simone Rocha</a></li>
+				<li><a href="/skiim/">SKIIM</a></li>
+				<li><a href="/sleeper/">Sleeper</a></li>
+				<li><a href="/designers/sleeping-gypsy/women/">Sleeping Gypsy</a></li>
+				<li><a href="/smythson/">Smythson</a></li>
+				<li><a href="/solace-london/">Solace London</a></li>
+				<li><a href="/designers/sonia-rykiel/women/">Sonia Rykiel</a></li>
+				<li><a href="/designers/sophia-webster/women/">Sophia Webster</a></li>
+				<li><a href="/sparrows-weave/">Sparrows Weave</a></li>
+				<li><a href="/sportmax/">Sportmax</a></li>
+				<li><a href="/sprwmn/">Sprwmn</a></li>
+				<li><a href="/st-john/">St. John</a></li>
+				<li><a href="/stand-studio/">Stand Studio</a></li>
+				<li><a href="/designers/staud/women/">STAUD</a></li>
+				<li><a href="/designers/stella-mccartney/women/">Stella McCartney</a></li>
+				<li><a href="/stephane-kelian/">Stephane Kelian</a></li>
+				<li><a href="/stephen-dweck/">Stephen Dweck</a></li>
+				<li><a href="/still-here/">Still Here</a></li>
+				<li><a href="/stine-goya/">Stine Goya</a></li>
+				<li><a href="/stuart-weitzman/">Stuart Weitzman</a></li>
+				<li><a href="/stutterheim/">Stutterheim</a></li>
+				<li><a href="/sue-wong/">Sue Wong</a></li>
+				<li><a href="/suecomma-bonnie/">Suecomma Bonnie</a></li>
+				<li><a href="/supreme/">Supreme</a></li>
+				<li><a href="/sylvie-schimmel/">Sylvie Schimmel</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="T">
+			<h2 class="brandheading">T</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/tabitha-simmons/women/">Tabitha Simmons</a></li>
+				<li><a href="/designers/talitha/women/">Talitha</a></li>
+				<li><a href="/tamara-mellon/">Tamara Mellon</a></li>
+				<li><a href="/tanner-krolle/">Tanner Krolle</a></li>
+				<li><a href="/tanya-taylor/">Tanya Taylor</a></li>
+				<li><a href="/tara-jarmon/">Tara Jarmon</a></li>
+				<li><a href="/temperley/">Temperley London</a></li>
+				<li><a href="/designers/the-elder-statesman/women/">The Elder Statesman</a></li>
+				<li><a href="/designers/the-kooples/women/">The Kooples</a></li>
+				<li><a href="/pangaia/">The Pangaia</a></li>
+				<li><a href="/designers/the-row/women/">The Row</a></li>
+				<li><a href="/the-upside/">The Upside</a></li>
+				<li><a href="/the-vampires-wife/">The Vampire's Wife</a></li>
+				<li><a href="/designers/theory/women/">Theory</a></li>
+				<li><a href="/thom-browne/">Thom Browne</a></li>
+				<li><a href="/thomas-wyde/">Thomas Wylde</a></li>
+				<li><a href="/thongprasert/">Thongprasert</a></li>
+				<li><a href="/designers/tibi/women/">Tibi</a></li>
+				<li><a href="/tiffany-and-co/">Tiffany & Co</a></li>
+				<li><a href="/tods/">Tod's</a></li>
+				<li><a href="/designers/tom-ford/women/">Tom Ford</a></li>
+				<li><a href="/tome/">Tome</a></li>
+				<li><a href="/tommy-hilfiger/">Tommy Hilfiger</a></li>
+				<li><a href="/tory-burch/">Tory Burch</a></li>
+				<li><a href="/toteme/">Totême</a></li>
+				<li><a href="/tu-huang/">Tu Huang</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="U">
+			<h2 class="brandheading">U</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/ulla-johnson/women/">Ulla Johnson</a></li>
+				<li><a href="/ultracor/">Ultracor</a></li>
+				<li><a href="/unbranded/">Unbranded</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="V">
+			<h2 class="brandheading">V</h2>
+			<ul class="brandlist">
+				<li><a href="/designers/valentino/women/">Valentino</a></li>
+				<li><a href="/valextra/">Valextra</a></li>
+				<li><a href="/van-cleef-arpels/">Van Cleef & Arpels</a></li>
+				<li><a href="/vanessa-bruno/">Vanessa Bruno</a></li>
+				<li><a href="/designers/veja/women/">Veja</a></li>
+				<li><a href="/vera-wang/">Vera Wang</a></li>
+				<li><a href="/designers/veronica-beard/women/">Veronica Beard</a></li>
+				<li><a href="/designers/versace/women/">Versace</a></li>
+				<li><a href="/vetements/">Vetements</a></li>
+				<li><a href="/designers/vicini/women/">Vicini</a></li>
+				<li><a href="/designers/victoria-beckham/women/">Victoria Beckham</a></li>
+				<li><a href="/viktor-rolf/">Viktor & Rolf</a></li>
+				<li><a href="/designers/vilshenko/women/">Vilshenko</a></li>
+				<li><a href="/designers/vince/women/">Vince</a></li>
+				<li><a href="/vita-kin/">Vita Kin</a></li>
+				<li><a href="/designers/vivienne-westwood/women/">Vivienne Westwood</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="W">
+			<h2 class="brandheading">W</h2>
+			<ul class="brandlist">
+				<li><a href="/walter-steiger/">Walter Steiger</a></li>
+				<li><a href="/designers/wandler/women/">Wandler</a></li>
+				<li><a href="/wardrobe-nyc/">Wardrobe.NYC</a></li>
+				<li><a href="/white-warren/">White + Warren</a></li>
+				<li><a href="/wolford/">Wolford</a></li>
+				<li><a href="/womens-common-projects/">Women's Common Projects</a></li>
+				<li><a href="/wyler/">Wyler</a></li>
+				<li><a href="/wyse-london/">WYSE London</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="X">
+			<h2 class="brandheading">X</h2>
+			<ul class="brandlist">
+				<li><a href="/ximena-kavalekas/">Ximena Kavalekas</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="Y">
+			<h2 class="brandheading">Y</h2>
+			<ul class="brandlist">
+				<li><a href="/y-project/">Y/Project</a></li>
+				<li><a href="/designers/yeezy/women/">Yeezy</a></li>
+				<li><a href="/yigal-azrouel/">Yigal Azrouël</a></li>
+				<li><a href="/yohji-yamamoto/">Yohji Yamamoto</a></li>
+				<li><a href="/designers/yuliya-magdych/women/">Yuliya Magdych</a></li>
+				<li><a href="/yves-salomon/">Yves Salomon</a></li>
+			</ul>
+		</div>
+
+		<div class="brandscontent" id="Z">
+			<h2 class="brandheading">Z</h2>
+			<ul class="brandlist">
+				<li><a href="/zac-posen/">Zac Posen</a></li>
+				<li><a href="/designers/zadig-voltaire/women/">Zadig & Voltaire</a></li>
+				<li><a href="/designers/zagliani/women/">Zagliani</a></li>
+				<li><a href="/designers/zimmerman/women/">Zimmermann</a></li>
+				<li><a href="/zoe-jordan/">Zoe Jordan</a></li>
+				<li><a href="/designers/zuhair-murad/women/">Zuhair Murad</a></li>
+			</ul>
+		</div>
+
+    </section>
+
+    {{#comment}}
+        <h1 class="page-heading">{{lang 'brand.label'}}</h1>
+        <ul class="brandGrid">
+            {{#each brands}}
+                <li class="brand">
+                    <article class="card {{#if alternate}}card--alternate{{/if}}">
+                        <figure class="card-figure">
+                            <a href="{{url}}">
+                                <div class="card-img-container">
+                                    {{> components/common/responsive-img
+                                        image=image
+                                        class="card-image"
+                                        fallback_size=../theme_settings.brand_size
+                                        lazyload=../theme_settings.lazyload_mode
+                                        default_image=../theme_settings.default_image_brand
+                                    }}
+                                </div>
+                            </a>
+                        </figure>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="{{url}}">{{name}}</a>
+                            </h4>
+                        </div>
+                    </article>
+                </li>
+            {{/each}}
+        </ul>
+        {{> components/common/paginator pagination.brands}}
+    {{/comment}}
+</main>
+{{/comment}}
+
+
+{{/partial}}
+{{> layout/base}}
+<script>
+    $.ajax({
+		url: 'https://consignor.csd.shop/vc_data/csd_brands_data.json',
+        type: "GET",
+        crossDomain: true,
+		success: function(res){
+			var brands_toshow = res;
+			setInterval(function(){
+    			if($('#haloAZBrandsWrapper').hasClass('is-loading')){
+    			}else{
+    				if($('#haloAZBrandsWrapper').hasClass('added')){
+    				}else{
+    					$('.azBrands-group').hide();
+    					$('li.brand').hide();
+    					for(i=0; i<brands_toshow.length; i++){
+    						const names = document.querySelectorAll('.brand');
+    						names.forEach(function(name){
+    							var brand = name.querySelector('.link').textContent;
+    							if(brands_toshow[i] == brand){
+    								$('.link').filter(function(){
+    									if($(this).text() === brand){
+    										$(this).closest('.azBrands-group').show();
+    										$(this).closest('li.brand').show();
+    									}
+    								});
+    							}
+    						});	
+    					}
+    					$('#haloAZBrandsWrapper').addClass('added');
+    				}
+    			}
+    		}, 2000);
+		}
+	});
+</script>

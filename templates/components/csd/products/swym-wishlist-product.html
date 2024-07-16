@@ -1,0 +1,3 @@
+<li class="product swym-wishlist-product"{{#if product.options}} data-variants='{{{json gql.data.site.product.variants.edges}}}'{{/if}}>
+    {{>components/csd/products/swym-wishlist-product-card product settings=settings show_compare=show_compare show_rating=settings.show_product_rating theme_settings=theme_settings customer=customer event=event position=(add @index 1)}}
+</li>

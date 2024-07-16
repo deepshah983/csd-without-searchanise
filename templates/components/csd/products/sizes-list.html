@@ -1,0 +1,16 @@
+<div class="custom-fields-list">
+    {{!-- First check if there is an Availability field --}}
+    {{#if (merge settings csd_has_custom_field_availability=0)}}{{/if}}
+    {{#each custom_fields}}
+      {{#if name '==' 'Availability'}}
+        {{#if (merge ../../settings csd_has_custom_field_availability=1)}}{{/if}}
+        <span class="custom-field">{{value}}</span>
+      {{/if}}
+    {{/each}}
+    {{!-- If no Availability field provided, then compile sizes out of the sizes custom fields --}}
+    {{#if settings.csd_has_custom_field_availability '===' 0}}
+      {{#each custom_fields}}
+        {{> components/csd/products/sizes-list-item}}
+      {{/each}}
+    {{/if}}
+  </div>

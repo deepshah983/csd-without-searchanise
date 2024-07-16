@@ -1,0 +1,48 @@
+{{{gql.data.site.currency.display.symbol}}}
+{{#all (if has_options '>' 0) (if priceRange) (if priceRange.min) (if priceRange.max) (if priceRange.min.value '!=' priceRange.max.value)}}
+    {{> components/csd/products/graphql-product-price-range this}}
+{{else}}
+    <div class="price-section price-section--withoutTax">
+		{{#comment}}
+        {{#if (merge settings csd_product_price_max=false)}}{{/if}}
+        {{#if is_new_with_tag}}
+            {{#if retailPrice}}
+                {{#if (merge ../../settings csd_product_price_max=retailPrice.value)}}{{/if}}
+            {{else if basePrice.value '!=' price.value}}
+                {{#if (merge ../../settings csd_product_price_max=basePrice.value)}}{{/if}}
+            {{/if}}
+        {{else}}
+            {{#if basePrice.value '!=' price.value}}
+                {{#if (merge ../../settings csd_product_price_max=basePrice.value)}}{{/if}}
+            {{/if}}
+        {{/if}}
+        {{#if (merge settings csd_product_discount=false)}}{{/if}}
+        {{#if settings.csd_product_price_max}}
+            {{#if (merge ../settings csd_product_discount=(round (multiply (divide (subtract ../settings.csd_product_price_max price.value) ../settings.csd_product_price_max) 100)))}}{{/if}}
+        {{/if}}
+		{{/comment}}
+        <div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax{{#if price.with_tax}} price-section--minor{{/if}}" >{{#if retailPrice}} <span data-product-rrp-without-tax class="price price--rrp">Est. Retail&nbsp;<span class="currency-symbol"></span>{{> components/csd/products/graphql-money-format retailPrice}}</span>{{/if}}</div>
+        {{#all basePrice salePrice}}<span class="price price--non-sale" data-product-non-sale-price-without-tax><span class="currency-symbol"></span>{{> components/csd/products/graphql-money-format basePrice}}</span>{{/all}}
+        <div class="price price--listPrice{{#and (if basePrice) (if salePrice)}} has-sale-price{{/and}}">            
+			{{#comment}}
+				{{#if settings.csd_product_discount}}
+				<div class="price price--saving">
+					<span class="saving-percentage">-{{../settings.csd_product_discount}}%</span>
+				</div>
+				{{/if}}
+			{{/comment}}
+            {{#and (if basePrice) (if salePrice) }}<div class="price price--saving"> <span class="saving-percentage">-{{subtract 100 (round (divide (multiply salePrice.value 100) basePrice.value))}}%</span></div>{{/and}}
+            <span class="price price--withoutTax" data-product-price-without-tax><span class="currency-symbol"></span>{{{gql.data.site.currency.display.symbol}}}{{currency_symbol}}{{> components/csd/products/graphql-money-format price}}</span>
+        </div>
+        {{#if schema_org}} <meta itemprop="availability" itemtype="https://schema.org/ItemAvailability" content="https://schema.org/{{#if pre_order}}PreOrder{{else if out_of_stock}}OutOfStock{{else if can_purchase '===' false}}OutOfStock{{else}}InStock{{/if}}">
+            <meta itemprop="itemCondition" itemtype="https://schema.org/OfferItemCondition" content="https://schema.org/{{condition}}Condition">
+            <meta itemprop="priceCurrency" content="{{price.currencyCode}}">
+            <meta itemprop="url" content="{{product.url}}">
+            <div itemprop="priceSpecification" itemscope itemtype="https://schema.org/PriceSpecification">
+                <meta itemprop="price" content="{{price.value}}">
+                <meta itemprop="priceCurrency" content="{{price.currencyCode}}">
+                <meta itemprop="valueAddedTaxIncluded" content="false">
+            </div>
+        {{/if}}
+    </div>
+{{/all}}

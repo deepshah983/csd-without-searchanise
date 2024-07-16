@@ -1,0 +1,13 @@
+---
+blog:
+    recent_posts:
+        limit: 4
+---
+{{#partial "page"}}
+<div class="container">
+    {{> components/csd/blog/breadcrumbs breadcrumbs=breadcrumbs}}
+    {{{region name="editorial_banner"}}} 
+    {{> components/csd/blog/post post=blog.post show_tags=true}}
+</div>
+{{/partial}}
+{{> layout/base}}

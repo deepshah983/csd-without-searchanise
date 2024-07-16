@@ -1,0 +1,65 @@
+
+<div class="product">
+    <article class="card{{#or price.non_sale_price_with_tax price.non_sale_price_without_tax}} has-sale-price{{/or}}" {{#if settings.data_tag_enabled}} data-entity-id="{{entityId}}" data-name="{{name}}"{{#if categories.edges}} data-product-category="{{#each categories.edges}}{{#if @last}}{{node.name}}{{else}}{{node.name}}, {{/if}}{{/each}}"{{/if}} data-product-brand="{{brand.name}}"{{#if prices.price}} data-product-price="{{prices.price.value}}" data-product-currency="{{prices.price.currencyCode}}"{{/if}} {{/if}}>
+        <figure class="card-figure">
+            {{#unless inventory.isInStock}} <div class="stock-badge"> <span class="stock-message">SOLD</span> </div> {{/unless}}
+            <div class="badge-wishlist-wrapper">
+            <a href="{{path}}" {{#if theme_settings.show_alt_img_hover}}{{#gte images.edges.length 2}}class="card-alt-img--hover card-image-normal"{{/gte}}{{/if}} {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}}>
+                {{#if inventory.isInStock}} <div class="card-img-container"> {{else}} <div class="card-img-container" style="opacity: 0.5"> {{/if}}
+                    <span class="card-main-image">{{#if defaultImage.url}} <img class="card-image lazyload" data-sizes="auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN8/R8AAtsB7JKxzdUAAAAASUVORK5CYII=" data-src="{{defaultImage.url}}" alt="{{defaultImage.altText}}" title="{{defaultImage.altText}}">{{else}} <img class="card-image lazyload" data-sizes="auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN8/R8AAtsB7JKxzdUAAAAASUVORK5CYII=" data-src="{{cdn theme_settings.default_image_product}}" alt="{{name}}" title="{{name}}">{{/if}}</span>
+                    {{#if theme_settings.show_alt_img_hover}}{{#each images.edges}}{{#unless node.isDefault}}<span class="card-alt-image"> {{#if node.url}} <img class="card-image lazyload" data-sizes="auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN8/R8AAtsB7JKxzdUAAAAASUVORK5CYII=" data-src="{{node.url}}" alt="{{node.altText}}" title="{{node.altText}}">{{else}} <img class="card-image lazyload" data-sizes="auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mN8/R8AAtsB7JKxzdUAAAAASUVORK5CYII=" data-src="{{cdn theme_settings.default_image_product}}">{{/if}}</span>{{/unless}}{{/each}}{{/if}}
+                </div>
+            </a>
+                {{#if customFields.edges}}
+                    {{#each customFields.edges}}
+                        {{#if (dashcase node.value) '===' 'never-worn-with-tag'}}
+                        <div class="badges">
+                            
+                            <div class="badge-never-worn"><img class="badge-new-img" src="https://cdn11.bigcommerce.com/s-5zask1yt8t/images/stencil/original/image-manager/new-with-tag-updated-04.png?t=1712227057" alt="new with tag">
+                                </div>
+                        </div>
+                        {{else if (dashcase node.value) '===' 'never-worn'}}
+                        <div class="badges">
+                            <div class="badge-never-worn"><i class="icon" aria-hidden="true"><svg><use xlink:href="#icon-badge-never-worn" /></svg></i></div>
+                        </div>
+                        {{else}}
+                        {{/if}}
+                    {{/each}}
+                {{/if}}
+                {{#if categories.edges}}
+                    {{#each categories.edges}}
+                        {{#if (dashcase node.name) '===' 'vintage'}}
+                        <div class="badges">
+                            <div class="badge-vintage"><i class="icon" aria-hidden="true"><svg><use xlink:href="#icon-badge-vintage" /></svg></i></div>
+                        </div>
+                        {{else}}
+                        {{/if}}
+                    {{/each}}
+                {{/if}}
+			<!-- Wishlist -->
+            {{#if inventory.isInStock }}
+            {{> components/csd/products/wishlist id=entityId customer=customer}}
+            {{else}}
+                <div class="badge-sold"><i class="icon" aria-hidden="true"><svg><use xlink:href="#icon-badge-sold" /></svg></i></div>
+            {{/if}}
+            </div>
+        </figure>
+        {{#if inventory.isInStock}}<div class="card-body">{{else}}<div class="card-body" style="opacity: 0.5">{{/if}}
+            <div>
+                <a class="card-link" href="{{path}}" {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}}>
+                    {{#if theme_settings.card-show-brand}}{{#if brand.name}}<h3 class="card-text brand-name" data-test-info-type="brandName">{{brand.name}}</h3>{{/if}}{{/if}}					
+                    <h4 class="card-title">{{name}}</h4>
+                    <div class="card-fields">
+                        <div class="custom-fields-list">
+                            {{assignVar "thisCategory" "other"}}{{assignVar "sizesVarious" 0}} {{#each customFields.edges}}{{#if node.name '===' 'Availability'}}{{#if node.value '===' 'Available in various sizes'}}{{assignVar "sizesVarious" 1}}{{/if}}{{/if}}{{/each}} {{#if categories.edges}}{{#each categories.edges}}{{#if node.name '===' 'Shoes'}}{{assignVar "thisCategory" "shoes"}}{{/if}}{{/each}}{{/if}} {{#if (getVar "sizesVarious") '===' 1}}
+                            <span style="font-size: 13px;" class="custom-field">{{#each customFields.edges}}{{#if node.name '===' 'Availability'}}{{#if node.value '===' 'Available in various sizes'}}{{node.value}}{{/if}}{{/if}}{{/each}}</span>{{else}}{{#if (getVar 'thisCategory' '===' "shoes")}}{{assignVar "field_eu" 0}}{{assignVar "field_it" 0}}{{assignVar "sizesVarious" 0}}{{#each customFields.edges}}{{#if node.name "===" "EU"}}{{assignVar "field_eu" 1}}{{/if}}{{#if node.name "===" "IT"}}{{assignVar "field_it" 1}}{{/if}}{{#if node.name '===' 'Availability'}}{{#if node.value '===' 'Available in various sizes'}}{{assignVar "sizesVarious" 1}}{{/if}}{{/if}}{{/each}}{{#each customFields.edges}}{{#if node.name '==' 'SML'}}<span class="custom-field">{{node.value}}, </span>{{/if}}{{/each}}{{#each customFields.edges}}{{#or (if node.name '==' 'UK') (if node.name '==' 'US') (if node.name '==' 'FR') }}<span class="custom-field">{{node.name}} {{node.value}}{{#unless @last}}, {{/unless}}</span>{{/or}}{{/each}}{{#all (if (getVar "field_eu") "===" 1) (if (getVar "field_it") "===" 1)}}<span class="custom-field">EU/IT {{#each customFields.edges}}{{#if node.name '===' 'EU'}}{{node.value}}{{/if}}{{/each}}</span>{{/all}} {{#all (if (getVar "field_eu") "<" 1) (if (getVar "field_it") "===" 1)}}<span class="custom-field">IT {{#each customFields.edges}}{{#if node.name '===' 'IT'}}{{node.value}}{{/if}}{{/each}}</span>{{/all}} {{#all (if (getVar "field_eu") "===" 1) (if (getVar "field_it") "<" 1)}}<span class="custom-field">EU {{#each customFields.edges}}{{#if node.name '===' 'EU'}}{{node.value}}{{/if}}{{/each}}</span>{{/all}}{{else if (getVar 'thisCategory') '===' "other"}}{{#each customFields.edges}}{{> components/csd/products/sizes-list-item node}}{{/each}}{{/if}}{{/if}}
+                        </div>
+                    </div>
+                    <div class="card-text" data-test-info-type="price">
+                        {{#or customer (if theme_settings.restrict_to_login '!==' true)}}{{> components/csd/products/graphql-product-price prices has_options=productOptions.edges.length is_new_with_tag=../settings.csd_product_badge_with_tag settings=../settings}}{{else}}{{> components/common/login-for-pricing}}{{/or}}
+                    </div>
+                </a>
+            </div>
+        </div>
+    </article>
+</div>

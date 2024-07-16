@@ -1,0 +1,72 @@
+<meta property="og:site_name" content="{{settings.store_name}}">
+<meta name="twitter:site" content="{{settings.store_name}}">
+{{#if page_type '===' 'default'}}
+  <meta name="twitter:card" content="summary">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://csd.shop/">
+  <meta property="og:title" content="{{ head.title }}">
+  <meta name="twitter:title" content="{{ head.title }}">
+  <meta property="og:description" content="{{> components/csd/head/meta-tag name='description' }}">
+  <meta name="twitter:description" content="{{> components/csd/head/meta-tag name='description' }}">
+  {{#if carousel}}
+    {{#if (length carousel.slides) '>' 0}}
+      {{#each (first carousel.slides 1)}}
+        <meta property="og:image" content="{{getImage this.stencil_image 'carousel_first_slide_image_size'}}">
+        <meta name="twitter:image" content="{{getImage this.stencil_image 'carousel_first_slide_image_size'}}">
+      {{/each}}
+    {{/if}}
+  {{/if}}
+{{else if page_type '===' 'category'}}
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta property="og:type" content="product.group">
+  <meta property="og:url" content="{{> components/csd/head/canonical-url }}">
+  <meta property="og:title" content="{{ category.name }}">
+  <meta name="twitter:title" content="{{ category.name }}">
+  {{#if category.description}}
+  <meta property="og:description" content="{{> components/csd/head/meta-tag name='description' }}">
+  <meta name="twitter:description" content="{{> components/csd/head/meta-tag name='description' }}">
+  {{/if}}
+  {{#if category.image}}
+  <meta property="og:image" content="{{getImage category.image 'product_size'}}">
+  <meta name="twitter:image" content="{{getImage category.image 'product_size'}}">
+  {{/if}}
+{{else if page_type '===' 'brands'}}
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta property="og:title" content="Brands">
+  <meta name="twitter:title" content="Brands">
+  <meta name="description" content="Browse through our selection of over 200 women's luxury designers. We carry the best of brands from Balmain and Christian Louboutin, to Isabel Marant and J Brand.">
+  <meta property="og:description" content="Browse through our selection of over 200 women's luxury designers. We carry the best of brands from Balmain and Christian Louboutin, to Isabel Marant and J Brand.">
+  <meta name="twitter:description" content="Browse through our selection of over 200 women's luxury designers. We carry the best of brands from Balmain and Christian Louboutin, to Isabel Marant and J Brand.">
+  <meta property="og:url" content="https://csd.shop/brands/">
+{{else if page_type '===' 'brand'}}
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta property="og:url" content="{{> components/csd/head/canonical-url }}">
+  <meta property="og:title" content="{{ brand.name }}">
+  <meta name="twitter:title" content="{{ brand.name }}">
+  <meta property="og:description" content="{{> components/csd/head/meta-tag name='description' }}">
+  <meta name="twitter:description" content="{{> components/csd/head/meta-tag name='description' }}">
+  {{#if brand.image}}
+  <meta property="og:image" content="{{getImage brand.image 'product_size'}}">
+  <meta name="twitter:image" content="{{getImage brand.image 'product_size'}}">
+  {{/if}}
+{{else if page_type '===' 'product'}}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ product.name }}">
+  <meta name="twitter:description" content="{{> components/csd/head/meta-tag name='description' }}">
+  <meta name="twitter:image" content="{{getImage product.main_image 'product_size' (cdn theme_settings.default_image_product)}}">
+{{else if page_type '===' 'blog'}}
+{{else if page_type '===' 'blog_post'}}
+{{else if page_type '===' 'page_contact_form'}}
+{{else if page_type '===' 'page'}}
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta property="og:url" content="{{> components/csd/head/canonical-url }}">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta name="twitter:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{> components/csd/head/meta-tag name='description' }}">
+  <meta name="twitter:description" content="{{> components/csd/head/meta-tag name='description' }}">
+{{else}}
+{{/if}}

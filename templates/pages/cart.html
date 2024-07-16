@@ -1,0 +1,90 @@
+---
+cart: true
+---
+{{inject 'cancelButtonText' (lang 'common.cancel')}}
+{{#partial "page"}}
+{{inject 'invalidEntryMessage' (lang 'cart.invalid_entry_message')}}
+<div class="page">
+
+    <div class="page-content" data-cart data-cart-id="{{cart_id}}">
+        {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+        {{> components/cart/page-title}}
+
+        <div data-cart-status>
+            {{> components/cart/status-messages}}
+        </div>
+
+        {{#if cart.items.length}}
+            <div class="loadingOverlay"></div>
+
+            <div data-cart-content>
+                {{> components/cart/content}}
+            </div>
+
+            <div data-cart-totals>
+                {{> components/cart/totals}}
+            </div>
+
+            {{{region name="cart_below_totals"}}}
+
+            <div class="cart-additionalCheckoutButtons">
+                <div class="button-wrapper">
+                {{#if cart.additional_checkout_buttons}}
+                    {{#each cart.additional_checkout_buttons}}
+                        {{#or (if (occurrences this 'apple-pay') '>' 0) (if (occurrences this 'googlepay') '>' 0)}}
+                            {{{this}}}
+                        {{/or}}
+                    {{/each}}
+
+                    {{#each cart.additional_checkout_buttons}}
+                        {{#if (occurrences this 'paypalcommerce') '>' 0}}
+                            {{{this}}}
+                        {{/if}}
+                    {{/each}}
+                    
+                    {{#each cart.additional_checkout_buttons}}
+                        {{#or (if (occurrences this 'apple-pay') '>' 0) (if (occurrences this 'googlepay') '>' 0) (if (occurrences this 'paypalcommerce') '>' 0)}}
+                        {{else}}
+                            {{{this}}}
+                        {{/or}}
+                    {{/each}}
+                {{/if}}
+                </div>
+                {{#if cart.show_primary_checkout_button}} 
+                    <a class="button button--primary" href="{{urls.checkout.single_address}}" title="{{lang 'cart.checkout.title'}}">{{lang 'cart.checkout.button'}}</a>
+                    {{#if cart.show_multiple_address_shipping}}
+                        <a class="checkoutMultiple" href="{{urls.checkout.multiple_address}}">
+                            {{lang 'cart.preview.checkout_multiple'}}
+                        </a>
+                    {{/if}}
+                    <!--<a class="button continueShopping" href="{{urls.home}}" title="{{lang 'cart.continue_shopping'}}">{{lang 'cart.continue_shopping'}}</a>-->
+                {{/if}}
+
+                {{#and (if cart.grand_total) (if cart.grand_total.value)}}
+                
+                    <div id="banner-region-csd-cart" class="paypal-hide">
+                        <div data-pp-style-layout="flex"
+                            data-pp-style-color="white"
+                            data-pp-style-ratio="8x1"
+                            id="paypal-commerce-cart-messaging-banner">
+                        </div>
+                    </div>
+                    {{> components/csd/klarna/placement-credit-promotion-badge price=cart.grand_total.value}}
+                    <div class="cart-laybuy" data-total="{{cart.grand_total.value}}" data-currency="{{currency_selector.active_currency_code}}"></div>
+                    <div class="cart-clearpay"></div>
+                   
+                {{/and}}
+                {{> components/csd/trust-shopping-icons}}
+                <br> 
+                <br>
+            </div>
+
+        {{else}}
+            <h3 tabindex="0">{{lang 'cart.checkout.empty_cart'}}</h3>
+        {{/if}}
+
+    </div>
+</div>
+{{/partial}}
+{{> layout/base}}

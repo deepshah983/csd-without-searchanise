@@ -1,0 +1,184 @@
+{{#partial "head"}}
+
+{{{ checkout.checkout_head }}}
+{{{ stylesheet '/assets/css/optimized-checkout.css' }}}
+{{ getFontsCollection }}
+<script src="{{cdn 'assets/js/jquery-3.6.3.min.js'}}"></script>
+<script type="text/javascript">
+    window.language = {{{langJson 'optimized_checkout'}}};
+</script>
+
+{{{head.scripts}}}
+
+<script>
+    setInterval(function(){
+        if($('#checkout-customer-guest').length > 0){
+            $('#checkout-app').addClass('not-loggedin');
+        }
+        if($('#applepayCheckoutButton').length > 0){
+            $('#checkout-app').addClass('with-apay');
+        }
+    }, 1000);
+    if($( window ).width() > 968) {
+        setInterval(function(){
+            if($(".productList p").hasClass("product-brand")){} 
+            else {
+                initProcess();
+            }
+        }, 1000);
+    } else if ($(window).width() <= 968 ) {
+        setInterval(function(){
+            if($(".productList p").hasClass("product-brand")){} 
+            else {
+                initProcess();
+            }
+        }, 1000);
+    }
+    
+    function initProcess(){
+        $('.productList').siblings('.cart-actions').children(".button").click();
+        $('.productList').siblings('.cart-actions').children(".button").hide();
+        
+        var productLength = document.querySelectorAll('.productList [data-test="cart-item-image"]').length;
+        var productsArr = [];
+        for(let i=0; i<productLength; i++) {            
+            getElements(i);
+        }
+    }
+
+    function getElements(i) {        
+        const brandNode = document.createElement("p");
+        brandNode.classList = "product-brand";
+        document.getElementsByClassName("product-body")[i].append(brandNode);
+
+        const sizeNode = document.createElement("p");
+        sizeNode.className = "product-size";
+        document.getElementsByClassName("product-body")[i].append(sizeNode);
+
+        setData(i);
+    }
+
+    function setData(i) {
+        var brandElement = document.getElementsByClassName('product-brand')[i];
+        var sizeElement = document.getElementsByClassName('product-size')[i];
+
+        $(brandElement).load("https://csd.shop/cart.php tr:nth-child("+(i + 1)+") p[class='cart-item-brand']");
+        $(sizeElement).load("https://csd.shop/cart.php tr:nth-child("+(i + 1)+") [class='definitionList-value']");
+    }
+
+    function initProcessMobile() {
+        document.querySelector('.cartDrawer.optimizedCheckout-orderSummary').addEventListener("click", function(){
+            setTimeout(initProcess, 1000);
+        });
+    }
+    
+    //BODL events
+    
+    window.dataLayer = window.dataLayer || [];
+      
+      
+    //   If window.bodlEvents.checkout.checkoutBegin is available, then...
+      if (typeof window.bodlEvents.checkout.checkoutBegin === 'function') {
+        // run the checkoutBegin function to get the payload
+        window.bodlEvents.checkout.checkoutBegin((payload) => {
+          // log the event payload
+          
+          window.dataLayer = window.dataLayer || [];
+          var bodl_data = {
+              'event': 'bodl_v1_begin_checkout'
+          }
+          
+          console.log(
+            'window.bodlEvents.checkout.checkoutBegin ~ payload',
+            payload
+          );
+          
+          
+          bodl_data.bodl_ecommerce = payload;
+          
+        window.dataLayer.push(bodl_data);
+        console.log("dataLayer", dataLayer);
+        });    
+      }
+     
+      // If window.bodlEvents.checkout.shippingDetailsProvided is available, then...
+      if (typeof window.bodlEvents.checkout.shippingDetailsProvided === 'function') {
+        // run the shippingDetailsProvided function to get the payload
+        window.bodlEvents.checkout.shippingDetailsProvided((payload) => {
+          // log the event payload
+          window.dataLayer = window.dataLayer || [];
+          
+          var bodl_data = {
+              'event': 'bodl_v1_shipping_information_added'
+          }
+          
+          console.log(
+            'window.bodlEvents.checkout.shippingDetailsProvided ~ payload',
+            payload
+          );
+          bodl_data.bodl_ecommerce = payload;
+          
+        window.dataLayer.push(bodl_data);
+        console.log("dataLayer", dataLayer);
+        
+        });
+      }
+     
+      // If window.bodlEvents.checkout.paymentDetailsProvided is available, then...
+      if (typeof window.bodlEvents.checkout.paymentDetailsProvided === 'function') {
+        // run the paymentDetailsProvided function to get the payload
+        window.bodlEvents.checkout.paymentDetailsProvided((payload) => {
+          // log the event payload
+          window.dataLayer = window.dataLayer || [];
+          
+          var bodl_data = {
+                  'event': 'bodl_v1_payment_information_added'
+              }
+              
+          console.log(
+            'window.bodlEvents.checkout.paymentDetailsProvided ~ payload',
+            payload
+          );
+          
+          bodl_data.bodl_ecommerce = payload;
+          
+        window.dataLayer.push(bodl_data);
+        console.log("dataLayer", dataLayer);
+        
+        });
+      }
+     
+</script>
+
+{{/partial}}
+
+{{#partial "page"}}
+{{> components/csd/social-login-script}}
+<header class="checkoutHeader optimizedCheckout-header">
+    <div class="checkoutHeader-content">
+        <h1 class="is-srOnly">{{lang 'checkout.title'}}</h1>
+        <h2 class="checkoutHeader-heading">
+            <a class="checkoutHeader-link" href="{{urls.home}}">
+                {{#if checkout.header_image}}
+                    <img alt="{{settings.store_logo.title}}" class="checkoutHeader-logo" id="logoImage" src="{{ checkout.header_image }}"/>
+                {{ else }}
+                    <span class="header-logo-text">{{settings.store_logo.title}}</span>
+                {{/if}}
+            </a>
+        </h2>
+    </div>
+</header>
+<div class="container checkoutpage-top-info">
+    <div class="checkout-back-to-shopping">
+        <a href="/" class="button" style="border: none; padding: 0;">&lt; Back to shopping</a>
+    </div>
+
+</div>
+
+{{{ checkout.checkout_content }}}
+
+{{{ footer.scripts }}}
+
+{{/partial}}
+
+{{> layout/empty}}

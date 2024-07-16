@@ -1,0 +1,15 @@
+{{#if blog.recent_posts}}
+{{#if (merge settings csd_recent_posts_displayed=0)}}{{/if}}
+<div class="csd-related-posts">
+	<h2>Shop more edits</h2>
+	<div class="blog-posts">
+	  {{#each blog.recent_posts}}
+	  	{{#if this.title '==' ../blog.post.title}}
+	  		{{!-- SKIP Current post --}}
+	  	{{else}}
+			{{> components/csd/blog/card post=this}}
+	  	{{/if}}
+	  {{/each}}
+	</div>
+</div>
+{{/if}}

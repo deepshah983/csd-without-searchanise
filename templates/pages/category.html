@@ -1,0 +1,330 @@
+---
+category:
+    shop_by_price: true
+    products:
+        limit: 48
+---
+{{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
+{{inject "categoryId" category.id}}
+{{#partial "head"}}
+    {{#if pagination.category.previous}}
+        <link rel="prev" href="{{pagination.category.previous}}">
+    {{/if}}
+    {{#if pagination.category.next}}
+        <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+{{/partial}}
+
+{{#partial "customBreadcrumbs"}}
+<div class="container">
+    {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+</div>
+{{/partial}}
+
+{{#partial "page"}}
+
+{{#unless banners.top}}
+<h1 class="default-title">PRE-OWNED {{{category.name}}} FOR WOMEN</h1>
+{{/unless}}
+
+{{> components/common/homepagebanner }}
+
+{{{region name="category_page_below_banner"}}}
+
+{{#comment}}
+{{#if category.image}}
+    {{> components/common/responsive-img
+        image=category.image
+        fallback_size=theme_settings.zoom_size
+        lazyload=theme_settings.lazyload_mode
+        class="category-header-image"
+    }}
+{{/if}}
+{{/comment}}
+{{#unless theme_settings.hide_category_page_heading }}
+    {{{region name="category_below_header"}}}
+{{/unless}}
+
+{{{category.description}}}
+{{#comment}}
+<div class="page">
+    {{#if category.faceted_search_enabled}}
+        <aside class="page-sidebar" id="faceted-search-container">
+            {{> components/category/sidebar}}
+        </aside>
+    {{else if category.subcategories}}
+        <aside class="page-sidebar" id="faceted-search-container">
+            {{> components/category/sidebar}}
+        </aside>
+    {{else if category.shop_by_price}}
+        {{#if theme_settings.shop_by_price_visibility}}
+             <aside class="page-sidebar" id="faceted-search-container">
+                {{> components/category/sidebar}}
+            </aside>
+        {{/if}}
+    {{/if}}
+
+    <main class="page-content" id="product-listing-container">
+        {{> components/category/product-listing}}
+        {{{region name="category_below_content"}}}
+    </main>
+</div>
+{{/comment}}
+
+<script src="//www.searchanise.com/widgets/bigcommerce/init.js?api_key=3L7x6q3O0Y"></script> 
+<div class="snize" id="snize_results"></div>
+
+<div class="you-may-also-like" style="display: none;">
+    <h3 class="you-may-also-like-title">You May Also Like</h3>
+    <div class="loaded-products-container productGridFavourite productGrid productGrid--maxCol">
+
+    </div>
+    
+</div>
+
+<style  type="text/css"><!--
+/* Load spinner */
+#snize-preload-spinner {
+    height: 100px;
+    width: 32px;
+    margin: 0 auto;
+    background-position: 0px center;
+    background-repeat: no-repeat;
+    background-image: url(data:image/png;base64,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);
+}
+--></style>
+
+<script>// <![CDATA[
+(function(window, undefined) {
+    var sXpos = 0, sIndex = 0, sTotalFrames = 12, sInterval = null;
+
+    if (document.getElementById('snize_results').innerHTML != '') {
+        return;
+    }
+
+    document.getElementById('snize_results').innerHTML = '<div id="snize-preload-spinner"></div>';
+    sInterval = setInterval(function()
+    {
+        var spinner = document.getElementById('snize-preload-spinner');
+        if (spinner) {
+            document.getElementById('snize-preload-spinner').style.backgroundPosition = (- sXpos) + 'px center';
+        } else {
+            clearInterval(sInterval);
+        }
+
+        sXpos  += 32;
+        sIndex += 1;
+
+        if (sIndex >= 12) {
+            sXpos  = 0;
+            sIndex = 0;
+        }
+    }, 30);
+}(window));
+// ]]></script>
+<script>
+    let interval = setInterval(() => {
+        
+        if ($(".snize-search-results-content .snize-product").length != 0 && $(".snize-search-results-content .snize-product").length < 3) {
+            clearInterval(interval)
+            youMayAlsoLike()
+        }
+    })
+
+    function youMayAlsoLike() {
+        let graphqlQuery = `query CategoryByUrl {
+  site {
+    route(path: "/sales/women/new-arrivals/") {
+      node {
+        id
+        ... on Category {
+          name
+          entityId
+          description
+          products(first: 50, sortBy: NEWEST, hideOutOfStock: true) {
+            edges {
+              node {
+                entityId
+                name
+                path
+                defaultImage {  
+                  url(width: 1200)
+                }
+                 inventory {
+                    isInStock
+                    hasVariantInventory
+                  }
+                brand {
+                  name
+                  defaultImage {
+                    url(width: 200)
+                  }
+                }
+                customFields {
+                    edges {
+                    node {
+                        value
+                        name
+                        entityId
+                    }
+                    }
+                }
+                prices (includeTax:true){
+                  price {
+                  ...MoneyFields
+                  }
+                  
+                  salePrice {
+                  ...MoneyFields
+                  }
+                  retailPrice {
+                  ...MoneyFields
+                  }
+                  basePrice {
+                        ...MoneyFields
+                        }
+              }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+ 
+fragment MoneyFields on Money {
+  value
+  currencyCode
+}`;
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+        };
+
+        // Make the AJAX POST request
+        $.ajax({
+            type: 'POST',
+            url: '/graphql',
+            headers: headers,
+            data: JSON.stringify({ query: graphqlQuery }),
+            dataType: 'json',
+            success: function (data) {
+                
+                if (data.data.site.route.node != null && data.data.site.route.node.products.edges.length > 0) {
+                    let allData = data.data.site.route.node.products.edges;
+                    let html = '';
+                    let currency = getCurrencySymbol(allData[0].node?.prices?.price?.currencyCode)
+                    let count = 0;
+                    $.each(allData, function (index, value) {
+
+
+                        let custFileds = '';
+                        
+                        $.each(value?.node?.customFields?.edges, function (ind, val) {
+                               let name = val.node.name;
+                               let values = val.node.value
+                               if(name == "UK" || name == "US" || name == "FR" || name == "IT" || name == "EU/IT"){
+                                 if(custFileds == "")
+                                   custFileds = name+' '+values;
+                                   else
+                                   custFileds = custFileds+', '+name+' '+values;
+                               }
+                        })
+             
+                       if(value.node.inventory.isInStock && count < 8){
+
+                        count++;
+                        console.log(count)
+                        html += '<div class="product">'
+                        html += '<article class="card" data-entity-id="' + value.node.entityId + '" data-name="' + value.node.name + '" data-product-brand="Chanel" data-product-price="' + value?.node?.prices?.salePrice + '" data-product-currency="USD">'
+                        html += '<figure class="card-figure">'
+
+                        html += '<div class="badge-wishlist-wrapper">'
+                        html += '<a href="' + value.node.path + '" class="card-alt-img--hover card-image-normal" data-event-type="product-click">'
+                        html += '<div class="card-img-container">'
+                        html += '<span class="card-main-image"> <img class="card-image lazyautosizes ls-is-cached lazyloaded" data-sizes="auto" src="' + value.node.defaultImage.url + '" alt="' + value.node.name + '" title="' + value.node.name + '" sizes="339px"></span>'
+                        html += '<span class="card-alt-image">  <img class="card-image lazyautosizes ls-is-cached lazyloaded" data-sizes="auto" src="' + value.node.defaultImage.url + '" alt="' + value.node.name + '" title="' + value.node.name + '" data-src="' + value.node.defaultImage.url + '" sizes="339px"></span>'
+                        html += '</div>'
+                        html += '</a>'
+                        <!-- Wishlist -->
+                        html += '<span class="product-wishlist" data-product-id="' + value.node.entityId + '">'
+                        html += '<button aria-label="wishlist_' + value.node.entityId + '">'
+                        html += '<i class="icon" aria-hidden="true">'
+                        html += '<svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"></path></svg>'
+                        html += '<svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"></path></svg>'
+                        html += '</i>'
+                        html += '</button>'
+                        html += '</span>'
+
+                        html += '</div>'
+                        html += '</figure>'
+                        html += '<div class="card-body">'
+                        html += '<div>'
+                        html += '<a class="card-link" href="' + value.node.path + '" data-event-type="product-click">'
+                        if (value?.node?.brand)
+                            html += '<h3 class="card-text brand-name" data-test-info-type="brandName">' + value.node.brand.name + '</h3>'
+                        html += '<h4 class="card-title">' + value.node.name + '</h4>'
+                        html += '<div class="card-fields">'
+
+                        html += '</div>'
+                        if(custFileds){
+                        html += '<div class="card-fields">'
+                        html += '<div class="custom-fields-list">'
+                               html += '<span class="custom-field">'+custFileds+'</span>' 
+                        html += '</div>'
+                       html += '</div>'
+                      }
+                        html += '<div class="card-text" data-test-info-type="price">'
+
+                        html += '<div class="price-section price-section--withoutTax">'
+                        html += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax">'
+                        if (value.node?.prices?.retailPrice != null)
+                            html += '<span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;<span class="currency-symbol"></span>'+currency+'' + value.node?.prices?.retailPrice?.value + '</span>'
+                        html += '</div>'
+
+                        html += '<div class="price price--listPrice">'
+
+                        if (value.node.prices.salePrice != null)
+                            html += '<span data-product-price-without-tax="" class="price price--withoutTax sale_price">'+currency+'' + value.node.prices.salePrice.value + '</span>'
+                        else
+                            html += '<span data-product-price-without-tax="" class="price price--withoutTax sale_price">'+currency+'' + value.node.prices.price.value + '</span>'
+                        html += '</div>'
+                        html += '</div>'
+
+                        html += '</div>'
+                        html += '</a>'
+                        html += '</div>'
+                        html += '</div>'
+                        html += '</article>'
+                        html += '</div>'
+                    }
+
+                    });
+                    $(".you-may-also-like").show();
+                    $(".productGridFavourite").html(html);
+
+                }
+
+
+            },
+            error: function (error) {
+                console.error('Error:', error);
+                $(".you-may-also-like").hide();
+            }
+        });
+    }
+        function getCurrencySymbol(currencyCode) {
+    // Use Intl.NumberFormat to get the currency symbol
+    return (0).toLocaleString(undefined, {
+        style: 'currency',
+        currency: currencyCode,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).replace(/\d/g, '').trim();
+}
+</script>
+
+{{/partial}}
+{{> layout/base}}

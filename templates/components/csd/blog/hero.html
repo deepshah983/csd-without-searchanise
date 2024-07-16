@@ -1,0 +1,49 @@
+<article class="blog{{#if post.body}} full-post{{/if}} blog-card">
+    <div class="blog-post-figure">
+        {{#if post.thumbnail}}
+            <figure class="blog-thumbnail" style="background-image: url({{getImage post.thumbnail 'blog_hero_size'}});">
+                <a href="{{post.url}}">
+                    <img class="lazyload" data-sizes="auto" src="{{cdn 'img/loading.svg'}}" data-src="{{getImage post.thumbnail 'blog_hero_size'}}" alt="{{post.thumbnail.alt}}" title="{{post.thumbnail.alt}}">
+                </a>
+            </figure>
+        {{/if}}
+    </div>
+
+    <div class="blog-post-body">
+        <header class="blog-header">
+            <div class="blog-tags">
+            {{#if post.tags}}
+                <ul class="tags">
+                    {{#each post.tags}}
+                    <li class="tag">
+                        <a href="{{url}}">{{name}}</a>
+                    </li>
+                    {{/each}}
+                </ul>
+            {{/if}}
+            </div>
+
+            <div class="blog-author">{{#if post.author}}{{lang 'blog.posted_by' name=post.author}}{{/if}}</div>
+            <div class="blog-date">{{post.date_published}}</div>
+            <h3 class="blog-title">
+                <a href="{{post.url}}">{{post.title}}</a>
+            </h3>
+        </header>
+
+        <div class="blog-post">
+            {{#if post.body}}
+                {{{post.body}}}
+            {{else}}
+                {{{post.summary}}}
+                {{#if post.show_read_more}}
+                    &hellip; <p class="read-more"><a href="{{url}}"><strong>{{lang 'blog.read_more'}}</strong>
+                        <i class="icon" aria-hidden="true">
+                            <svg><use xlink:href="#icon-chevron-right" /></svg>
+                        </i>
+                    </a></p>
+                {{/if}}
+            {{/if}}
+        </div>
+
+    </div>
+</article>

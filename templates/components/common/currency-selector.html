@@ -1,0 +1,99 @@
+{{#if currency_selector.currencies.length '>' 1}}
+<ul class="navUser-section navUser-left footer-currency">
+    <li class="navUser-item navUser-item--account">
+        {{#if customer}}
+            <a class="navUser-action"
+               href="{{urls.account.index}}"
+               aria-label="{{lang 'common.account'}}"
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16px" fill="#ffffff" viewBox="0 0 39.06 39.06"><path d="M5.63,35a.56.56,0,0,1-.56-.55v-.2a14.48,14.48,0,0,1,9.69-13.63.19.19,0,0,0,.13-.17.18.18,0,0,0-.09-.19,8.83,8.83,0,1,1,9.47,0,.2.2,0,0,0-.09.19.21.21,0,0,0,.13.17A14.47,14.47,0,0,1,34,34.28v.14a.63.63,0,0,1-.56.61h-.74a.54.54,0,0,1-.4-.17.57.57,0,0,1-.16-.41v-.17a12.61,12.61,0,0,0-25.22,0v.16a.62.62,0,0,1-.16.41.56.56,0,0,1-.4.17ZM19.53,5.89a7,7,0,1,0,7,7A7,7,0,0,0,19.53,5.89Z"></path></svg>
+            <span class="csd-account-header-customer-name">{{ customer.name }}</span>
+        </a>
+            {{#comment}}
+            <a class="navUser-action"
+               href="{{urls.auth.logout}}"
+               aria-label="{{lang 'common.logout'}}"
+            > {{lang 'common.logout'}} </a>
+            {{/comment}}
+
+            <ul class="dropdown-menu" id="accountSelection" data-dropdown-content aria-hidden="true" tabindex="-1">
+                <li class="dropdown-menu-item"><a href="{{urls.account.orders.all}}">{{lang 'account.nav.orders'}}</a></li>
+                <li class="dropdown-menu-item"><a href="{{urls.account.details}}">{{lang 'account.nav.settings'}}</a></li>
+                <li class="dropdown-menu-item"><a href="{{urls.account.details}}&consignor=items_for_sale">{{lang 'account.nav.items_for_sale'}}</a></li>
+                <li class="dropdown-menu-item"><a href="{{urls.account.addresses}}">{{lang 'account.nav.addresses'}}</a></li>
+                <li class="dropdown-menu-item"><a href="{{urls.account.inbox}}">Messages</a></li>
+                {{#if settings.show_payment_methods}}
+                    <li class="dropdown-menu-item"><a href="{{urls.account.payment_methods.all}}">{{lang 'account.nav.payment_methods'}}</a></li>
+                {{/if}}
+                <li class="dropdown-menu-item"><a href="{{urls.account.wishlists.all}}">Wishlist</a></li>
+                <li class="dropdown-menu-item"><a href="{{urls.account.recent_items}}">{{lang 'account.nav.recently_viewed'}}</a></li>
+                {{#if settings.returns_enabled}}
+                    <li class="dropdown-menu-item"><a href="{{urls.account.returns}}">{{lang 'account.nav.returns'}}</a></li>
+                {{/if}}
+                <li class="dropdown-menu-item"><a href="/consignor-terms/">Terms &amp; Conditions</a></li>
+                <li class="dropdown-menu-item"><a href="{{urls.auth.logout}}">{{lang 'common.logout'}}</a></li>
+            </ul>
+        {{else}}
+            <a class="navUser-action"
+               href="{{urls.auth.login}}"
+               aria-label="{{lang 'common.login'}}"
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16px" fill="#ffffff" viewBox="0 0 39.06 39.06"><path d="M5.63,35a.56.56,0,0,1-.56-.55v-.2a14.48,14.48,0,0,1,9.69-13.63.19.19,0,0,0,.13-.17.18.18,0,0,0-.09-.19,8.83,8.83,0,1,1,9.47,0,.2.2,0,0,0-.09.19.21.21,0,0,0,.13.17A14.47,14.47,0,0,1,34,34.28v.14a.63.63,0,0,1-.56.61h-.74a.54.54,0,0,1-.4-.17.57.57,0,0,1-.16-.41v-.17a12.61,12.61,0,0,0-25.22,0v.16a.62.62,0,0,1-.16.41.56.56,0,0,1-.4.17ZM19.53,5.89a7,7,0,1,0,7,7A7,7,0,0,0,19.53,5.89Z"></path></svg>
+            </a>
+        {{/if}}
+    </li>
+     <li class="navUser-item navUser-item-currency ">
+        <a class="navUser-action navUser-action--currencySelector has-dropdown"
+           href="#"
+           data-dropdown="currencySelection"
+           aria-controls="currencySelection"
+           aria-expanded="false"
+        >
+            {{{lang 'common.currency' code=currency_selector.active_currency_code flag=currency_selector.active_currency_flag}}}
+            <i class="icon" aria-hidden="true">
+                <svg>
+                    <use href="#icon-chevron-down" />
+                </svg>
+            </i>
+        </a>
+        {{#comment}}
+        <ul class="dropdown-menu" id="currencySelection" data-dropdown-content aria-hidden="true" tabindex="-1">
+            {{#each currency_selector.currencies}}
+            <li class="dropdown-menu-item">
+                <a href="{{{switch_url}}}"
+                   data-currency-code="{{{code}}}"
+                   {{#if cart_currency_switch_url.length '>' 0 }}
+                   data-cart-currency-switch-url="{{{cart_currency_switch_url}}}"
+                   {{/if}}
+                   data-warning="{{lang 'common.currency_switch_promotion'}}"
+                >
+                {{#if is_active}}
+                    {{flag}} <strong>{{name}}</strong>
+                {{else}}
+                    {{flag}} {{name}}
+                {{/if}}
+                </a>
+            </li>
+            {{/each}}
+        </ul>
+        {{/comment}}
+    </li> 
+    {{#if customer.store_credit.value '>' 0}}
+        <li class="navUser-item">
+            <a class="navUser-action navUser-action--storeCredit"
+                data-dropdown="storeCredit-dropdown"
+                data-options="align:bottom"
+                href="{{urls.cart}}"
+                aria-label="{{lang 'common.store_credit_overview' credit=customer.store_credit.value}}"
+            >
+                <span class="navUser-action-divider">
+                    £{{ lang 'common.store_credit_overview' credit=customer.store_credit.value}}
+                </span>
+            </a>
+            <div class="dropdown-menu" id="storeCredit-dropdown" data-dropdown-content aria-hidden="true">
+                {{{lang 'common.store_credit' store_credit=customer.store_credit.value}}}
+            </div>
+        </li>
+    {{/if}} 
+</ul>
+{{/if}}

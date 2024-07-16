@@ -1,0 +1,20 @@
+{{#partial "page"}}
+    {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+    {{> components/csd/account/header}}
+    <div class="address-book">
+        <div class="address-book-left">
+            {{> components/account/navigation account_page='payment_methods'}}
+        </div>
+
+        <div class="address-book-right">
+            <h2 class="page-heading">{{lang 'account.payment_methods.heading' }}</h2>
+
+            <div class="account account--fixedLarge">
+                <div class="account-body">
+                    {{> components/account/payment-methods-list }}
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> layout/base}}

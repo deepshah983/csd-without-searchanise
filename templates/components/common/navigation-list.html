@@ -1,0 +1,102 @@
+{{#if children}}
+        <a class="navPages-action has-subMenu{{#if is_active}} activePage{{/if}}"
+        href="{{url}}"
+        data-collapsible="navPages-{{id}}"
+        >{{name}}<i class="icon navPages-action-moreIcon navPages-action-closed" aria-hidden="true"><svg><use xlink:href="#icon-plus" /></svg></i>
+        <i class="icon navPages-action-moreIcon navPages-action-open" aria-hidden="true"><svg><use xlink:href="#icon-minus" /></svg></i></a>
+        <div class="navPage-subMenu" id="navPages-{{id}}" aria-hidden="true" tabindex="-1">
+            <div class="container">
+            
+                <ul class="navPage-subMenu-list {{#each children}}{{#if name '==' 'Featured Designers'}}two-column{{/if}}{{/each}} {{#if children.length '>' 10}}one-third-col{{/if}}">
+                    <li class="navPage-subMenu-item name-link">
+                        <a class="navPage-subMenu-action navPages-action"
+                        href="javascript:;">
+                            {{name}}
+                        </a>
+                    </li> 
+                    <li class="navPage-subMenu-item all-link">
+                        <a class="navPage-subMenu-action navPages-action"
+                        href="{{url}}"
+                        aria-label="{{lang 'category.view_all.name' category=name}}"
+                        >
+                            {{lang 'category.view_all.name' category=name}}
+                        </a>
+                    </li>
+                    {{#each children}}
+                    {{#if name '==' 'Featured Designers'}}
+                    {{else}}
+                    {{#if @index '<' '10'}}
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action{{#if is_active}} activePage{{/if}}"
+                                href="{{url}}"
+                                aria-label="{{name}}"
+                                >{{name}}</a>
+                        </li>
+                    {{/if}}
+                    {{/if}}
+                    {{/each}}
+                </ul>
+                {{#if children.length '>' 10}}
+                <ul class="navPage-subMenu-list one-third-col">
+                    {{#each children}}
+                    {{#if name '==' 'Featured Designers'}}
+                    {{else}}
+                    {{#if @index '>' '9'}}
+                    <li class="navPage-subMenu-item">
+                        <a class="navPage-subMenu-action navPages-action{{#if is_active}} activePage{{/if}}"
+                            href="{{url}}"
+                            aria-label="{{name}}"
+                            >{{name}}</a>
+                    </li>
+                    {{/if}}
+                    {{/if}}
+                    {{/each}}
+                </ul>
+                {{/if}}
+                {{#each children}}
+                {{#if name '==' 'Featured Designers'}}
+                <ul class="navPage-subMenu-list featured-designs two-column {{#if children.length '>' 10}}one-third-col{{/if}}">
+                    <li class="navPages-item"><span class="navPages-action heading">FEATURED DESIGNERS</span></li>
+                    {{#each children}}
+                        {{#if @index '<' '10'}}
+                                    <li class="navPages-item navPage-subMenu-item">
+                                        <a class="navPage-subMenu-action navPages-action{{#if is_active}} activePage{{/if}}"
+                                        href="{{url}}"
+                                        aria-label="{{name}}"
+                                        >{{name}}</a>
+                                    </li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+                {{#if children.length '>' 10}}
+                <ul class="navPage-subMenu-list featured-designs one-third-col">
+                    {{#each children}}
+                        {{#if @index '>' '9'}}
+                                    <li class="navPages-item navPage-subMenu-item">
+                                        <a class="navPage-subMenu-action navPages-action{{#if is_active}} activePage{{/if}}"
+                                        href="{{url}}"
+                                        aria-label="{{name}}"
+                                        >{{name}}</a>
+                                    </li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+                {{/if}}
+                {{/if}}
+                {{/each}}
+            
+            <div class="img-part">
+                <a href="{{url}}">
+                    <img class="lazyload" alt="{{name}}" title="{{name}}" src="https://cdn11.bigcommerce.com/s-5zask1yt8t/product_images/uploaded_images/{{lowercase name}}2.jpg">
+                </a>
+            </div>
+        </div>
+        </div>
+    
+{{else}}
+    <a class="navPages-action{{#if is_active}} activePage{{/if}}"
+    href="{{url}}"
+    aria-label="{{name}}"
+    >{{name}}</a>
+{{/if}}
+

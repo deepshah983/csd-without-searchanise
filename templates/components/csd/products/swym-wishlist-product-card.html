@@ -1,0 +1,98 @@
+<article class="card {{#unless can_purchase}}product-sold{{/unless}} {{#if alternate}}card--alternate{{/if}}{{#if quick_search}} card-quick-result{{/if}}{{#or price.non_sale_price_with_tax price.non_sale_price_without_tax}} has-sale-price{{/or}}{{#or options can_purchase}}{{else}} out-of-stock{{/or}}" {{#if settings.data_tag_enabled}} data-event-type="{{event}}" data-entity-id="{{id}}" data-position="{{position}}" data-name="{{name}}" data-product-category="{{#each category}}{{#if @last}}{{this}}{{else}}{{this}}, {{/if}}{{/each}}" data-product-brand="{{brand.name}}" data-product-price="{{#if price.with_tax}}{{price.with_tax.value}}{{else}}{{price.without_tax.value}}{{/if}}" data-product-currency="{{#if price.with_tax}}{{price.with_tax.currency}}{{else}}{{price.without_tax.currency}}{{/if}}"  {{/if}}>
+    <figure class="card-figure">
+        <a href="{{url}}" {{#if theme_settings.show_alt_img_hover}}{{#gte images.length 2}}class="card-alt-img--hover card-image-normal"{{/gte}}{{/if}} {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}}>
+			<div class="card-img-container">
+                <span class="card-main-image">
+                    <img class="card-image" src="{{getImage main_image '300x300' (cdn theme_settings.default_image_product)}}" alt="{{main_image.alt}}" title="{{main_image.alt}}">
+                </span>
+                {{#unless quick_search}}
+                    {{#if theme_settings.show_alt_img_hover}}
+                        {{#each (limit images 2)}}
+                            <span class="card-alt-image">
+                                <img class="card-image" src="{{#replace '{:size}' data}}300x300{{else}}{{cdn theme_settings.default_image_product}}{{/replace}}" alt="{{alt}}" title="{{alt}}">
+                            </span>
+                        {{/each}}
+                    {{/if}}
+                {{/unless}}
+            </div>
+        </a>
+        {{#if category}}
+        <div class="badges" data-category="{{category}}">
+            {{#contains (dashcase (join category '/')) "new-with-tag"}}
+            <div class="badge-never-worn"><img src="https://cdn11.bigcommerce.com/s-5zask1yt8t/images/stencil/original/image-manager/new-with-tag-updated-04.png?t=1712227057" alt="new with tag"></div>
+            {{else}}
+                {{#contains (dashcase (join category '/')) "never-worn"}}
+                    <div class="badge-never-worn"><i class="icon" aria-hidden="true"><svg><use xlink:href="#icon-badge-never-worn" /></svg></i></div>
+                {{/contains}}
+            {{/contains}}
+            {{#contains (dashcase (join category '/')) "vintage"}}
+                <div class="badge-vintage"><i class="icon" aria-hidden="true"><svg><use xlink:href="#icon-badge-vintage" /></svg></i></div>
+            {{/contains}}
+        </div>
+        {{/if}}
+        {{> components/csd/products/wishlist id=id customer=customer remove_only=true}}
+    </figure>
+
+	<div class="card-body">
+        <div>
+			<a class="card-link" href="{{url}}" {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}}>
+            {{#if theme_settings.card-show-brand}}
+                {{#unless quick_search}}
+                    {{#if brand.name}}
+                        <p class="card-text brand-name" data-test-info-type="brandName">{{brand.name}}</p>
+                    {{/if}}
+                {{/unless}}
+            {{/if}}
+            <h4 class="card-title">{{title}}</h4>
+            <div class="card-text card-pricing" data-test-info-type="price">
+                {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
+                    {{> components/products/price price=price is_new_with_tag=(if (occurrences (dashcase (join category '/')) "new-with-tag") '>' 0) settings=../settings}}
+                {{else}}
+                    {{> components/common/login-for-pricing}}
+                {{/or}}
+            </div>
+            {{#if quick_search}}
+                {{#is stock_level 0}}
+                    {{#unless out_of_stock_message}}
+                        <span class="stock-message">Out of stock</span>
+                    {{/unless}}
+                {{/is}}
+            {{/if}}
+			</a>
+        </div>
+
+        <div class="card-details">
+            {{#and rating show_rating}}
+                <p class="card-text" data-test-info-type="productRating">
+                    <span class="rating--small">
+                        {{> components/products/ratings rating=rating}}
+                    </span>
+                </p>
+            {{/and}}
+            
+            {{> components/products/bulk-discount-rates}}
+
+            <div class="productView-options-wrap" data-product-option-change>
+                <form class="form" method="post" action="/cart.php" enctype="multipart/form-data" data-cart-item-add>
+                    <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="product_id" value="{{id}}"/>
+                    <input type="hidden" name="qty[]" value="1"/>
+                    {{#if can_purchase}}
+                        {{#if options}}
+                            <div class="form-action">                        
+                                <a class="button button--alt swym-view-choose-options-btn" href="{{url}}">Choose Options</a>
+                            </div>
+                        {{else}}
+                            <div class="form-action">
+                                <input class="button button--primary swym-product-add-to-cart custom-add-to-cart" data-product-id="{{id}}" type="submit" value="Add to Cart">
+                                <a class="button button--alt swym-view-cart-btn" href="/cart.php">In Your Cart</a>
+                            </div>
+                        {{/if}}
+                    {{else}}
+                        <span class="swym-sold-btn">Sold</span>
+                    {{/if}}
+                </form>
+            </div>
+        </div>
+    </div>
+</article>

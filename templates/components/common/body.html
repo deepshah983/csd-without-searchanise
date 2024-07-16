@@ -1,0 +1,11 @@
+{{#or (if page_type "==" "brand") (if page_type "==" "category")}}<div class="page_heading_wrapper"></div>{{/or}}
+<div class="body" id="main-content" data-currency-code="{{currency_selector.active_currency_code}}" {{#or (if page_type '==' 'category') (if page_type '==' 'brand')}}style="min-height: 900px;"{{/or}}>
+    <div class="bg-overlay"></div>
+    <div class="cy-overlay"></div>
+    {{#block "hero"}} {{/block}}
+    <div class="container">
+        {{#block "page"}} {{/block}}
+    </div>
+    {{> components/common/modal/modal}}
+    {{> components/common/alert/alert-modal}}
+</div>

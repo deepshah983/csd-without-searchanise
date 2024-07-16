@@ -1,0 +1,25 @@
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+{{> components/csd/account/header}}
+<div class="address-book">
+    <div class="address-book-left">
+        {{> components/account/navigation account_page='returns'}}
+    </div>
+    <div class="address-book-right">
+        <h1 class="page-heading">{{lang 'account.returns.heading' }}</h1>
+        <main class="account account--fixed">
+            <div class="account-body">
+                <section class="account-content">
+                    {{#if customer.returns}}
+                        {{> components/account/returns-list returns=customer.returns}}
+                    {{else}}
+                        {{> components/common/alert/alert-info (lang 'account.returns.none')}}
+                    {{/if}}
+                </section>
+            </div>
+        </main>
+    </div>
+</div>
+{{/partial}}
+{{> layout/base}}
