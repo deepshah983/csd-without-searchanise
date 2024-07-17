@@ -17,7 +17,9 @@
             </svg>
         </span>
     </button>
-    {{#if selected}}
-        <a href="{{remove_url}}" class="facetedSearch-clearLink" data-faceted-search-facet>{{lang 'search.faceted.clear'}}</a>
-    {{/if}}
+    {{#comment}}
+        {{#if selected}}
+            <a href="{{remove_url}}" class="facetedSearch-clearLink" data-faceted-search-facet>{{lang 'search.faceted.clear'}}</a>
+        {{/if}}
+    {{/comment}}
 </div>
