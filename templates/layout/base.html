@@ -726,7 +726,22 @@
     </script>
     </body>
 </html>
-
+<script>
+    const toggleButtons = document.querySelectorAll('.accordion-navigation');
+    
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const navList = this.nextElementSibling; 
+        navList.style.display = navList.style.display === 'none' ? 'block' : 'none';
+    
+        if (navList.style.display === 'none') {
+          console.log('Toggle off');
+        } else {
+          console.log('Toggle on');
+        }
+      });
+    });
+    </script>
 <script>
   // resize iframe to fit content
   const iframe = document.querySelector("#as-tracking-page");
