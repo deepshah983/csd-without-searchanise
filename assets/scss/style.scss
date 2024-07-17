@@ -3124,6 +3124,7 @@
         .page-content{
             padding: 0px 10px;
             width: 100%;
+            
             @media screen and (min-width:575px){
                 margin-left:2%;
                 width: 73%;
@@ -3133,6 +3134,7 @@
                 margin-left:2%;
                 width: 79%;
                 padding: 0px;
+                padding-top: 10px !important;
             }
             .category-filter-side{
                 display: flex;
@@ -3571,6 +3573,7 @@
         @media screen and (min-width:1024px){
             width: 311.05px !important;
             padding: 0px;
+            padding-top: 10px;
         }
     }
     .page-content{
@@ -5543,4 +5546,56 @@ div.snize:not(.snize-tab-selected-pages):not(.snize-tab-selected-categories) div
             }
         }
     }
+}
+
+
+@media screen and (max-width: 820px){
+.page-category{
+    .page{
+        display: flex !important;
+        flex-direction: column;
+        flex-wrap: wrap;
+        .page-sidebar{
+            @media screen and (max-width: 820px){
+                width: 100% !important;
+            }
+            nav{
+                    display: flex;
+                    flex-direction: column;
+                @media screen and (max-width: 820px){
+                    display: flex;
+                    flex-direction: column-reverse;
+                }
+                .facetedSearch.sidebarBlock{
+                    a.toggleLink{
+                        margin-bottom: 0px;
+                        display: flex !important;
+                        position: relative;
+                        max-width: none;
+                        align-items: center;        
+                        width: 320px !important;
+                        margin: 0 auto !important;
+                        text-align: left !important;
+                        float: none !important;
+                        justify-content: center !important;
+                        border: 1px solid #676767;
+                        border-radius: 4px;
+                    }
+                }
+            }
+        }
+        .page-content{
+            @media screen and (max-width: 820px){
+                width: 100% !important;
+                margin-left: 0px !important;
+            }
+            .actionBar{
+                display: block !important;
+                @media screen and (max-width: 820px){
+                    display: none !important;
+                }
+            }
+        }
+    }
+}
 }
