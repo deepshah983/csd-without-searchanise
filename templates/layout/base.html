@@ -757,25 +757,3 @@
     }
   });
 </script>
-
-<script>
-
-const toggleButtons = document.querySelectorAll('.accordion-navigation');
-
-// Add click event listeners to each toggle button
-toggleButtons.forEach(button => {
-  button.addEventListener('click', function() {
-    // Toggle visibility of associated navList
-    const navList = this.nextElementSibling; // Assuming the navList is next to the button's parent
-    navList.style.display = navList.style.display === 'none' ? 'block' : 'none';
-
-    // Log toggle state message
-    if (navList.style.display === 'none') {
-      console.log('Toggle off');
-    } else {
-      console.log('Toggle on');
-    }
-  });
-});
-    
-    </script>

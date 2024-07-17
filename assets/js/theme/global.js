@@ -29,6 +29,6 @@ export default class Global extends PageManager {
         privacyCookieNotification();
         svgInjector();
         CsdGlobal.load(this.context);
-        azbrands(this.context);
+        //azbrands(this.context);
     }
 }
