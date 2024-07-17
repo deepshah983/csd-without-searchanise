@@ -2,7 +2,8 @@
     {{#if category.products}}
         <div class="product-count">Showing <span class="product-totlecount"><b>{{category.total_products}}</b></span> results for "{{category.name}}"</div>
     {{/if}}
-    {{#if category.subcategories}}
+    <div class="accordion accordion--navList">
+        {{#if category.subcategories}}
         <div class="sidebarBlock category-sidebarBlock">
             <button
             type="button"
@@ -33,7 +34,11 @@
             {{/each}}
             </ul>
         </div>
-    {{/if}} {{#if category.faceted_search_enabled}} {{>
-    components/faceted-search/index category}} {{else}} {{>
-    components/category/shop-by-price}} {{/if}}
+        {{/if}} 
+        {{#if category.faceted_search_enabled}} 
+            {{>components/faceted-search/index category}} 
+        {{else}} 
+            {{>components/category/shop-by-price}} 
+        {{/if}}
+    </div>
 </nav>
