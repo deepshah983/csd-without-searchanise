@@ -772,9 +772,10 @@ main#main-content{
         }
     }
     .three-banner-section{
-         @media screen and (max-width:768px) {
-            display: grid; grid-template-columns: 1fr !important; column-gap: 0px!important; row-gap: 0px !important;
-         }
+        grid-template-columns: 1fr 1fr !important; row-gap: 29px !important;
+        @media screen and (max-width:1023px) {
+             row-gap: 10px !important;
+        }
     }
     .three-banner-section > *:last-child {
         grid-row: 2/-2 !important;

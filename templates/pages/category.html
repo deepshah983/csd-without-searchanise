@@ -50,24 +50,15 @@ category:
 <div class="page">
     {{#if category.faceted_search_enabled}}
         <aside class="page-sidebar" id="faceted-search-container">
-            {{#if category.products}}
-               <div class="product-count">Showing <span class="product-totlecount"><b>{{category.total_products}}</b></span> results for "{{category.name}}"</div>
-            {{/if}}
             {{> components/category/sidebar}}
         </aside>
     {{else if category.subcategories}}
         <aside class="page-sidebar" id="faceted-search-container">
-            {{#if category.products}}
-                <div class="product-count">Showing <b>{{category.total_products}}</b>  results for "{{category.name}}"</div>
-            {{/if}}
             {{> components/category/sidebar}}
         </aside>
     {{else if category.shop_by_price}}
         {{#if theme_settings.shop_by_price_visibility}}
              <aside class="page-sidebar" id="faceted-search-container">
-                {{#if category.products}}
-                    <div class="product-count">Showing <b>{{category.total_products}}</b>  results for "{{category.name}}"</div>
-                {{/if}}
                 {{> components/category/sidebar}}
             </aside>
         {{/if}}
