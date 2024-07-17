@@ -555,7 +555,28 @@
 
 <script>
     $(document).ready(function () {
+        $(document).on('click', '#facetedSearch-navList .close-icon', function(){
+            $('#facetedSearch-navList').removeClass('is-open');
+            $('body').css('overflow', 'auto');
+        });
+        $(document).on('click', '#facetedSearch-navList .done-btn', function(){
+            $('#facetedSearch-navList').removeClass('is-open');
+            $('body').css('overflow', 'auto');
+        });
+        $('.facetedSearch-toggle').click(function(){
+            $('body').css('overflow', 'hidden');
+        });
 
+        $(document).on('keyup', '.dropdown--quickSearch .form-input', function(){
+            if($('.dropdown--quickSearch .form-input').val().length > 0){
+                $('.close-icon').show();
+                $('.search-icon').hide();
+            }else{
+                $('.close-icon').hide();
+                $('.search-icon').show();
+            }
+        });
+        
         if (screen.width < 801) {
             jQuery(".navPages-list > .navPages-item").not(".ss-memu").on("click", function () {
                 jQuery(this).children().siblings(".navPage-subMenu").slideToggle();
@@ -601,6 +622,9 @@
             jQuery(this).siblings("ul").slideToggle();
             jQuery(this).toggleClass('open');
         });
+        $(".default-search").click(function () {
+            $("body").addClass("expand-search");
+        });
         $(".quick-search").click(function () {
             $("body").addClass("expand-search");
         });
@@ -613,9 +637,21 @@
         $('.form-input').on('click', function () {
             $(window).off('resize');
         });
+        $(document).on('click', '.left-icon', function () {
+            if (jQuery('body').hasClass('expand-search')) {
+                jQuery('body').removeClass('expand-search');
+                $('.quickSearchResults').html('');
+                $('#nav-quick-search').val('');
+                $('.close-icon').hide();
+            }
+        });
         jQuery('body').click(function (event) {
             if (jQuery('body').hasClass('expand-search') && jQuery(event.target).is('.bg-overlay')) {
                 jQuery('body').removeClass('expand-search');
+                $('.quickSearchResults').html('');
+                $('#nav-quick-search-header').val('');
+                $('#nav-quick-search').val('');
+                $('.close-icon').hide();
             }
             if (jQuery('body').hasClass('has-activeNavPages') && jQuery(event.target).is('.bg-overlay')) {
                 jQuery('body').removeClass('has-activeNavPages');
@@ -1606,12 +1642,3 @@ page_type '==' 'account_paymentmethods') (if page_type '==' 'account_addpaymentm
     </script>
     {{/if}}
     
-    
-
-
-
-
-
-
-
-

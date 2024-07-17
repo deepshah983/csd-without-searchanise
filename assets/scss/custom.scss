@@ -2406,7 +2406,12 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 		.facetedSearch-navList{
 			display: block !important;
 			@media screen and (max-width: 820px){
-				display: block !important;
+				display: none !important;
+			}
+			&.is-open{
+				@media screen and (max-width: 820px){
+					display: block !important;
+				}
 			}
 		}
 		.accordion.accordion--navList{
@@ -2609,6 +2614,95 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 					}
 				}
 			}
+		}
+	}
+}
+//search css
+.card--alternate{
+	border-width: 8px;
+	.card-figure:hover .card-figcaption, .card-figcaption:hover{
+		opacity: 0;
+	}
+	.badge-never-worn {
+		width: 98px;
+	}
+}
+.card--alternate:hover{
+	background-color: #f6f6f6;
+	border-color: #f6f6f6;
+	.card-body{
+		background-color: #f6f6f6;
+		.card-text{
+			color: #000;
+		}
+	}
+}
+.header .search-box{
+	position: relative;
+	svg{
+		display: none;
+	}
+}
+.quickSearchResults{
+	position: absolute;
+    left: -20px;
+    right: 0;
+    background-color: #fff;
+	width: 100vw;
+	@media screen and (max-width: 1199px) {
+		left: 0px;
+	}
+	.modal-close{
+		display: none;
+	}
+	.productGrid{
+		overflow: auto;
+		min-height: 200px;
+		max-height: 60vh;
+		margin: 0;
+		.product{
+			width: 20%;
+		}
+	}
+}
+#quickSearch{
+	.search-icon, .close-icon{
+		display: none;
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		right: 15px;
+		top: 12px;
+	}
+}
+#quickSearch{
+	.left-icon{
+		display: none;
+		width: 25px;
+		height: 25px;
+		position: absolute;
+		left: 15px;
+		top: 10px;
+	}
+}
+.expand-search .navUser .dropdown--quickSearch{
+	padding: 10px 0;
+	top: -37px;
+	.form-field{
+		border: 1px solid #333;
+		border-radius: 2px;
+	}
+	.form-input{
+		border: 0;
+		height: 43px;
+		padding-left: 50px;
+	}
+	.left-icon{
+		display: block;
+	}
+	.search-icon{
+		@media screen and (min-width: 768px) {
+			display: block;
 		}
 	}
 }
