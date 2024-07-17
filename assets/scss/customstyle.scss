@@ -2709,3 +2709,16 @@ html {
         background: #fff;
     }
 }
+
+
+//filter css
+.page-category .page-sidebar, .page-brand .page-sidebar, .filterSearchpage .page-sidebar{
+	@media screen and (max-width: 801px){
+		display: block !important;
+		padding-left: .75rem;
+		padding-right: .75rem;
+		width: 100%;
+		float: left;
+		position: relative;
+	}
+}

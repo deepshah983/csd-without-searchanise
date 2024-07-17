@@ -3,7 +3,7 @@
     {{> components/faceted-search/faceted-search-navigation}}
 
     <div id="facetedSearch-content--{{dashcase facet}}" class="accordion-content{{#unless start_collapsed}} is-open{{/unless}}">
-        <ul id="facetedSearch-navList--{{dashcase facet}}" data-facet="{{facet}}" class="navList" data-has-more-results="{{has_more_results}}">
+        <ul id="facetedSearch-navList--{{dashcase facet}}" data-facet="{{facet}}" class="navList test-ul" data-has-more-results="{{has_more_results}}">
             {{#each items}}
                 <li class="navList-item">
                     <a
@@ -24,13 +24,18 @@
                     </a>
                 </li>
             {{/each}}
+            <ul class="more-links">
+                
+            </ul>
         </ul>
 
+        
         {{#if show_more_toggle}}
-            <a href="#facetedSearch-navList--{{dashcase facet}}" role="button" class="toggleLink">
+            <a href="#facetedSearch-navList--{{dashcase facet}}" role="button" class="toggleLink test">
                 <span class="toggleLink-text toggleLink-text--off">{{lang 'search.faceted.show-more'}}</span>
             </a>
         {{/if}}
+        
     </div>
 </div>
 {{/if}}
