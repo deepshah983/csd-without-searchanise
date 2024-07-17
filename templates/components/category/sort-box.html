@@ -1,6 +1,8 @@
 <fieldset class="form-fieldset actionBar-section">
     <div class="form-field">
+        {{#comment}}
         <label class="form-label" for="sort">{{lang 'common.sorter.sort_by'}}</label>
+        {{/comment}}
         <select class="form-select form-select--small " name="sort" id="sort" role="listbox">
             <option value="featured" {{#if sort '==' 'featured'}}selected{{/if}}>{{lang 'common.sorter.featured'}}</option>
             <option value="newest" {{#if sort '==' 'newest'}}selected{{/if}}>{{lang 'common.sorter.newest'}}</option>

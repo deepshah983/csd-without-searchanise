@@ -3109,18 +3109,18 @@
                 flex-direction: row;
                 padding: 0px 10px;
             }
-        .page-sidebar{
-            width: 100%;
-            padding:10px;
-            @media screen and (min-width:575px){
-                width:25%;
-                padding: 0px;
-            }
-            @media screen and (min-width:768px){
-                width: 19%;
-                padding: 0px;
-            }
-        }
+        // .page-sidebar{
+        //     width: 100%;
+        //     padding:10px;
+        //     @media screen and (min-width:575px){
+        //         width:25%;
+        //         padding: 0px;
+        //     }
+        //     @media screen and (min-width:768px){
+        //         width: 19%;
+        //         padding: 0px;
+        //     }
+        // }
         .page-content{
             padding: 0px 10px;
             width: 100%;
@@ -3569,7 +3569,7 @@
             padding: 0px;
         }
         @media screen and (min-width:1024px){
-            width: 20% !important;
+            width: 311.05px !important;
             padding: 0px;
         }
     }
