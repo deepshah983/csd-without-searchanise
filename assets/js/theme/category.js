@@ -75,6 +75,7 @@ export default class Category extends CatalogPage {
         } = this.validationDictionary;
         const $productListingContainer = $('#product-listing-container');
         const $facetedSearchContainer = $('#faceted-search-container');
+        const $MoreLinks = $('.more-links');
         const productsPerPage = this.context.categoryProductsPerPage;
         const requestOptions = {
             config: {
@@ -88,14 +89,16 @@ export default class Category extends CatalogPage {
             template: {
                 productListing: 'category/product-listing',
                 sidebar: 'category/sidebar',
-            },
-            showMore: 'category/show-more',
+                showMore: 'category/show-more',
+            }
+            
         };
 
         this.facetedSearch = new FacetedSearch(requestOptions, (content) => {
             $productListingContainer.html(content.productListing);
             $facetedSearchContainer.html(content.sidebar);
-
+            $MoreLinks.html(content.showMore);
+            console.log("content.showMore", content.showMore);
             $('body').triggerHandler('compareReset');
 
             $('html, body').animate({
