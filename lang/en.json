@@ -892,8 +892,8 @@
             "more": "More",
             "show-more": "Show More",
             "show-less": "Show Less",
-            "show-filters": "Show Filters",
-            "hide-filters": "Hide Filters",
+            "show-filters": "Filters",
+            "hide-filters": "Filters",
             "browse-by": "Browse by"
         },
         "error": {
