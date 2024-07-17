@@ -46,19 +46,28 @@ category:
 {{/unless}}
 
 {{{category.description}}}
-{{#comment}}
+
 <div class="page">
     {{#if category.faceted_search_enabled}}
         <aside class="page-sidebar" id="faceted-search-container">
+            {{#if category.products}}
+               <div class="product-count">Showing <span class="product-totlecount"><b>{{category.total_products}}</b></span> results for "{{category.name}}"</div>
+            {{/if}}
             {{> components/category/sidebar}}
         </aside>
     {{else if category.subcategories}}
         <aside class="page-sidebar" id="faceted-search-container">
+            {{#if category.products}}
+                <div class="product-count">Showing <b>{{category.total_products}}</b>  results for "{{category.name}}"</div>
+            {{/if}}
             {{> components/category/sidebar}}
         </aside>
     {{else if category.shop_by_price}}
         {{#if theme_settings.shop_by_price_visibility}}
              <aside class="page-sidebar" id="faceted-search-container">
+                {{#if category.products}}
+                    <div class="product-count">Showing <b>{{category.total_products}}</b>  results for "{{category.name}}"</div>
+                {{/if}}
                 {{> components/category/sidebar}}
             </aside>
         {{/if}}
@@ -69,11 +78,11 @@ category:
         {{{region name="category_below_content"}}}
     </main>
 </div>
-{{/comment}}
 
+{{#comment}}
 <script src="//www.searchanise.com/widgets/bigcommerce/init.js?api_key=3L7x6q3O0Y"></script> 
 <div class="snize" id="snize_results"></div>
-
+{{/comment}}
 <div class="you-may-also-like" style="display: none;">
     <h3 class="you-may-also-like-title">You May Also Like</h3>
     <div class="loaded-products-container productGridFavourite productGrid productGrid--maxCol">
