@@ -1,20 +1,39 @@
 <nav>
+    {{#if category.products}}
+    <div class="product-count">Showing <span class="product-totlecount"><b>{{category.total_products}}</b></span> results for "{{category.name}}"</div>
+    {{/if}}
     {{#if category.subcategories}}
-        <div class="sidebarBlock category-sidebarBlock">
-            <h2 class="sidebarBlock-heading">{{category.name}}</h2>
-            <ul class="navList">
-                {{#each category.subcategories}}
-                <li class="navList-item">
-                    <a class="navList-action" href="{{url}}" title="{{name}}">{{name}}</a>
-                </li>
-                {{/each}}
-            </ul>
-        </div>
-    {{/if}}
+    <div class="sidebarBlock category-sidebarBlock">
+        <button
+        type="button"
+        class="accordion-navigation toggleLink{{#unless start_collapsed}} is-open{{/unless}}"
+        data-collapsible="#facetedSearch-content--{{dashcase facet}}"
+        aria-label="{{lang 'search.faceted.toggleSection' title=title}}"
+        >
+        <h2 class="sidebarBlock-heading">{{category.name}}</h2>
 
-    {{#if category.faceted_search_enabled}}
-        {{> components/faceted-search/index category}}
-    {{else}}
-        {{> components/category/shop-by-price}}
-    {{/if}}
+        <span>
+            <svg
+            class="icon accordion-indicator toggleLink-text toggleLink-text--off"
+            >
+            <use href="#icon-add" />
+            </svg>
+            <svg
+            class="icon accordion-indicator toggleLink-text toggleLink-text--on"
+            >
+            <use href="#icon-remove" />
+            </svg>
+        </span>
+        </button>
+        <ul class="navList">
+        {{#each category.subcategories}}
+        <li class="navList-item">
+            <a class="navList-action" href="{{url}}" title="{{name}}">{{name}}</a>
+        </li>
+        {{/each}}
+        </ul>
+    </div>
+    {{/if}} {{#if category.faceted_search_enabled}} {{>
+    components/faceted-search/index category}} {{else}} {{>
+    components/category/shop-by-price}} {{/if}}
 </nav>
