@@ -89,8 +89,8 @@ export default class Category extends CatalogPage {
             template: {
                 productListing: 'category/product-listing',
                 sidebar: 'category/sidebar',
-                showMore: 'category/show-more',
-            }
+            },
+            showMore: 'category/show-more',
             
         };
 

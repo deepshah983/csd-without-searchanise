@@ -190,10 +190,12 @@ class FacetedSearch {
                 if (err) {
                     throw new Error(err);
                 }
-
-                this.options.modal.open();
-                this.options.modalOpen = true;
-                this.options.modal.updateContent(response);
+                console.log(response);
+                $("[data-facet="+facet+"]").parent().find(".toggleLink").hide();
+                $("[data-facet="+facet+"]").html(response);
+                //this.options.modal.open();
+                //this.options.modalOpen = true;
+                //this.options.modal.updateContent(response);
             });
         }
 
