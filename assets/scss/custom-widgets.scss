@@ -772,10 +772,9 @@ main#main-content{
         }
     }
     .three-banner-section{
-        grid-template-columns: 1fr 1fr !important; row-gap: 29px !important;
-        @media screen and (max-width:1023px) {
-             row-gap: 10px !important;
-        }
+         @media screen and (max-width:768px) {
+            display: grid; grid-template-columns: 1fr !important; column-gap: 0px!important; row-gap: 0px !important;
+         }
     }
     .three-banner-section > *:last-child {
         grid-row: 2/-2 !important;
@@ -820,3 +819,13 @@ main#main-content{
     display: none !important;
 }
 
+.csd-beside-three-banner{
+    .two-banner-top:nth-child(3){
+        display: flex !important;
+        flex-direction: column !important;
+        a{
+            display: flex;
+            flex-grow: 1 !important;
+        }
+    }
+}

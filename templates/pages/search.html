@@ -65,6 +65,7 @@ product_results:
         </aside>
     {{/if}}
     <main class="page-content">
+        {{#comment}}
         {{#if forms.search.has_suggestions}}
             <div class="panel panel--large">
                 <div class="panel-body">
@@ -127,6 +128,7 @@ product_results:
                 </div>
             </div>
         {{/if}}
+        {{/comment}}
 
         <div role="tabpanel" id="search-results-content" aria-labelledby="search-results-content-count" {{#if forms.search.section '!=' 'content'}}class="u-hidden"{{/if}}>
             {{> components/search/content-listing}}
