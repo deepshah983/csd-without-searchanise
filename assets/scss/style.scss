@@ -5550,7 +5550,7 @@ div.snize:not(.snize-tab-selected-pages):not(.snize-tab-selected-categories) div
 
 
 @media screen and (max-width: 820px){
-.page-category{
+.page-category, .page-brand, .page-search{
     .page{
         display: flex !important;
         flex-direction: column;
