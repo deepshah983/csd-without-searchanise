@@ -2239,9 +2239,7 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 		width: 311.05px !important;
 		padding-top: 10px;
 		.category-sidebarBlock{
-			border-left: 1px solid #dcdcdc !important;
-			border-right: 1px solid #dcdcdc !important;
-			border-top: 1px solid #dcdcdc !important;
+			border: 1px solid #dcdcdc !important;
 			padding: 10px !important;
 			-webkit-transition: all, .2s;
 			transition: all, .2s;
@@ -2330,12 +2328,13 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 			.facetedSearch-refineFilters.sidebarBlock{
 				border-left: 1px solid #dcdcdc !important;
 				border-right: 1px solid #dcdcdc !important;
-				padding: 0px !important;
+				border-bottom: 0 !important;
 				-webkit-transition: all, .2s;
 				transition: all, .2s;
 				margin-top: 0px;
 				display: block !important;
-				
+				padding-top: 0 !important;
+				padding-bottom: 0 !important;
 				.sidebarBlock-heading{
 					font-size: 16px;
 					font-weight: 700;
@@ -2416,7 +2415,7 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 		.accordion.accordion--navList{
 			position: absolute;
 			bottom: auto;
-			overflow: scroll;
+			overflow-y: scroll;
 			height: auto;
 			max-height: 100vh;
 			width: 100% !important;
