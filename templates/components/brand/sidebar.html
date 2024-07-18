@@ -1,6 +1,6 @@
 <nav>
     {{#if brand.products}}
-        <div class="product-count">Showing <span class="product-totlecount"><b>{{brand.total_products}}</b></span> results for "{{category.name}}"</div>
+        <div class="product-count">Showing <span class="product-totlecount"><b>{{brand.total_products}}</b></span></div>
     {{/if}}
     {{#if brand.faceted_search_enabled}}
         {{> components/faceted-search/index brand}}
