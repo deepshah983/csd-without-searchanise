@@ -773,8 +773,7 @@
                 $(".page_heading_wrapper").append(banner_heading);
                 $(".banners .banner h1").hide();
             }); 
-            $('.brand-product-count .product-totlecount b').text($('.productGrid li').length);
-            $('.page-brand .product-totlecount b').text($('.productGrid li').length);
+            
 </script>
 {{/if}}
 {{#if page_type "==" "category"}}
@@ -1556,6 +1555,8 @@ page_type '==' 'account_paymentmethods') (if page_type '==' 'account_addpaymentm
     }
     }).observe(document, {subtree: true, childList: true});
     $(document).ready(function () {
+        $('.brand-product-count .product-totlecount b').text($('.productGrid li').length);
+        $('.page-brand .product-totlecount b').text($('.productGrid li').length);
         // Usage
         if (isMobileView()) {
             if($(".inlineList.inlineList--labels li").length > 0)
