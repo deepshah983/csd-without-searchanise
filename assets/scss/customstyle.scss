@@ -2858,9 +2858,8 @@ html {
             }
             .reset-btn-mobile{
                 display: none;
-                @media screen and (max-width: 820px) {
+                @media screen and (max-width: 820px) { 
                 border: 1px solid #dcdcdc !important;
-				
                 border-radius: 1px;
                 height: 46px;
                 font-size: 14px;
