@@ -74,10 +74,8 @@
                 {{/each}}
             </div>
             <div class="mobile-bottom mobile-only">
-                {{#if category.products}}
-                    <div class="product-count">Showing <span class="product-totlecount"><b>{{category.total_products}}</b></span> results for "{{category.name}}"</div>
-                {{/if}}
-
+                <div class="product-count">Showing <span class="product-totlecount"><b>{{total_products}}</b></span> products</div>
+                
                 {{> components/faceted-search/selected-facets-custom selected}}
                 
             </div>
