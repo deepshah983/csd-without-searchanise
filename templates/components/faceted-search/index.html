@@ -31,7 +31,9 @@
         </div>
         {{> components/faceted-search/selected-facets selected}}
         
-        {{> components/products/filter sort=pagination.category.sort}}
+        <div class="mobile-only">
+            {{> components/products/filter sort=pagination.category.sort}}
+        </div>
         
         {{#if subcategories}}
         <div class="sidebarBlock category-sidebarBlock">

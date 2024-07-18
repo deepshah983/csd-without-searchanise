@@ -1531,7 +1531,33 @@ page_type '==' 'account_paymentmethods') (if page_type '==' 'account_addpaymentm
             })
 </script>
 {{/if}}
+<script>
+    function isMobileView() {
+        return $(window).width() < 820; // Adjust this breakpoint as needed
+    }
+    const getCurrentPageURL = () => {
+    const currentPageUrl = document.URL;
+    }
 
+    let lastUrl = location.href;
+    new MutationObserver(() => {
+    const url = location.href;
+    if (url !== lastUrl) {
+        lastUrl = url;
+        if (isMobileView()) {
+            if($(".inlineList.inlineList--labels li").length > 0)
+            $(".selected-filters-count").text($(".inlineList.inlineList--labels li").length).addClass('selected');
+        }
+    }
+    }).observe(document, {subtree: true, childList: true});
+    $(document).ready(function () {
+        // Usage
+        if (isMobileView()) {
+            if($(".inlineList.inlineList--labels li").length > 0)
+            $(".selected-filters-count").text($(".inlineList.inlineList--labels li").length).addClass('selected');
+        }
+    });
+</script>
 
     {{#if page_type '===' 'product'}}
     <script>
