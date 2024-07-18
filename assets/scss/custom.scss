@@ -2201,20 +2201,38 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 	margin-top: 0px;
 	@media screen and (max-width: 820px) {
 		margin: 0px 20px;
-		padding: 0px !important;
+		padding: 0px 0px 10px 0px !important;
+	}
+	.form-fieldset.actionBar-section{
+		@media screen and (max-width: 820px) {
+			width: 100%;
+		}
+		.form-label.mobile-only{
+			display: none;
+			@media screen and (max-width: 820px) {
+				display: block;
+				font-size: 16px;
+				line-height: 20px;
+				font-weight: 500;
+				text-align: left;
+			}
+		}
 	}
 	.form-field{
 		margin-bottom: 0px;
 		color: #000;
     	border: 1px solid #000;
-		padding: 2px 0px;
+		padding: 5px 0px;
 		font-size: 12px;
 		border-radius: 1px;
 		box-sizing: content-box !important;
 		display: flex !important;
 		background: #fff;
 		border-radius: 0px;
-		
+		width: 100%;
+		@media screen and (max-width: 820px) {
+			border: 1px solid #757575;
+		}
 		.form-select.form-select--small{
 			color: #000;
 			font-weight: 500;
@@ -2223,8 +2241,8 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 			min-width: 192px;
 			line-height: 18px;
 			@media screen and (max-width: 820px) {
-				min-width: auto;
-				width: 100%; 
+				min-width: 100%;
+				width: 100% !important; 
 			}
 			.option{
 				font-size: 16px !important;
@@ -2367,17 +2385,19 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 				}
 				.inlineList.inlineList--labels{
 					margin-bottom: 12px;
+					margin-left: 0px;
 					@media screen and (max-width: 820px){
-						padding: 0px 20px;
+						margin: 0px 20px 0px 20px;
 					}
 					li {
-						border-radius: 0px; margin-bottom: 0px;
+						border-radius: 0px; margin-bottom: 0px; margin-left: 0px;
 						a{
 							display: inline-block;
 							background-color: #f2f2f2;
 							color: #787a7c;
-							padding: 5px 8px;
-							margin-right: 6px;
+							padding: 5px 10px;
+							margin-right: 5px;
+							margin-bottom: 5px;
 							font-size: 13px;
 							font-weight: 600;
 							border-radius: 0px;
@@ -2760,8 +2780,23 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 		}
 	}
 }
-.default-search{
-	@media screen and (max-width: 820px) {
-		padding: 0 20px;
+
+.facetedSearch-navList{
+	.actionBar{
+		display: none;
+		@media screen and (max-width: 820px) {
+			display: block;
+		}
+		.default-search{
+			@media screen and (max-width: 820px) {
+				padding: 0 20px;
+			}
+		}
+	}
+}
+
+.page-brand{
+	.facetedSearch-refineFilters.sidebarBlock{
+		border-bottom: 1px solid #dcdcdc !important;
 	}
 }
