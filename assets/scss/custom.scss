@@ -2455,6 +2455,7 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 				position: relative;
 				border: none !important;
 				margin-bottom: 0px;
+				overflow-y: visible;
 			}
 			.accordion-block{
 				border-left: 1px solid #dcdcdc !important;
@@ -2667,6 +2668,7 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 		}
 	}
 }
+
 //search css
 .card--alternate{
 	border-width: 8px;
@@ -2756,5 +2758,10 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 		@media screen and (min-width: 768px) {
 			display: block;
 		}
+	}
+}
+.default-search{
+	@media screen and (max-width: 820px) {
+		padding: 0 20px;
 	}
 }
