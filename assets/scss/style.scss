@@ -3351,7 +3351,7 @@
 // Listing page marketing banner End
 
 // pagination Start
-.page-brand, .page-Search, .page-category,  .page-blog{
+.page-brand, .page-search, .page-category,  .page-blog{
 .pagination-num {
     display: flex;
     justify-content:center !important;
@@ -5581,6 +5581,10 @@ div.snize:not(.snize-tab-selected-pages):not(.snize-tab-selected-categories) div
                         border: 1px solid #676767 ;
                         border-radius: 4px;
                         @media screen and (max-width: 820px){
+                            width: 322px !important;
+                            padding: 8px 10px;
+                        }
+                        @media screen and (max-width: 576px){
                             width: auto !important;
                         }
                     }
