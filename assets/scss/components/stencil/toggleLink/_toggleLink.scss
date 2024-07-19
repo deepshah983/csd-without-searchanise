@@ -35,8 +35,9 @@ $toggle-spacing: spacing("single") + spacing("half");
 }
 
 .toggleLink-text {
-    font-size: fontSize("smallest");
+    font-size: 12px;
     font-weight: fontWeight("normal");
+    line-height: 16px;
 }
 
 .toggleLink-text--off {
