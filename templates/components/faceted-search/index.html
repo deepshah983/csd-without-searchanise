@@ -31,7 +31,7 @@
         </div>
         {{> components/faceted-search/selected-facets selected}}
         
-        <div class="mobile-only">
+        <div class="mobile-only category-sort">
             {{> components/products/filter sort=pagination.category.sort}}
         </div>
         
@@ -76,7 +76,7 @@
                 {{/each}}
             </div>
             <div class="mobile-bottom mobile-only">
-                <div class="product-count">Showing <span class="product-totlecount"><b>{{total_products}}</b></span> products</div>
+                <div class="brand-product-count">Showing <span class="product-totlecount"><b>{{brand.total_products}}</b></span> products</div>
                 
                 {{> components/faceted-search/selected-facets-custom selected}}
                 
