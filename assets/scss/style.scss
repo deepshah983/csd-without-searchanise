@@ -3231,15 +3231,15 @@
 .banners {
     background-color: transparent;
     color: #191919;
-    padding: 13px 0 0 0;
+    padding: 10px 0 13px 0;
     text-align: center;
     // display: none;
     @media screen and (min-width:801px){
-        padding: 24px 0 0 0;
+        padding: 15px 0 20px 0;
     }
     @media screen and (min-width:991px){
         display: block;
-        padding: 24px 0 0 0;
+        padding: 15px 0 20px 0;
     }
     .banner:not(.home-banner), .banner:not(.homepage-banner) {
         max-width: 1230px;
