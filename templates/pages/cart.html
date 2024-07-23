@@ -29,6 +29,8 @@ cart: true
             {{{region name="cart_below_totals"}}}
 
             <div class="cart-additionalCheckoutButtons">
+            
+            <div class="cart-additionalCheckoutButtons-width">
                 <div class="button-wrapper">
                 {{#if cart.additional_checkout_buttons}}
                     {{#each cart.additional_checkout_buttons}}
@@ -84,6 +86,7 @@ cart: true
             <h3 tabindex="0">{{lang 'cart.checkout.empty_cart'}}</h3>
         {{/if}}
 
+    </div>
     </div>
 </div>
 {{/partial}}
