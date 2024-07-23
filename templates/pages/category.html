@@ -49,18 +49,24 @@ category:
 
 <div class="page">
     {{#if category.faceted_search_enabled}}
+    <div class="page-sidebar-sticky">
         <aside class="page-sidebar" id="faceted-search-container">
             {{> components/category/sidebar}}
         </aside>
+        </div>
     {{else if category.subcategories}}
+    <div class="page-sidebar-sticky">
         <aside class="page-sidebar" id="faceted-search-container">
             {{> components/category/sidebar}}
         </aside>
+        </div>
     {{else if category.shop_by_price}}
         {{#if theme_settings.shop_by_price_visibility}}
+        <div class="page-sidebar-sticky">
              <aside class="page-sidebar" id="faceted-search-container">
                 {{> components/category/sidebar}}
             </aside>
+            </div>
         {{/if}}
     {{/if}}
 

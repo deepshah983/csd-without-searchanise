@@ -20,9 +20,11 @@ category:
     <div class="main full grid-bg">
         <div class="container container--category">
                 {{#or theme_settings.subcategories_left_column theme_settings.shop_by_price_visibility}}
+                <div class="page-sidebar-sticky">
                     <aside class="page-sidebar" id="faceted-search-container">
                         {{> components/category/sidebar}}
                     </aside>
+                </div>
                 {{/or}}
                 
                 <div class="page-content">

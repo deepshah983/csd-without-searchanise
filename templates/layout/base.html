@@ -97,9 +97,9 @@
         {{!-- Get this loading ASAP --}}
         <link rel="preload" href="{{cdn 'assets/dist/theme-bundle.main.js'}}" as="script">
 		{{> components/csd/head/custom-meta-tags }}
-		{{#comment}}
+		
 			<script type="module" src="https://content.miros.services/frontend/public/main/container/assets/container.bundle.js"></script>
-			{{/comment}}
+			
     </head>
     <body class="page-{{page_type}} {{#if page_type '==' 'page'}}page-{{page.title}}{{/if}}">
         
@@ -191,7 +191,7 @@
                         var price = $(this).attr('data-product-price');
                         var cart_id = $('#cart-id').val();
                         
-                        {{#comment}}
+                        
                         //Miros event
                                 window.dispatchEvent(
                                   new CustomEvent('ExternalAddItemToCart', 
@@ -204,7 +204,7 @@
                                     }
                                   })
                                 );
-                                {{/comment}}
+                                
                         
                                 window.attentive.analytics.addToCart(
                                     {
@@ -771,4 +771,22 @@
       });
     }
   });
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const div = document.querySelector('.brand-product-count');
+        let text = div.innerHTML;
+
+        // Extract and wrap the number in a span
+        const number = text.match(/\d+/)[0];
+        text = text.replace(number, `<span class="bold-number">${number}</span>`);
+
+        // Replace single quotes with double quotes around any text
+        text = text.replace(/'([^']+)'/, `"${'$1'}"`);
+
+        // Set the modified text back to the div
+        div.innerHTML = text;
+    });
 </script>

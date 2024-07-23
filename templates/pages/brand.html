@@ -41,9 +41,11 @@ brand:
 
 
 <div class="page">
-    <aside class="page-sidebar" id="faceted-search-container">
-        {{> components/brand/sidebar}}
-    </aside>
+    <div class="page-sidebar-sticky">
+        <aside class="page-sidebar" id="faceted-search-container">
+            {{> components/brand/sidebar}}
+        </aside>
+    </div>
 
     <main class="page-content" id="product-listing-container">
         {{#if brand.search_error }}
