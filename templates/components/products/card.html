@@ -154,7 +154,7 @@ data-product-category="
             <a href="javascript:;" data-event-type="product-click" data-product-id="{{id}}" class="button button--small card-figcaption-button custom-add-to-cart">{{lang 'products.pre_order'}}</a>
         {{/if}}
         {{#if add_to_cart_url }}
-            <a href="javascript:;" data-event-type="product-click" data-button-type="add-cart" data-product-id="{{id}}" class="button button--small card-figcaption-button custom-add-to-cart">{{lang 'products.add_to_cart'}}</a>
+            <a href="javascript:;" onclick="pintrk('track', 'addtocart');" data-event-type="product-click" data-button-type="add-cart" data-product-id="{{id}}" class="button button--small card-figcaption-button custom-add-to-cart">{{lang 'products.add_to_cart'}}</a>
             <span class="product-status-message aria-description--hidden">{{lang 'category.add_cart_announcement'}}</span>
         {{/if}}
         {{#if out_of_stock_message }}
