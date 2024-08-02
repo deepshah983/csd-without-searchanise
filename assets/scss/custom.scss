@@ -2074,7 +2074,13 @@ button.gpay-button.black.short.en {
 }
 
 .view-link.miros-unsupported{
-	display: none;
+	display: none; height: 21px;
+}
+.view-link.miros-supported{
+	height: 21px;
+}
+.view-link{
+	margin-bottom: 10px;
 }
 
 .page-product{
