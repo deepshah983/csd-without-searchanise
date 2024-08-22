@@ -98,7 +98,33 @@
         <link rel="preload" href="{{cdn 'assets/dist/theme-bundle.main.js'}}" as="script">
 		{{> components/csd/head/custom-meta-tags }}
 		
-			<script type="module" src="https://content.miros.services/frontend/public/main/container/assets/container.bundle.js"></script>
+	    <script type="module" src="https://content.miros.services/frontend/public/main/container/assets/container.bundle.js"></script>
+	    
+	    <script type="text/javascript">
+
+        !function(e){if(!window.pintrk){window.pintrk=function()
+        
+        {window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
+        
+        n=window.pintrk;n.queue=[],n.version="3.0";var
+        
+        t=document.createElement("script");t.async=!0,t.src=e;var
+        
+        r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}
+        
+        ("https://s.pinimg.com/ct/core.js");
+        
+        
+        
+        pintrk('load','2612737624778', { em: '%%GLOBAL_BillingEmail%%', });
+        
+        pintrk('page');
+        
+        </script>
+        <noscript>
+            <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=2612737624778&noscript=1"/>
+        </noscript>
+
 			
     </head>
     <body class="page-{{page_type}} {{#if page_type '==' 'page'}}page-{{page.title}}{{/if}}">
@@ -177,7 +203,6 @@
                             type:'GET',
                             success: function(res){
                                 var cart_id = $(res).find('.page-content').attr('data-cart-id');
-                                //console.log(cart_id);
                                 $('#cart-id').val(cart_id);
                             }
                         });
@@ -303,7 +328,7 @@
                     $(".wishlist-and-cart-product-count-container > .change_on_count").text("shopper");
                     $(".wishlist-and-cart-product-count-container").addClass("counter-updated");
                 }
-                // console.log($(".wishlist-and-cart-product-count-container > .count").text());
+                
                 counter++;
                 if(counter == 20) {
                     clearInterval(refreshIntervalId);
@@ -311,7 +336,7 @@
             }, 1000);
             setInterval(function(){
                 if($('#currencySelection .active-currency').attr('data-currency-code') == 'GBP'){
-                    //console.log("Active currency GBP");
+                 
                     $(".page-product .laybuy-inline-widget").show();
                 }else if($('#currencySelection .active-currency').attr('data-currency-code') == 'CAD'){
                     $("klarna-placement").hide();
@@ -346,7 +371,7 @@
 
             $.ajax(settings).done(function (response) {
                 response = JSON.parse(response);
-                //console.log(response);
+                
                 var item = "";
                 var item_count = response.length;
                 var count = 0;
@@ -566,7 +591,7 @@
       
      
       // If window.bodlEvents.banner.viewed is available, then...
-      if (typeof window.bodlEvents.banner.viewed === 'function') {
+      if (typeof window.bodlEvents?.banner?.viewed === 'function') {
         
         window.dataLayer = window.dataLayer || [];
         // run the viewed function to get the payload
@@ -577,21 +602,16 @@
           var bodl_data = {
               'event': 'bodl_v1_view_banner'
           }
-          console.log(
-            'window.bodlEvents.banner.viewed ~ payload',
-            payload
-          );
           
         bodl_data.bodl_ecommerce = payload;
           
         window.dataLayer.push(bodl_data);
-        console.log("dataLayer", dataLayer);
     
         });
       }   
       
       // If window.bodlEvents.product.pageViewed is available, then...
-      if (typeof window.bodlEvents.product.pageViewed === 'function') {
+      if (typeof window.bodlEvents?.product?.pageViewed === 'function') {
           
           window.dataLayer = window.dataLayer || [];
         // run the pageViewed function to get the payload
@@ -601,22 +621,16 @@
           var bodl_data = {
               'event': 'bodl_v1_product_page_viewed'
           }
-          
-          console.log(
-            'window.bodlEvents.product.pageViewed ~ payload',
-            payload
-          );
            
             bodl_data.bodl_ecommerce = payload;
               
             window.dataLayer.push(bodl_data);
-            console.log("dataLayer", dataLayer);
     
         });
       }
         
       // If window.bodlEvents.product.categoryViewed is available, then...
-      if (typeof window.bodlEvents.product.categoryViewed === 'function') {
+      if (typeof window.bodlEvents?.product?.categoryViewed === 'function') {
         
         window.dataLayer = window.dataLayer || [];
         // run the categoryViewed function to get the payload
@@ -626,21 +640,16 @@
           var bodl_data = {
               'event': 'bodl_v1_product_category_viewed'
           }
-           
-          console.log(
-            'window.bodlEvents.product.categoryViewed ~ payload',
-            payload
-          );
           
             bodl_data.bodl_ecommerce = payload;
           
             window.dataLayer.push(bodl_data);
-            console.log("dataLayer", dataLayer);
+        
         });
       }
         
       // If window.bodlEvents.cart.addItem is available, then...
-      if (typeof window.bodlEvents.cart.addItem === 'function') {
+      if (typeof window.bodlEvents?.cart?.addItem === 'function') {
           window.dataLayer = window.dataLayer || [];
           
         // run the addItem function to get the payload
@@ -651,20 +660,14 @@
               'event': 'bodl_v1_cart_product_added'
           }
           
-          console.log(
-            'window.bodlEvents.cart.addItem ~ payload',
-            payload
-          );
-          
             bodl_data.bodl_ecommerce = payload;
           
             window.dataLayer.push(bodl_data);
-            console.log("dataLayer", dataLayer);
         });
       }
         
       // If window.bodlEvents.cart.viewed is available, then...
-      if (typeof window.bodlEvents.cart.viewed === 'function') {
+      if (typeof window.bodlEvents?.cart?.viewed === 'function') {
           
           window.dataLayer = window.dataLayer || [];
         // run the viewed function to get the payload
@@ -674,21 +677,17 @@
           var bodl_data = {
               'event': 'bodl_v1_cart_viewed'
           }
-          
-          console.log(
-            'window.bodlEvents.cart.viewed ~ payload',
-            payload
-          );
+
           
             bodl_data.bodl_ecommerce = payload;
               
             window.dataLayer.push(bodl_data);
-            console.log("dataLayer", dataLayer);
+
         });
       }
         
       // If window.bodlEvents.cart.removeItem is available, then...
-      if (typeof window.bodlEvents.cart.removeItem === 'function') {
+      if (typeof window.bodlEvents?.cart?.removeItem === 'function') {
           
           window.dataLayer = window.dataLayer || [];
         // run the removeItem function to get the payload
@@ -699,15 +698,9 @@
               'event': 'bodl_v1_cart_product_removed'
           }
           
-          console.log(
-            'window.bodlEvents.cart.removeItem ~ payload',
-            payload
-          );
-          
             bodl_data.bodl_ecommerce = payload;
               
             window.dataLayer.push(bodl_data);
-            console.log("dataLayer", dataLayer);
         });
       }
 
@@ -776,11 +769,14 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(() => {
+            
+        
         const div = document.querySelector('.brand-product-count');
         let text = div.innerHTML;
 
         // Extract and wrap the number in a span
-        const number = text.match(/\d+/)[0];
+        const number = text?.match(/\d+/)[0];
         text = text.replace(number, `<span class="bold-number">${number}</span>`);
 
         // Replace single quotes with double quotes around any text
@@ -788,6 +784,7 @@
 
         // Set the modified text back to the div
         div.innerHTML = text;
+    }, 3000);
     });
 </script>
 
@@ -795,6 +792,4 @@
 <script>
     pintrk('track', 'pagevisit');
 </script>
-<noscript>
-    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=YOUR_TAG_ID&event=pagevisit&noscript=1"/>
-</noscript>
+

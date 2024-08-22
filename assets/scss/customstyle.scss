@@ -1262,7 +1262,7 @@ body{
         }
         .brand-badge{
             display: flex; align-items: center; justify-content: space-between;
-            h2{
+            h1,h2{
                     font-size: 20px; line-height: 25px; letter-spacing: 1px; font-weight: 600; transition: all 0.3s ease-in-out; margin-bottom: 5px;
                 @media screen and (min-width:568px){
                     font-size: 27px; line-height: 31px; 
