@@ -990,8 +990,8 @@
         "pdp-custom-fields-tab-label": "Additional Information"
     },
     "consent_manager": {
-        "data_collection_warning": "We use cookies enhance your experience, tailor your ads and improve our website",
-        "accept_all_cookies": "Accept All",
+        "data_collection_warning": "We use cookies to enhance your experience, tailor your ads and improve our website. ",
+        "accept_all_cookies": "Accept All and Close",
         "gdpr_settings": "Manage",
         "data_collection_preferences": "Website Data Collection Preferences",
         "manage_data_collection_preferences": "Manage Website Data Collection Preferences",

@@ -1644,37 +1644,48 @@ button.gpay-button.black.short.en {
 // cookies css start
 
 #consent-manager{
-	left: 20px !important; bottom: 20px !important; width: 100%; max-width: 330px;
+	left: 50% !important; top: 50% !important; width: 100%; max-width: 500px; transform: translate(-50%,-50%) !important; bottom: auto !important; box-shadow: 0 32px 68px #0000004d; border-radius: 10px;
 
 	@media (max-width:567px) {
-		left: 0 !important; bottom: 0 !important; max-width: 100%;
+		left: 50% !important; bottom: 0 !important; top: auto !important; max-width: 100%; transform: translate(-50%, 0%) !important;
 	}
 
 	.css-10z1g2q{
-		background-color: rgba(0,0,0,0.8) !important; border-radius: 10px;
+		background-color: rgba(255,255,255,1) !important; border-radius: 10px; padding: 50px; 
         
         @media (max-width:567px){
-            border-radius: 0px;
+            border-radius: 0px; padding: 14px;
         }
         
 		.css-ra9y5f{
 			p{
-				font-size: 16px; line-height: 22px;
+				font-size: 18px; line-height: 28px; color: #000;
+				@media (max-width:567px){
+					font-size: 16px; line-height: 22px;
+				}
+				span a{
+					opacity: 1;
+					&:hover{
+						opacity: 0.7;
+					}
+				}
 			}	
 		}
 
 		.css-1wn42nw{
-			justify-content: end !important; width: 100%;
+			justify-content: start !important; width: 100%; margin-top: 40px;
 
 			@media (max-width:567px) {
-				justify-content: center !important; flex-direction: column; margin-bottom: 30px;
+				justify-content: center !important; flex-direction: column; margin-bottom: 20px; margin-top: 20px;
 			}
 
 			.css-1k76mzs{
-				display: block !important; font-weight: 600; background: #fff; color: #000 !important; transition: all .3s ease-in-out; border: 1px solid #fff;
-				
+				display: block !important; font-weight: 600; background: #fff; color: #000 !important; transition: all .3s ease-in-out; border: 1px solid #000; width: 48%; margin-left: 0px !important; 
+				@media (max-width:567px) {
+					width: 100%; display: block; text-align: center; margin: 10px auto; border: 1px solid #000;
+				}
 				&:hover{
-					background: transparent !important; color: #fff !important;
+					background: #000 !important; color: #fff !important; border: 1px solid #000;
 				}
 			}
 
@@ -1683,14 +1694,14 @@ button.gpay-button.black.short.en {
 			}
 
 			.css-a0j149{
-				font-weight: 600; color: #000 !important; transition: all .3s ease-in-out; border: 1px solid #fff;
+				font-weight: 600; background: #000 !important; color: #ffff !important; border: 1px solid #000; transition: all .3s ease-in-out;  width: 50%; justify-content: center;
 
 				@media (max-width:567px) {
-					width: 100%; display: block; text-align: center; margin: 10px auto;
+					width: 100%; display: block; text-align: center; margin: 10px auto; border: 1px solid #000;
 				}
 
 				&:hover{
-					background: transparent !important; color: #fff !important;
+					background: #fff !important; color: #000 !important; border: 1px solid #000;
 				}
 			}
 		}
@@ -2934,6 +2945,37 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 					}
 				}
 			}
+		}
+	}
+}
+
+.page-product{
+	.view-more-related-products-links{
+		.view-more-related-products-link{
+			margin: 0px !important;
+			&:not(:first-child)::before {
+				border-right: 0.1em solid $primary-color;
+				content: "";
+				display: inline-block;
+				height: 0.8em;
+				margin: 0 0.25rem;
+				transform: rotate(15deg);
+			}
+			&:last-child::after {
+				border-right: 0.1em solid $primary-color;
+				content: "";
+				display: inline-block;
+				height: 0.8em;
+				margin: 0 0.30rem;
+				transform: rotate(15deg);
+			}
+			.view-more-related-products-link-value{
+				margin: 0px 5px !important;
+			}
+			
+		}
+		.view-more-related-products-link:first-child a{
+			margin:0px 5px 0px !important;
 		}
 	}
 }

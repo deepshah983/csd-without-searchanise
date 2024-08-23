@@ -90,10 +90,10 @@ brand:
 (function(window, undefined) {
     var sXpos = 0, sIndex = 0, sTotalFrames = 12, sInterval = null;
 
-    if (document.getElementById('snize_results').innerHTML != '') {
+    if (document.querySelectorAll('#snize_results').length > 0 && document.getElementById('snize_results').innerHTML != '') {
         return;
     }
-
+    if (document.querySelectorAll('#snize_results').length > 0)
     document.getElementById('snize_results').innerHTML = '<div id="snize-preload-spinner"></div>';
     sInterval = setInterval(function()
     {
@@ -120,7 +120,9 @@ brand:
             clearInterval(interval)
             youMayAlsoLike()
         }
-    })
+    },1000);
+    
+    setTimeout(() => {clearInterval(interval)},5000);
 
     function youMayAlsoLike() {
         let graphqlQuery = `query CategoryByUrl {
@@ -316,6 +318,105 @@ fragment MoneyFields on Money {
         maximumFractionDigits: 0
     }).replace(/\d/g, '').trim();
 }
+</script>
+<input type="hidden" id="brandProductsCount" value="" />
+<script>
+ 
+let lastUrl = window.location.href;
+new MutationObserver(() => {
+const url = window.location.href;
+
+if (url != lastUrl) {
+    setTimeout(() => {
+    
+    if($('.productGrid li.product').length > 0 && $('.productGrid li.product') != null && $('.productGrid li.product').length != 48){
+    lastUrl = url;
+    $('.brand-product-count .product-totlecount b').text($('.productGrid li.product').length);
+    $('.page-brand .product-totlecount b').text($('.productGrid li.product').length);
+    
+    if (isMobileView()) {
+        if($(".inlineList.inlineList--labels li").length > 0)
+        $(".selected-filters-count").text($(".inlineList.inlineList--labels li").length).addClass('selected');
+    }
+    }
+    checkAndCallFunction(url);
+    },1500);
+}
+}).observe(document, {subtree: true, childList: true});
+
+setTimeout(() => {
+let brand_url = "{{brand.url}}";
+let url = window.location.href;
+    
+          let graphqlQuery = `query CategoryByUrl {
+          site {
+            route(path: "${brand_url}") {
+              node {
+                id
+                ... on Brand {
+                  name
+                  entityId
+                  products(hideOutOfStock: true) {
+                   collectionInfo{
+                    totalItems
+                  }
+                  }
+                }
+              }
+            }
+          }
+        }`;
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+        };
+
+        // Make the AJAX POST request
+        $.ajax({
+            type: 'POST',
+            url: '/graphql',
+            headers: headers,
+            data: JSON.stringify({ query: graphqlQuery }),
+            dataType: 'json',
+            success: function (data) {
+          
+                if (data.data.site.route.node != null && data.data.site.route.node.products.collectionInfo != null) {
+                 let count = data.data.site.route.node.products.collectionInfo.totalItems;  
+                 
+                 $("#brandProductsCount").val(count);
+                 if(brand_url == window.location.href || url.includes("?_bc_fsnf=1") && url.length > url.indexOf("?_bc_fsnf=1") + 11 == false){
+                 $('.brand-product-count .product-totlecount b').text(count);
+                    $('.page-brand .product-totlecount b').text(count);
+                    
+                    if (isMobileView()) {
+                        if($(".inlineList.inlineList--labels li").length > 0)
+                        $(".selected-filters-count").text(count).addClass('selected');
+                    }
+                }
+                }
+            },
+        });
+},1200);
+        function isMobileView() {
+            return $(window).width() < 820; // Adjust this breakpoint as needed
+        }
+        function checkAndCallFunction(url) {
+          // Check if the URL contains "?_bc_fsnf=1" and has additional parameters
+        
+          if (url.includes("?_bc_fsnf=1") && url.length > url.indexOf("?_bc_fsnf=1") + 11 == false) {
+     
+            // Call your desired function here
+            let count = $("#brandProductsCount").val();
+             $('.brand-product-count .product-totlecount b').text(count);
+                    $('.page-brand .product-totlecount b').text(count);
+                    
+                    if (isMobileView()) {
+                        if($(".inlineList.inlineList--labels li").length > 0)
+                        $(".selected-filters-count").text(count).addClass('selected');
+                    }
+          }
+        }
 </script>
 {{/partial}}
 {{> layout/base}}

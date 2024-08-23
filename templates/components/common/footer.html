@@ -35,8 +35,10 @@
             <p>Sign up for promotions, tailored new arrivals, stock updates and more – straight to your inbox</p>
         </div>
         <form novalidate="" id="newsletter-form" class="newsletter-form offer-wrapper">
-            <h5 class="footer-info-heading">GET UPDATES BY</h5>
-            <div class="form-group">
+            <!--<h5 class="footer-info-heading">GET UPDATES BY</h5>-->
+            <div class="klaviyo-form-SdHdK9"></div>
+            
+            <!--<div class="form-group">
                 <input type="checkbox" checked="checked" name="email_checkbox" class="form-control"
                     id="email_checkbox" value="yes">
                 <span class="checkmark"></span>
@@ -73,7 +75,7 @@
                 <input class="form-submit button" type="submit" name="SignIn" value="Sign Up">
             </div>
             <p>By signing up, you agree to our <a target="_blank" href="/privacy-policy">Privacy Policy</a>.
-                <span>Unsubscribe anytime at the bottom of our emails. </span></p>
+                <span>Unsubscribe anytime at the bottom of our emails. </span></p>-->
         </form>
     </div>
     <div class="success-form" style="display: none;">
@@ -1540,30 +1542,6 @@ function isMobileView() {
 const getCurrentPageURL = () => {
 const currentPageUrl = document.URL;
 }
-
-let lastUrl = location.href;
-new MutationObserver(() => {
-const url = location.href;
-if (url !== lastUrl) {
-    lastUrl = url;
-    $('.brand-product-count .product-totlecount b').text($('.productGrid li').length);
-    $('.page-brand .product-totlecount b').text($('.productGrid li').length);
-    
-    if (isMobileView()) {
-        if($(".inlineList.inlineList--labels li").length > 0)
-        $(".selected-filters-count").text($(".inlineList.inlineList--labels li").length).addClass('selected');
-    }
-}
-}).observe(document, {subtree: true, childList: true});
-$(document).ready(function () {
-    $('.brand-product-count .product-totlecount b').text($('.productGrid li').length);
-    $('.page-brand .product-totlecount b').text($('.productGrid li').length);
-    // Usage
-    if (isMobileView()) {
-        if($(".inlineList.inlineList--labels li").length > 0)
-        $(".selected-filters-count").text($(".inlineList.inlineList--labels li").length).addClass('selected');
-    }
-});
 </script>
 
 {{#if page_type '===' 'product'}}
@@ -1574,7 +1552,7 @@ $(document).ready(function () {
             if (priceElement) {
                 var priceText = priceGBP.textContent.trim();
                 var priceValue = parseFloat(priceText.replace(/[^0-9.]/g, ''));
-                console.log("priceValue", priceValue);
+                
                 if ($('#currencySelection .active-currency').attr('data-currency-code') == 'GBP') {
                     if (priceValue > 4000) {
                         priceElement.textContent += "This item is eligible for store credit return only (No Cash Refunds)";
