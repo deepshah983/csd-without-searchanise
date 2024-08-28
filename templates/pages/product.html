@@ -110,3 +110,10 @@ product:
     
  
 </script>
+
+<script>
+    var klaviyo = window.klaviyo || [];
+    document.getElementById("form-action-addToCart").addEventListener('click',function (){
+        klaviyo.track("Added to Cart", item);
+    });
+</script>
