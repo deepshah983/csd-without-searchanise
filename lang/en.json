@@ -30,7 +30,7 @@
         "maintenance_message": "This store is currently unavailable due to maintenance. It should be available again shortly. We apologize for any inconvenience caused."
     },
     "brands": {
-        "no_products": "There are no products listed under this brand."
+        "no_products": "We currently don't have any products for this designer but we have other products that you may like."
     },
     "categories": {
         "no_products": "There are no products listed under this category."
@@ -867,7 +867,7 @@
             "form_label": "Search Keyword:",
             "form_button_text": "Search",
             "count": "{ count, plural, one {# result} other {# results} } for '{ search_query }'",
-            "quick_count": "{ count, plural, one {# product result} other {# product results} } for '{ search_query }'",
+            "quick_count": "Showing { count, plural, one {# result} other {# results} } for '{ search_query }'",
             "quick_count_live": "product results for",
             "product_count": "Products ({count})",
             "content_count": "News & Information ({count})"
@@ -990,8 +990,8 @@
         "pdp-custom-fields-tab-label": "Additional Information"
     },
     "consent_manager": {
-        "data_collection_warning": "We use cookies enhance your experience, tailor your ads and improve our website",
-        "accept_all_cookies": "Accept All",
+        "data_collection_warning": "We use cookies to enhance your experience, tailor your ads and improve our website. ",
+        "accept_all_cookies": "Accept All and Close",
         "gdpr_settings": "Manage",
         "data_collection_preferences": "Website Data Collection Preferences",
         "manage_data_collection_preferences": "Manage Website Data Collection Preferences",

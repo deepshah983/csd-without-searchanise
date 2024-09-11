@@ -41,9 +41,11 @@ brand:
 
 
 <div class="page">
-    <aside class="page-sidebar" id="faceted-search-container">
-        {{> components/brand/sidebar}}
-    </aside>
+    <div class="page-sidebar-sticky">
+        <aside class="page-sidebar" id="faceted-search-container">
+            {{> components/brand/sidebar}}
+        </aside>
+    </div>
 
     <main class="page-content" id="product-listing-container">
         {{#if brand.search_error }}
@@ -52,7 +54,14 @@ brand:
             {{#if brand.products}}
                 {{> components/brand/product-listing}}
             {{else}}
-                <p>{{lang 'brands.no_products'}}</p>				
+                <p>{{lang 'brands.no_products'}}</p>	
+                <div class="you-may-also-like" >
+                    <h3 class="you-may-also-like-title">You May Also Like</h3>
+                    <div class="loaded-products-container productGridFavourite productGrid productGrid--maxCol">
+                
+                    </div>
+                    
+                </div>		
             {{/if}}
             {{{region name="brand_below_content"}}}
         {{/if}}
@@ -64,13 +73,7 @@ brand:
 <script src="//www.searchanise.com/widgets/bigcommerce/init.js?api_key=3L7x6q3O0Y"></script> 
 <div class="snize" id="snize_results" data-brand-page="true"></div>
 {{/comment}}
-<div class="you-may-also-like" style="display: none;">
-    <h3 class="you-may-also-like-title">You May Also Like</h3>
-    <div class="loaded-products-container productGridFavourite productGrid productGrid--maxCol">
 
-    </div>
-    
-</div>
 
 <style type="text/css"><!--
 /* Load spinner */
@@ -88,10 +91,10 @@ brand:
 (function(window, undefined) {
     var sXpos = 0, sIndex = 0, sTotalFrames = 12, sInterval = null;
 
-    if (document.getElementById('snize_results').innerHTML != '') {
+    if (document.querySelectorAll('#snize_results').length > 0 && document.getElementById('snize_results').innerHTML != '') {
         return;
     }
-
+    if (document.querySelectorAll('#snize_results').length > 0)
     document.getElementById('snize_results').innerHTML = '<div id="snize-preload-spinner"></div>';
     sInterval = setInterval(function()
     {
@@ -113,12 +116,14 @@ brand:
 }(window));
 // ]]></script>
 <script>
-    let interval = setInterval(() => {
+    /* let interval = setInterval(() => {
         if ($(".snize-search-results-content .snize-product").length != 0 && $(".snize-search-results-content .snize-product").length < 3) {
             clearInterval(interval)
             youMayAlsoLike()
         }
-    })
+    },1000); */
+    
+    /* setTimeout(() => {clearInterval(interval)},5000); */
 
     function youMayAlsoLike() {
         let graphqlQuery = `query CategoryByUrl {
@@ -131,6 +136,11 @@ brand:
           entityId
           description
           products(first: 50, sortBy: NEWEST, hideOutOfStock: true) {
+            pageInfo {
+                startCursor
+                endCursor
+                hasNextPage
+            },
             edges {
               node {
                 entityId
@@ -141,11 +151,11 @@ brand:
                 }
                 customFields {
                     edges {
-                    node {
-                        value
-                        name
-                        entityId
-                    }
+                        node {
+                            value
+                            name
+                            entityId
+                        }
                     }
                 }
                  inventory {
@@ -174,7 +184,7 @@ brand:
                         }
               }
               }
-            }
+            },
           }
         }
       }
@@ -200,7 +210,7 @@ fragment MoneyFields on Money {
             data: JSON.stringify({ query: graphqlQuery }),
             dataType: 'json',
             success: function (data) {
-          
+            console.log(data);
                 if (data.data.site.route.node != null && data.data.site.route.node.products.edges.length > 0) {
                     let allData = data.data.site.route.node.products.edges;
                     let html = '';
@@ -222,7 +232,7 @@ fragment MoneyFields on Money {
                         })
 
              
-                       if(value.node.inventory.isInStock && count < 8){
+                       if(value.node.inventory.isInStock ){
 
                         count++;
                        
@@ -265,6 +275,7 @@ fragment MoneyFields on Money {
                         html += '</div>'
                        html += '</div>'
                       }
+                     
                         html += '<div class="card-text" data-test-info-type="price">'
 
                         html += '<div class="price-section price-section--withoutTax">'
@@ -279,15 +290,22 @@ fragment MoneyFields on Money {
                             html += '<span data-product-price-without-tax="" class="price price--withoutTax sale_price">'+currency+'' + value.node.prices.salePrice.value + '</span>'
                         else
                             html += '<span data-product-price-without-tax="" class="price price--withoutTax sale_price">'+currency+'' + value.node.prices.price.value + '</span>'
+
                         html += '</div>'
+                        
                         html += '</div>'
 
                         html += '</div>'
+                        html += '<p class="view-link" data-miros-entry="custom" data-miros-item="'+allData[index].node.sku+'">View Similar</p> ';
                         html += '</a>'
                         html += '</div>'
                         html += '</div>'
+                        html += '<div class="card-figcaption-listing">'
+                            html += '<a href="javascript:;" data-event-type="product-click" data-button-type="add-cart" data-product-name="{{name}}" data-product-price="{{price.without_tax.value}}" data-product-cat="{{category}}" data-product-img="' + value.node.defaultImage.url + '" data-product-id="{{id}}" class="button button--small card-figcaption-button custom-add-to-cart">Add to cart</a>'
+                        html += '</div>'
                         html += '</article>'
                         html += '</div>'
+                        
                     }
 
                     });
@@ -314,6 +332,110 @@ fragment MoneyFields on Money {
         maximumFractionDigits: 0
     }).replace(/\d/g, '').trim();
 }
+</script>
+<input type="hidden" id="brandProductsCount" value="" />
+<script>
+ 
+let lastUrl = window.location.href;
+new MutationObserver(() => {
+const url = window.location.href;
+
+if (url != lastUrl) {
+    setTimeout(() => {
+    
+    if($('.productGrid li.product').length > 0 && $('.productGrid li.product') != null && $('.productGrid li.product').length != 48){
+    lastUrl = url;
+    $('.brand-product-count .product-totlecount b').text($('.productGrid li.product').length);
+    $('.page-brand .product-totlecount b').text($('.productGrid li.product').length);
+    
+    if (isMobileView()) {
+        if($(".inlineList.inlineList--labels li").length > 0)
+        $(".selected-filters-count").text($(".inlineList.inlineList--labels li").length).addClass('selected');
+    }
+    }
+    checkAndCallFunction(url);
+    },1500);
+}
+}).observe(document, {subtree: true, childList: true});
+
+setTimeout(() => {
+let brand_url = "{{brand.url}}";
+let url = window.location.href;
+    
+          let graphqlQuery = `query CategoryByUrl {
+          site {
+            route(path: "${brand_url}") {
+              node {
+                id
+                ... on Brand {
+                  name
+                  entityId
+                  products(hideOutOfStock: true) {
+                   collectionInfo{
+                    totalItems
+                  }
+                  }
+                }
+              }
+            }
+          }
+        }`;
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+        };
+
+        // Make the AJAX POST request
+        $.ajax({
+            type: 'POST',
+            url: '/graphql',
+            headers: headers,
+            data: JSON.stringify({ query: graphqlQuery }),
+            dataType: 'json',
+            success: function (data) {
+          
+                if (data.data.site.route.node != null && data.data.site.route.node.products.collectionInfo != null) {
+                 let count = data.data.site.route.node.products.collectionInfo.totalItems;  
+                 
+                 $("#brandProductsCount").val(count);
+                 if(brand_url == window.location.href || url.includes("?_bc_fsnf=1") && url.length > url.indexOf("?_bc_fsnf=1") + 11 == false){
+                 $('.brand-product-count .product-totlecount b').text(count);
+                    $('.page-brand .product-totlecount b').text(count);
+                    
+                    if (isMobileView()) {
+                        if($(".inlineList.inlineList--labels li").length > 0)
+                        $(".selected-filters-count").text(count).addClass('selected');
+                    }
+                }
+                }
+            },
+        });
+},1200);
+        function isMobileView() {
+            return $(window).width() < 820; // Adjust this breakpoint as needed
+        }
+        function checkAndCallFunction(url) {
+          // Check if the URL contains "?_bc_fsnf=1" and has additional parameters
+        
+          if (url.includes("?_bc_fsnf=1") && url.length > url.indexOf("?_bc_fsnf=1") + 11 == false) {
+     
+            // Call your desired function here
+            let count = $("#brandProductsCount").val();
+             $('.brand-product-count .product-totlecount b').text(count);
+                    $('.page-brand .product-totlecount b').text(count);
+                    
+                    if (isMobileView()) {
+                        if($(".inlineList.inlineList--labels li").length > 0)
+                        $(".selected-filters-count").text(count).addClass('selected');
+                    }
+          }
+        }
+
+        $(document).ready(function(){
+            youMayAlsoLike();
+        });
+        
 </script>
 {{/partial}}
 {{> layout/base}}

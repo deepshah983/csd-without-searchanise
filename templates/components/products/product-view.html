@@ -96,14 +96,14 @@
                                         {{#if (getVar 'main-category') '===' 'none'}}
                                             {{#each (split this '/')}}
                                                 {{#if @index '===' 0}}
-                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}/">{{this}}</a></li>
                                                     {{assignVar 'main-category' 'clothing'}}
                                                 {{/if}}
                                                 {{#if @index '===' 1}}
                                                     {{#contains this "Jumpsuits"}}
-                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/jumpsuits">{{this}}</a></li>
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/jumpsuits/">{{this}}</a></li>
                                                     {{else}}
-                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}/">{{this}}</a></li>
                                                     {{/contains}}
                                                 {{/if}}
                                             {{/each}}
@@ -113,11 +113,11 @@
                                         {{#if (getVar 'main-category') '===' 'none'}}
                                             {{#each (split this '/')}}
                                                 {{#if @index '===' 0}}
-                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}/">{{this}}</a></li>
                                                     {{assignVar 'main-category' 'bags'}}
                                                 {{/if}}
                                                 {{#if @index '===' 1}}
-                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}/">{{this}}</a></li>
                                                 {{/if}}
                                             {{/each}}
                                         {{/if}}
@@ -126,11 +126,11 @@
                                         {{#if (getVar 'main-category') '===' 'none'}}
                                             {{#each (split this '/')}}
                                                 {{#if @index '===' 0}}
-                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}/">{{this}}</a></li>
                                                     {{assignVar 'main-category' 'shoes'}}
                                                 {{/if}}
                                                 {{#if @index '===' 1}}
-                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}/">{{this}}</a></li>
                                                 {{/if}}
                                             {{/each}}
                                         {{/if}}
@@ -139,11 +139,11 @@
                                         {{#if (getVar 'main-category') '===' 'none'}}
                                             {{#each (split this '/')}}
                                                 {{#if @index '===' 0}}
-                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{dashcase (toLowerCase this)}}/">{{this}}</a></li>
                                                     {{assignVar 'main-category' 'accessories'}}
                                                 {{/if}}
                                                 {{#if @index '===' 1}}
-                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}">{{this}}</a></li>
+                                                    <li class="view-more-related-products-link"><a class="view-more-related-products-link-value" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}/">{{this}}</a></li>
                                                 {{/if}}
                                             {{/each}}
                                         {{/if}}
@@ -163,9 +163,10 @@
 
             <div class="brand-badge">
                 {{#if product.brand}}
-                    <h2 class="productView-brand">
+                    <!-- <h2 class="productView-brand"> -->
+                    <h1>
                         <a href="{{product.brand.url}}">{{product.brand.name}}</a>
-                    </h2>
+                    </h1>
                 {{/if}}
                 <div class="badges">
                     {{#each product.custom_fields}}
@@ -225,7 +226,8 @@
                     </div>
                     {{/unless}}
                 {{/comment}}
-                    {{#comment}} <div class="csd-native-share supported"><i class="icon" aria-hidden="true"><svg id="shareBtn"><use xlink:href="#icon-share"></use></svg></i></div> {{/comment}}
+                {{#comment}}
+                   <div class="csd-native-share supported"><i class="icon" aria-hidden="true"><svg id="shareBtn"><use xlink:href="#icon-share"></use></svg></i></div> {{/comment}}
                 </div>
                  
                 <div class="product-below-price-wrapper" style="margin-bottom: 10px; display: none !important;">

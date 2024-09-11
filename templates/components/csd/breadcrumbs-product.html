@@ -81,50 +81,7 @@
                             {{/contains}}
                         {{/contains}}
                     {{/each}}
-       {{#comment}} 
-        
-        {{#if product.brand}}
-            <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <!-- <span>{{../product.brand.name}}: </span> -->
-                <span>{{product.brand.name}}: </span>
-            </li>
-            <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a href="{{product.brand.url}}" class="breadcrumb-label" itemprop="item"><span itemprop="name">All</span></a>
-                <meta itemprop="position" content="1" />
-            </li>
-            <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a href="{{product.brand.url}}" class="breadcrumb-label" itemprop="item"><span itemprop="name">Women</span></a>
-                <meta itemprop="position" content="2" />
-            </li>
-            {{#each breadcrumbs}}
-                {{#or @first @last}}
-                {{else}}
-                <li class="breadcrumb {{#if @last}}is-active{{/if}}" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    {{#or @last (if url "==" null)}}
-                        <span class="breadcrumb-label "><span itemprop="name">{{name}}</span></span>
-                    {{else}}
-                        <a href="{{url}}" class="breadcrumb-label " itemprop="item"><span itemprop="name">{{name}}</span></a>
-                    {{/or}}
-                    <meta itemprop="position" content="{{add @index 2}}" />
-                </li>
-                {{/or}}
-            {{/each}}
-        {{else}}
-            {{#each breadcrumbs}}
-                {{#or @first @last}}
-                {{else}}
-                    <li class="breadcrumb {{#if @last}}is-active{{/if}}" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        {{#or @last (if url "==" null)}}
-                            <span class="breadcrumb-label"><span itemprop="name">{{name}}</span></span>
-                        {{else}}
-                            <a href="{{url}}" class="breadcrumb-label" itemprop="item"><span itemprop="name">{{name}}</span></a>
-                        {{/or}}
-                        <meta itemprop="position" content="{{@index}}" />
-                    </li>
-                {{/or}}
-            {{/each}}
-        {{/if}}
-        {{/comment}}
+       
     {{/unless}}
 </ul>
 

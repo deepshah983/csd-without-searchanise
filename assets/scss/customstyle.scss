@@ -732,6 +732,7 @@ body{
     display: none;
 }
 .card .rrp-price--withoutTax{
+    height: 20px;
     @media screen and (min-width: 768px){
         height: 20px;
     }
@@ -1261,7 +1262,7 @@ body{
         }
         .brand-badge{
             display: flex; align-items: center; justify-content: space-between;
-            h2{
+            h1,h2{
                     font-size: 20px; line-height: 25px; letter-spacing: 1px; font-weight: 600; transition: all 0.3s ease-in-out; margin-bottom: 5px;
                 @media screen and (min-width:568px){
                     font-size: 27px; line-height: 31px; 
@@ -2717,7 +2718,7 @@ html {
     .accordion.accordion--navList{
         @media screen and (max-width: 820px){
             border: 0;
-            padding: 0 15px;
+            padding: 0px;
         }
         .accordion-block{
             @media screen and (max-width: 820px){
@@ -2727,7 +2728,7 @@ html {
         }
     }
 }
-.page-category .page-sidebar .facetedSearch-toggle + .facetedSearch-navList, .page-brand .page-sidebar .facetedSearch-toggle + .facetedSearch-navList,.page-search .page-sidebar .facetedSearch-toggle + .facetedSearch-navList{
+.page-category .page-sidebar .facetedSearch-toggle + .facetedSearch-navList, .page-brand .page-sidebar .facetedSearch-toggle + .facetedSearch-navList, .page-search .page-sidebar .facetedSearch-toggle + .facetedSearch-navList{
     @media screen and (max-width: 801px) {
         position: fixed;
         left: 0;
@@ -2811,6 +2812,9 @@ html {
             color: #333;
         }
     }
+    .mobile-only.category-sort{
+        padding: 15px 0;
+    }
     .mobile-bottom{
         display: none;
         position: fixed;
@@ -2825,10 +2829,14 @@ html {
             display: flex;
             flex-direction: column;
         }
-        .product-count{
+        .product-count,.brand-product-count{
             text-align: left;
             margin-top: 0px;
             padding: 0px 0px 10px 0px;
+            display: none;
+            @media screen and (max-width: 820px) {
+                display: block;
+            }
         }
         .facetedSearch-refineFilters.sidebarBlock.accordion-block.popup-accordion-block{
                 display: flex !important;

@@ -43,4 +43,12 @@ ol.breadcrumbs {
         margin: 0 0.25rem;
         transform: rotate(15deg);
     }
+    &:last-child::after {
+        border-right: 0.1em solid $primary-color;
+        content: "";
+        display: inline-block;
+        height: 0.8em;
+        margin: 0 0.30rem;
+        transform: rotate(15deg);
+    }
 }

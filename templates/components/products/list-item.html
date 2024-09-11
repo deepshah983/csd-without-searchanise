@@ -118,7 +118,11 @@
                         <a href="{{pre_order_add_to_cart_url}}" data-event-type="product-click" class="button button--primary">{{lang 'products.pre_order'}}</a>
                     {{/if}}
                     {{#if add_to_cart_url }}
-                        <a href="{{add_to_cart_url}}" data-event-type="product-click" class="button button--primary">{{lang 'products.add_to_cart'}}</a>
+                        <a href="{{add_to_cart_url}}" onclick="pintrk('track', 'addtocart', {
+            'value':'{{#if price.with_tax}}{{price.with_tax.value}}{{else}}{{price.without_tax.value}}{{/if}}',
+            'order_quantity':'{{#if min_purchase_quantity}}{{min_purchase_quantity}}{{else}}1{{/if}}',
+            'currency': '{{currency_code}}'
+        });" data-event-type="product-click" class="button button--primary">{{lang 'products.add_to_cart'}}</a>
                     {{/if}}
                     {{#if out_of_stock_message }}
                         <a href="{{url}}" data-event-type="product-click" class="button button--small" data-product-id="{{id}}">{{out_of_stock_message}}</a>

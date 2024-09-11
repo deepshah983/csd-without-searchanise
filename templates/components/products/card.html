@@ -134,9 +134,9 @@ data-product-category="
                 </div>
                 {{> components/products/bulk-discount-rates}}
             </a>
-            {{#comment}}
+            
             <p class="view-link" data-miros-entry="custom" data-miros-item="{{sku}}">View Similar</p>
-            {{/comment}}
+            
         </div>
         {{#or has_options add_to_cart_url }}
             {{> components/csd/products/wishlist id=id customer=customer}}
@@ -154,7 +154,11 @@ data-product-category="
             <a href="javascript:;" data-event-type="product-click" data-product-id="{{id}}" class="button button--small card-figcaption-button custom-add-to-cart">{{lang 'products.pre_order'}}</a>
         {{/if}}
         {{#if add_to_cart_url }}
-            <a href="javascript:;" data-event-type="product-click" data-button-type="add-cart" data-product-id="{{id}}" class="button button--small card-figcaption-button custom-add-to-cart">{{lang 'products.add_to_cart'}}</a>
+            <a href="javascript:;" onclick="pintrk('track', 'addtocart', {
+            'value':'{{#if price.with_tax}}{{price.with_tax.value}}{{else}}{{price.without_tax.value}}{{/if}}',
+            'order_quantity':'{{#if min_purchase_quantity}}{{min_purchase_quantity}}{{else}}1{{/if}}',
+            'currency': '{{currency_code}}'
+        });" data-event-type="product-click" data-button-type="add-cart" data-product-id="{{id}}" class="button button--small card-figcaption-button custom-add-to-cart">{{lang 'products.add_to_cart'}}</a>
             <span class="product-status-message aria-description--hidden">{{lang 'category.add_cart_announcement'}}</span>
         {{/if}}
         {{#if out_of_stock_message }}
