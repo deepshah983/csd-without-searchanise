@@ -5637,6 +5637,7 @@ div.snize:not(.snize-tab-selected-pages):not(.snize-tab-selected-categories) div
 
 
 
+
 .page-category,.page-brand{
     .you-may-also-like{
         .you-may-also-like-title{
@@ -5685,6 +5686,16 @@ div.snize:not(.snize-tab-selected-pages):not(.snize-tab-selected-categories) div
     }
 }
 
+.page-brand{
+    .loaded-products-container{
+            .product{
+                width: 50% !important; 
+                @media screen and (min-width: 480px) {
+                    width: 33.33% !important;
+                }
+            }
+        }
+}
 
 @media screen and (max-width: 820px){
     .page-category, .page-brand, .page-search{

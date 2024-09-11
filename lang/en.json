@@ -30,7 +30,7 @@
         "maintenance_message": "This store is currently unavailable due to maintenance. It should be available again shortly. We apologize for any inconvenience caused."
     },
     "brands": {
-        "no_products": "There are no products listed under this brand."
+        "no_products": "We currently don't have any products for this designer but we have other products that you may like."
     },
     "categories": {
         "no_products": "There are no products listed under this category."
