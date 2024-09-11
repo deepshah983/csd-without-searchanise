@@ -1,16 +1,16 @@
-<ul class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+<ul class="breadcrumbs">
     {{#unless theme_settings.hide_breadcrumbs }}
         {{#each breadcrumbs}}
             {{#if @first}}
-                <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a href="/" class="breadcrumb-label" itemprop="item"><span itemprop="name">Women Home</span></a>
+                <li class="breadcrumb">
+                    <a href="https://csd.shop/" class="breadcrumb-label"><span>Women Home</span></a>
                 </li>
             {{else}}
             {{/if}}
         {{/each}}
         {{#if product.brand}}
-        <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="{{product.brand.url}}" class="breadcrumb-label" itemprop="item"><span itemprop="name">{{product.brand.name}}</span></a>
+        <li class="breadcrumb">
+            <a href="{{product.brand.url}}" class="breadcrumb-label"><span>{{product.brand.name}}</span></a>
         </li>
         {{/if}}
         {{assignVar 'main-category' 'none'}}
@@ -25,14 +25,14 @@
                                         {{#if (getVar 'main-category') '===' 'none'}}
                                             {{#each (split this '/')}}
                                                 {{#if @index '===' 0}}
-                                                    <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a class="breadcrumb-label" href="/women/{{dashcase (toLowerCase this)}}" itemprop="item"><span itemprop="name"> {{this}}</span></a></li>
+                                                    <li class="breadcrumb"><a class="breadcrumb-label" href="/women/{{dashcase (toLowerCase this)}}/"><span> {{this}}</span></a></li>
                                                     {{assignVar 'main-category' 'clothing'}}
                                                 {{/if}}
                                                 {{#if @index '===' 1}}
                                                     {{#contains this "Jumpsuits"}}
-                                                    <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a class="breadcrumb-label" href="/women/{{getVar 'main-category'}}/jumpsuits" itemprop="item"><span itemprop="name"> {{this}}</span></a></li>
+                                                    <li class="breadcrumb"><a class="breadcrumb-label" href="/women/{{getVar 'main-category'}}/jumpsuits/"><span> {{this}}</span></a></li>
                                                     {{else}}
-                                                    <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a class="breadcrumb-label" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}" itemprop="item"><span itemprop="name"> {{this}}</span></a></li>
+                                                    <li class="breadcrumb"><a class="breadcrumb-label" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}/"><span> {{this}}</span></a></li>
                                                     {{/contains}}
                                                 {{/if}}
                                             {{/each}}
@@ -42,11 +42,11 @@
                                         {{#if (getVar 'main-category') '===' 'none'}}
                                             {{#each (split this '/')}}
                                                 {{#if @index '===' 0}}
-                                                    <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a class="breadcrumb-label" href="/women/{{dashcase (toLowerCase this)}}" itemprop="item"><span itemprop="name"> {{this}}</span></a></li>
+                                                    <li class="breadcrumb"><a class="breadcrumb-label" href="/women/{{dashcase (toLowerCase this)}}/"><span> {{this}}</span></a></li>
                                                     {{assignVar 'main-category' 'bags'}}
                                                 {{/if}}
                                                 {{#if @index '===' 1}}
-                                                    <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a class="breadcrumb-label" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}" itemprop="item"><span itemprop="name"> {{this}}</span></a></li>
+                                                    <li class="breadcrumb"><a class="breadcrumb-label" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}/"><span> {{this}}</span></a></li>
                                                 {{/if}}
                                             {{/each}}
                                         {{/if}}
@@ -55,11 +55,11 @@
                                         {{#if (getVar 'main-category') '===' 'none'}}
                                             {{#each (split this '/')}}
                                                 {{#if @index '===' 0}}
-                                                    <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a class="breadcrumb-label" href="/women/{{dashcase (toLowerCase this)}}" itemprop="item"><span itemprop="name"> {{this}}</span></a></li>
+                                                    <li class="breadcrumb"><a class="breadcrumb-label" href="/women/{{dashcase (toLowerCase this)}}/"><span> {{this}}</span></a></li>
                                                     {{assignVar 'main-category' 'shoes'}}
                                                 {{/if}}
                                                 {{#if @index '===' 1}}
-                                                    <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a class="breadcrumb-label" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}" itemprop="item"><span itemprop="name"> {{this}}</span></a></li>
+                                                    <li class="breadcrumb"><a class="breadcrumb-label" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}/"><span> {{this}}</span></a></li>
                                                 {{/if}}
                                             {{/each}}
                                         {{/if}}
@@ -68,11 +68,11 @@
                                         {{#if (getVar 'main-category') '===' 'none'}}
                                             {{#each (split this '/')}}
                                                 {{#if @index '===' 0}}
-                                                    <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a class="breadcrumb-label" href="/women/{{dashcase (toLowerCase this)}}" itemprop="item"><span itemprop="name"> {{this}}</span></a></li>
+                                                    <li class="breadcrumb"><a class="breadcrumb-label" href="/women/{{dashcase (toLowerCase this)}}/"><span> {{this}}</span></a></li>
                                                     {{assignVar 'main-category' 'accessories'}}
                                                 {{/if}}
                                                 {{#if @index '===' 1}}
-                                                    <li class="breadcrumb" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a class="breadcrumb-label" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}" itemprop="item"><span itemprop="name"> {{this}}</span></a></li>
+                                                    <li class="breadcrumb"><a class="breadcrumb-label" href="/women/{{getVar 'main-category'}}/{{dashcase (toLowerCase this)}}/"><span> {{this}}</span></a></li>
                                                 {{/if}}
                                             {{/each}}
                                         {{/if}}
