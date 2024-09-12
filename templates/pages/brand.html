@@ -61,7 +61,15 @@ brand:
                 
                     </div>
                     
-                </div>		
+                </div>	
+                <div class="page-load-status" style="display: none;">
+                    <div class="infinite-scroll-request">
+                      <img src="https://cdn11.bigcommerce.com/s-bg6cc73hmt/images/stencil/original/image-manager/animation-1721652758711-2-.gif?t=1721653380"> 
+                    </div>
+                </div>	
+                <div class="no-more-status" style="display: none;">
+                    <p class="infinite-scroll-last">No more products to load</p>
+                </div>
             {{/if}}
             {{{region name="brand_below_content"}}}
         {{/if}}
@@ -75,167 +83,121 @@ brand:
 {{/comment}}
 
 
-<style type="text/css"><!--
-/* Load spinner */
-#snize-preload-spinner {
-    height: 100px;
-    width: 32px;
-    margin: 0 auto;
-    background-position: 0px center;
-    background-repeat: no-repeat;
-    background-image: url(data:image/png;base64,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);
-}
---></style>
-
-<script>// <![CDATA[
-(function(window, undefined) {
-    var sXpos = 0, sIndex = 0, sTotalFrames = 12, sInterval = null;
-
-    if (document.querySelectorAll('#snize_results').length > 0 && document.getElementById('snize_results').innerHTML != '') {
-        return;
-    }
-    if (document.querySelectorAll('#snize_results').length > 0)
-    document.getElementById('snize_results').innerHTML = '<div id="snize-preload-spinner"></div>';
-    sInterval = setInterval(function()
-    {
-        var spinner = document.getElementById('snize-preload-spinner');
-        if (spinner) {
-            document.getElementById('snize-preload-spinner').style.backgroundPosition = (- sXpos) + 'px center';
-        } else {
-            clearInterval(sInterval);
-        }
-
-        sXpos  += 32;
-        sIndex += 1;
-
-        if (sIndex >= 12) {
-            sXpos  = 0;
-            sIndex = 0;
-        }
-    }, 30);
-}(window));
-// ]]></script>
 <script>
-    /* let interval = setInterval(() => {
-        if ($(".snize-search-results-content .snize-product").length != 0 && $(".snize-search-results-content .snize-product").length < 3) {
-            clearInterval(interval)
-            youMayAlsoLike()
-        }
-    },1000); */
-    
-    /* setTimeout(() => {clearInterval(interval)},5000); */
 
-    function youMayAlsoLike() {
-        let graphqlQuery = `query CategoryByUrl {
-  site {
-    route(path: "/sales/women/new-arrivals/") {
-      node {
-        id
-        ... on Category {
-          name
-          entityId
-          description
-          products(first: 50, sortBy: NEWEST, hideOutOfStock: true) {
-            pageInfo {
-                startCursor
-                endCursor
-                hasNextPage
-            },
-            edges {
-              node {
-                entityId
-                name
-                path
-                defaultImage {
-                  url(width: 1200)
-                }
-                customFields {
-                    edges {
-                        node {
-                            value
+function youMayAlsoLike(cursor = null) {
+    let graphqlQuery = `
+        query CategoryByUrl($cursor: String) {
+            site {
+                route(path: "/sales/women/new-arrivals/") {
+                    node {
+                        id
+                        ... on Category {
                             name
                             entityId
+                            description
+                            products(first: 50, after: $cursor, sortBy: NEWEST, hideOutOfStock: true) {
+                                pageInfo {
+                                    startCursor
+                                    endCursor
+                                    hasNextPage
+                                }
+                                edges {
+                                    node {
+                                        entityId
+                                        name
+                                        path
+                                        defaultImage {
+                                            url(width: 1200)
+                                        }
+                                        customFields {
+                                            edges {
+                                                node {
+                                                    value
+                                                    name
+                                                    entityId
+                                                }
+                                            }
+                                        }
+                                        inventory {
+                                            isInStock
+                                            hasVariantInventory
+                                        }
+                                        brand {
+                                            name
+                                            defaultImage {
+                                                url(width: 200)
+                                            }
+                                        }
+                                        prices (includeTax:true){
+                                            price {
+                                                ...MoneyFields
+                                            }
+                                            salePrice {
+                                                ...MoneyFields
+                                            }
+                                            retailPrice {
+                                                ...MoneyFields
+                                            }
+                                            basePrice {
+                                                ...MoneyFields
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-                 inventory {
-                    isInStock
-                    hasVariantInventory
-                  }
-                brand {
-                  name
-                  defaultImage {
-                    url(width: 200)
-                  }
-                }
-                prices (includeTax:true){
-                  price {
-                  ...MoneyFields
-                  }
-                  
-                  salePrice {
-                  ...MoneyFields
-                  }
-                  retailPrice {
-                  ...MoneyFields
-                  }
-                  basePrice {
-                        ...MoneyFields
-                        }
-              }
-              }
-            },
-          }
+            }
         }
-      }
-    }
-  }
-}
- 
-fragment MoneyFields on Money {
-  value
-  currencyCode
-}`;
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer {{ settings.storefront_api.token }}'
-        };
+        fragment MoneyFields on Money {
+            value
+            currencyCode
+        }
+    `;
 
-        // Make the AJAX POST request
-        $.ajax({
-            type: 'POST',
-            url: '/graphql',
-            headers: headers,
-            data: JSON.stringify({ query: graphqlQuery }),
-            dataType: 'json',
-            success: function (data) {
-            console.log(data);
-                if (data.data.site.route.node != null && data.data.site.route.node.products.edges.length > 0) {
-                    let allData = data.data.site.route.node.products.edges;
-                    let html = '';
-                    let currency = getCurrencySymbol(allData[0].node?.prices?.price?.currencyCode)
-                    let count = 0;
-                    $.each(allData, function (index, value) {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+    };
 
-                       
-                        let custFileds = '';
-                        $.each(value?.node?.customFields?.edges, function (ind, val) {
-                               let name = val.node.name;
-                               let values = val.node.value
-                               if(name == "UK" || name == "US" || name == "FR" || name == "IT" || name == "EU/IT"){
-                                 if(custFileds == "")
-                                   custFileds = name+' '+values;
-                                   else
-                                   custFileds = custFileds+', '+name+' '+values;
-                               }
-                        })
+    $.ajax({
+        type: 'POST',
+        url: '/graphql',
+        headers: headers,
+        async: false,
+        data: JSON.stringify({
+            query: graphqlQuery,
+            variables: {
+                cursor: cursor
+            }
+        }),
+        dataType: 'json',
+        success: function(data) {
+            if (data.data.site.route.node != null && data.data.site.route.node.products.edges.length > 0) {
+                let allData = data.data.site.route.node.products.edges;
+                let html = '';
+                let currency = getCurrencySymbol(allData[0].node?.prices?.price?.currencyCode)
+                let count = 0;
 
-             
-                       if(value.node.inventory.isInStock ){
+                $.each(allData, function(index, value) {
+                    let custFileds = '';
+                    $.each(value?.node?.customFields?.edges, function(ind, val) {
+                        let name = val.node.name;
+                        let values = val.node.value;
+                        if (name == "UK" || name == "US" || name == "FR" || name == "IT" || name == "EU/IT") {
+                            if (custFileds == "")
+                                custFileds = name + ' ' + values;
+                            else
+                                custFileds = custFileds + ', ' + name + ' ' + values;
+                        }
+                    });
 
+                    if (value.node.inventory.isInStock) {
                         count++;
-                       
+
                         html += '<div class="product">'
                         html += '<article class="card" data-entity-id="' + value.node.entityId + '" data-name="' + value.node.name + '" data-product-brand="Chanel" data-product-price="' + value?.node?.prices?.salePrice + '" data-product-currency="USD">'
                         html += '<figure class="card-figure">'
@@ -247,7 +209,6 @@ fragment MoneyFields on Money {
                         html += '<span class="card-alt-image">  <img class="card-image lazyautosizes ls-is-cached lazyloaded" data-sizes="auto" src="' + value.node.defaultImage.url + '" alt="' + value.node.name + '" title="' + value.node.name + '" data-src="' + value.node.defaultImage.url + '" sizes="339px"></span>'
                         html += '</div>'
                         html += '</a>'
-                        <!-- Wishlist -->
                         html += '<span class="product-wishlist" data-product-id="' + value.node.entityId + '">'
                         html += '<button aria-label="wishlist_' + value.node.entityId + '">'
                         html += '<i class="icon" aria-hidden="true">'
@@ -268,63 +229,104 @@ fragment MoneyFields on Money {
                         html += '<div class="card-fields">'
 
                         html += '</div>'
-                        if(custFileds){
-                        html += '<div class="card-fields">'
-                        html += '<div class="custom-fields-list">'
-                               html += '<span class="custom-field">'+custFileds+'</span>' 
-                        html += '</div>'
-                       html += '</div>'
-                      }
-                     
+                        if (custFileds) {
+                            html += '<div class="card-fields">'
+                            html += '<div class="custom-fields-list">'
+                            html += '<span class="custom-field">' + custFileds + '</span>'
+                            html += '</div>'
+                            html += '</div>'
+                        }
+
                         html += '<div class="card-text" data-test-info-type="price">'
 
                         html += '<div class="price-section price-section--withoutTax">'
                         html += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax">'
                         if (value.node?.prices?.retailPrice != null)
-                            html += '<span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;<span class="currency-symbol"></span>'+currency+'' + value.node?.prices?.retailPrice?.value + '</span>'
+                            html += '<span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;<span class="currency-symbol"></span>' + currency + '' + value.node?.prices?.retailPrice?.value + '</span>'
                         html += '</div>'
 
                         html += '<div class="price price--listPrice">'
 
                         if (value.node.prices.salePrice != null)
-                            html += '<span data-product-price-without-tax="" class="price price--withoutTax sale_price">'+currency+'' + value.node.prices.salePrice.value + '</span>'
+                            html += '<span data-product-price-without-tax="" class="price price--withoutTax sale_price">' + currency + '' + value.node.prices.salePrice.value + '</span>'
                         else
-                            html += '<span data-product-price-without-tax="" class="price price--withoutTax sale_price">'+currency+'' + value.node.prices.price.value + '</span>'
+                            html += '<span data-product-price-without-tax="" class="price price--withoutTax sale_price">' + currency + '' + value.node.prices.price.value + '</span>'
 
                         html += '</div>'
-                        
+
                         html += '</div>'
 
                         html += '</div>'
-                        html += '<p class="view-link" data-miros-entry="custom" data-miros-item="'+allData[index].node.sku+'">View Similar</p> ';
+                        html += '<p class="view-link" data-miros-entry="custom" data-miros-item="' + allData[index].node.sku + '">View Similar</p> '
                         html += '</a>'
                         html += '</div>'
                         html += '</div>'
                         html += '<div class="card-figcaption-listing">'
-                            html += '<a href="javascript:;" data-event-type="product-click" data-button-type="add-cart" data-product-name="{{name}}" data-product-price="{{price.without_tax.value}}" data-product-cat="{{category}}" data-product-img="' + value.node.defaultImage.url + '" data-product-id="{{id}}" class="button button--small card-figcaption-button custom-add-to-cart">Add to cart</a>'
+                        html += '<a href="javascript:;" data-event-type="product-click" data-button-type="add-cart" data-product-name="{{name}}" data-product-price="{{price.without_tax.value}}" data-product-cat="{{category}}" data-product-img="' + value.node.defaultImage.url + '" data-product-id="{{id}}" class="button button--small card-figcaption-button custom-add-to-cart">Add to cart</a>'
                         html += '</div>'
                         html += '</article>'
                         html += '</div>'
-                        
                     }
+                });
 
+                // Append the new products to the existing list
+                $(".productGridFavourite").append(html);
+
+                // Handle pagination
+                let pageInfo = data.data.site.route.node.products.pageInfo;
+                if (pageInfo.hasNextPage) {
+                    console.log("page to load");
+                    // If there's a next page, load more products when the user scrolls to the bottom
+                    $(window).off('scroll').on('scroll', function() {
+                        if ($(window).scrollTop() + $(window).height() > $(document).height() - 1200) {
+                            // Avoid multiple requests
+                            $(window).off('scroll');
+                            $('.page-load-status').show();
+                            setTimeout(function(){
+                                $('.page-load-status').hide();
+                                youMayAlsoLike(pageInfo.endCursor);
+                            }, 2000);
+                            
+                        }
                     });
-                    $(".you-may-also-like").show();
-                    $(".productGridFavourite").html(html);
-
+                } else {
+                    console.log("no page to load");
+                    // No more pages to load
+                    $(window).off('scroll');
+                    $('.no-more-status').show();
                 }
-
-
-            },
-            error: function (error) {
-                console.error('Error:', error);
-                $(".you-may-also-like").hide();
             }
-        });
-    }
+        }
+    });
+}
+function infiniteScroll() {
+    //  console.log("fun call");
+      if(document.querySelectorAll(".pagination-item--next .pagination-link").length > 0){
+        //   console.log("next link found");
+          if(document.querySelectorAll(".product-listing-show-products").length > 1){
+              document.querySelectorAll(".product-listing-show-products")[0].style.display = "block";
+              document.querySelectorAll(".product-listing-show-products")[1].style.display = "block";
+          }
+          const elem = document.querySelector('.productGrid');
+     
+          const infScroll = new InfiniteScroll(elem, {
+          // options
+              path: '.pagination-item--next .pagination-link',
+              append: '.productGrid .product',
+              history: false,
+              //offset: 200,
+              //button: '.view-more-button',
+              // using button, disable loading on scroll 
+              //scrollThreshold: false
+              status: '.page-load-status',
+          });
+          
+          return infScroll;
+      }
+  }
 
-    function getCurrencySymbol(currencyCode) {
-    // Use Intl.NumberFormat to get the currency symbol
+function getCurrencySymbol(currencyCode) {
+    
     return (0).toLocaleString(undefined, {
         style: 'currency',
         currency: currencyCode,
@@ -332,6 +334,9 @@ fragment MoneyFields on Money {
         maximumFractionDigits: 0
     }).replace(/\d/g, '').trim();
 }
+$(document).ready(function(){
+            youMayAlsoLike();
+        });
 </script>
 <input type="hidden" id="brandProductsCount" value="" />
 <script>
@@ -432,9 +437,6 @@ let url = window.location.href;
           }
         }
 
-        $(document).ready(function(){
-            youMayAlsoLike();
-        });
         
 </script>
 {{/partial}}
