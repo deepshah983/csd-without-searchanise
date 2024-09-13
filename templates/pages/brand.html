@@ -41,28 +41,29 @@ brand:
 
 
 <div class="page">
+    {{#if brand.products.length}}
     <div class="page-sidebar-sticky">
         <aside class="page-sidebar" id="faceted-search-container">
             {{> components/brand/sidebar}}
         </aside>
     </div>
-
-    <main class="page-content" id="product-listing-container">
+    {{/if}}
+    
+    <main class="page-content no-brand-product" id="product-listing-container">
         {{#if brand.search_error }}
             <p>{{lang 'search.errorMessage'}}</p>
         {{else}}
-            {{#if brand.products}}
+            {{#if brand.products.length}}
                 {{> components/brand/product-listing}}
             {{else}}
-                <p>{{lang 'brands.no_products'}}</p>	
+                <p style="text-align: center;">{{lang 'brands.no_products'}}</p>	
                 <div class="you-may-also-like" >
                     <h3 class="you-may-also-like-title">You May Also Like</h3>
                     <div class="loaded-products-container productGridFavourite productGrid productGrid--maxCol">
-                
                     </div>
                     <div class="page-load-status" style="display: none;">
                         <div class="infinite-scroll-request" style="display: none;">
-                          <img src="https://cdn11.bigcommerce.com/s-bg6cc73hmt/images/stencil/original/image-manager/animation-1721652758711-2-.gif?t=1721653380"> 
+                            <img src="https://cdn11.bigcommerce.com/s-bg6cc73hmt/images/stencil/original/image-manager/animation-1721652758711-2-.gif?t=1721653380"> 
                         </div>
                         <p class="infinite-scroll-last" style="display: none;">No more products to load</p>
                         <p class="infinite-scroll-error" style="display: none;">No more products to load</p>
@@ -73,6 +74,7 @@ brand:
         {{/if}}
     </main>
 </div>
+
 
 
 {{#comment}}
