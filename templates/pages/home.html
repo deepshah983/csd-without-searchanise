@@ -22,7 +22,7 @@ gql: "query DealsProducts(
   site {
     sectionProductsWelove: category(entityId: $WeloveCategoryId) {
       description
-      products(first: 8, sortBy: NEWEST, hideOutOfStock: true) {
+      products(first: 16, sortBy: NEWEST, hideOutOfStock: true) {
         edges {
           node {
             ...ProductFields
@@ -32,7 +32,7 @@ gql: "query DealsProducts(
     }
     sectionProductsBags: category(entityId: $BagsCategoryId) {
       description
-      products(first: 12, sortBy: NEWEST, hideOutOfStock: true) {
+      products(first: 16, sortBy: NEWEST, hideOutOfStock: true) {
         edges {
           node {
             ...ProductFields
@@ -42,7 +42,7 @@ gql: "query DealsProducts(
     }
     sectionProductsNewArrivals: category(entityId: $NewArrivalsCategoryId) {
       description
-      products(first: 8, sortBy: NEWEST, hideOutOfStock: true) {
+      products(first: 16, sortBy: NEWEST, hideOutOfStock: true) {
         edges {
           node {
             ...ProductFields
@@ -170,11 +170,11 @@ fragment ImageFields on Image {
     {{{region name="home_page_below_top_brands2"}}}
     
     <!--{{> components/common/homepagebanner find="top-brands-3"}}-->
-    {{> components/csd/products/section-products graphql-category=gql.data.site.sectionProductsNewArrivals title="Luxury Designer New Arrivals" title-url="/sales/women/new-arrivals/" view-all-btn=true settings=settings theme_settings=theme_settings customer=customer }}	  {{{region name="home_page_middle"}}}
+    {{> components/csd/products/section-products-one graphql-category=gql.data.site.sectionProductsNewArrivals title="Luxury Designer New Arrivals" title-url="/sales/women/new-arrivals/" scrolling-products=true view-all-btn=true settings=settings theme_settings=theme_settings customer=customer }}	  {{{region name="home_page_middle"}}}
     <!-- <br> -->
     <!--{{> components/common/homepagebanner find="top-brands-1"}}-->
     {{{region name="home_page_top"}}}
-    {{> components/csd/products/section-products graphql-category=gql.data.site.sectionProductsWelove title="Luxury Designer New With Tag" title-url="/women/new-with-tag/" view-all-btn=true settings=settings theme_settings=theme_settings customer=customer }}
+    {{> components/csd/products/section-products-one graphql-category=gql.data.site.sectionProductsWelove title="Luxury Designer New With Tag" title-url="/women/new-with-tag/" scrolling-products=true view-all-btn=true settings=settings theme_settings=theme_settings customer=customer }}
     
     {{{region name="home_page_bottom1"}}}
     <!-- <br> -->

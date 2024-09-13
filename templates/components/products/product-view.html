@@ -625,8 +625,8 @@
     {{/comment}}
 </div>
 
-
-<div class="miros-section">
+{{#if product.out_of_stock}}
+<div class="miros-section" style="display: none;">
     <h3 class="miros-title">You May Also Like</h3>
     <div class="container-scrolling-products-container">
         <div class="products-container-flickty miros-products-custom">
@@ -634,7 +634,16 @@
         </div>
     </div>
 </div>
-
+{{else}}
+<div class="miros-section"></div>
+    <h3 class="miros-title">You May Also Like</h3>
+    <div class="container-scrolling-products-container">
+        <div class="products-container-flickty miros-products-custom">
+            
+        </div>
+    </div>
+</div>
+{{/if}}
 
 <div id="previewModal" class="modal modal--large" data-reveal>
     {{> components/common/modal/modal-close-btn }}

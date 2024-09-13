@@ -3678,6 +3678,10 @@
         }
 
     }
+    .no-brand-product{
+        width: 100% !important;
+        margin-left: 0% !important;
+    }
 }
 
 .page-search{ 
@@ -5692,8 +5696,14 @@ div.snize:not(.snize-tab-selected-pages):not(.snize-tab-selected-categories) div
     .loaded-products-container{
             .product{
                 width: 50% !important; 
-                @media screen and (min-width: 480px) {
+                @media screen and (min-width: 550px) {
                     width: 33.33% !important;
+                }
+                @media screen and (min-width: 1024px) {
+                    width: 25% !important;
+                }
+                .custom-fields-list{
+                    min-height: 18px;
                 }
             }
         }
