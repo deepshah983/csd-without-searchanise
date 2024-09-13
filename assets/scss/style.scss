@@ -3695,11 +3695,13 @@
             top: 130px;
         }
         @media screen and (min-width:1024px){
-            width: 311.05px !important;
+            //width: 311.05px !important;
             padding: 0px;
             padding-top: 10px;
             position: sticky;
             top: 150px;
+            width: 22% !important;
+            float: left;
         }
     }
     .page-sidebar{
@@ -5767,19 +5769,20 @@ div.snize:not(.snize-tab-selected-pages):not(.snize-tab-selected-categories) div
 }
 
 .page-search,.page-category,.page-brand{
-.page-load-status{
-	display: none; text-align: center; width: 100%;
-	.infinite-scroll-request{
-		max-width:100px;  margin: 0 auto;
-		
-	}
-	.infinite-scroll-last{
+    .page-load-status{
+        display: none; text-align: center; width: 100%;
+        .infinite-scroll-request{
+            max-width:100px;  margin: 0 auto;
+            
+        }
+    }
+    .pagination{
+        display: none;
+    }
+    .infinite-scroll-last{
 		font-size: 16px;
 		font-weight:600;
 		color: black;
+        text-align: center; 
 	}
-}
-.pagination{
-	display: none;
-}
 }
