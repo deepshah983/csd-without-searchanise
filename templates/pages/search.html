@@ -123,7 +123,9 @@ product_results:
 function constructFilterQuery(filters) {
                 if (Object.keys(filters).length > 0) {
                     filter_query = '{' + Object.keys(filters).map(key => {
+                        if (key !== 'page') {
                         return `${key}: {__eq: "${filters[key]}"}`
+                        }
                     }).join(', ') + '}';
                 }
                 return filter_query;
@@ -207,7 +209,9 @@ function miros_query_load() {
             if (str_name && str_val) {
                // filter_val = decodeURIComponent(str_val.replaceAll('+', ' '));
                 filter_val = filter_val.replaceAll('+', ' ');
+                if (str_name !== 'page') {
                 filter_query = `{${str_name}: {__eq: "${filter_val}"}}`;
+                }
             }
 
         } else if (url.includes(min_price) && url.includes(max_price)) {
@@ -226,6 +230,7 @@ function miros_query_load() {
         console.log('filters', filters);
         console.log('Filter Query:', filter_query);
         console.log('Skip val:', skip_val);
+      
         // Construct GraphQL query
         const graphqlQuery = `
             query SearchQuery($integration_id: String!, $search_query: String!, $text_query_language: String!) {
@@ -293,7 +298,7 @@ function miros_query_load() {
                 accordion_block += `<nav><div class="brand-product-count"></div>
                     <div class="accordion accordion--navList">
                         <div id="facetedSearch" class="facetedSearch sidebarBlock">
-                            <a href="javascript:;" role="button" class="facetedSearch-toggle toggleLink is-open" data-collapsible="" aria-label="Filters Filters" aria-controls="facetedSearch-navList" aria-expanded="true"> 
+                            <a href="#" role="button" class="facetedSearch-toggle toggleLink is-open" data-collapsible="" aria-label="Filters Filters" aria-controls="facetedSearch-navList" aria-expanded="true"> 
                                 <span class="facetedSearch-toggle-indicator"> 
                                     <span class="toggleLink-text toggleLink-text--on"> Filters <i class="icon" aria-hidden="true"> 
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 14C0.447715 14 0 14.4477 0 15C0 15.5523 0.447715 16 1 16H5C5.55228 16 6 15.5523 6 15C6 14.4477 5.55228 14 5 14H1ZM1 2C0.447716 2 0 2.44772 0 3C0 3.55228 0.447715 4 1 4H9C9.55228 4 10 3.55228 10 3C10 2.44772 9.55228 2 9 2H1ZM9 18C9.55228 18 10 17.5523 10 17V16H17C17.5523 16 18 15.5523 18 15C18 14.4477 17.5523 14 17 14H10V13C10 12.4477 9.55228 12 9 12C8.44772 12 8 12.4477 8 13V17C8 17.5523 8.44772 18 9 18ZM5 6C4.44772 6 4 6.44772 4 7V8H1C0.447715 8 0 8.44772 0 9C0 9.55228 0.447715 10 1 10H4V11C4 11.5523 4.44772 12 5 12C5.55228 12 6 11.5523 6 11V7C6 6.44772 5.55228 6 5 6ZM17 10C17.5523 10 18 9.55228 18 9C18 8.44772 17.5523 8 17 8H9C8.44772 8 8 8.44772 8 9C8 9.55228 8.44772 10 9 10H17ZM12 5C12 5.55228 12.4477 6 13 6C13.5523 6 14 5.55228 14 5V4H17C17.5523 4 18 3.55228 18 3C18 2.44772 17.5523 2 17 2H14V1C14 0.447715 13.5523 0 13 0C12.4477 0 12 0.447715 12 1V5Z" fill="#333333"></path></svg> </i> 
@@ -423,7 +428,7 @@ function miros_query_load() {
                                         filterValues.push(decodeURIComponent(value.replaceAll('+', ' ')));
                                     }
                                 });
-                                //console.log('storedValue', storedValue);
+                                console.log('storedValue', storedValue);
                         accordion_block += '</ul><a href="/search.php?search_query='+storedValue+'&_bc_fsnf=1" class="reset-btn desk-only" data-faceted-search-facet="">Reset filters</a></div>';
                     } 
                 accordion_block += `<div class="mobile-only category-sort">
@@ -498,6 +503,25 @@ function miros_query_load() {
                         if ((key !== 'price') && (key !== 'price_bucket') && (key !== 'price_discounted')) {
                             var x = '&_bc_fsnf=1&';
                             url = window.location.href;
+                            
+                               // Parse the URL
+                                let parsedUrl = new URL(url);
+                                
+                                // Get the search params
+                                let searchParams = new URLSearchParams(parsedUrl.search);
+                                
+                                // Check if 'page' parameter exists
+                                if (searchParams.has('page')) {
+                                    // Remove the 'page' parameter
+                                    searchParams.delete('page');
+                                    
+                                    // Construct the new URL
+                                     url = parsedUrl.origin + parsedUrl.pathname + '?' + searchParams.toString();
+                                    
+                                    // Log the new URL
+                                    
+                            }
+                            console.log("Updated URL:", url);
                             if (url.includes("_bc_fsnf")) {
                                 x = '&';
                             }
@@ -533,6 +557,10 @@ function miros_query_load() {
                                                         .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g,   // Find the first letter of each word
                                                             (match, index) => index === 0 ? match.toLowerCase() : match.toUpperCase()) // Capitalize subsequent words
                                                         .replace(/\s+/g, '');
+
+                                                        // console.log("urllllll", url);
+
+                                                        // console.log("data", x, key, filter_name);
                                                         return `
                                                             <li class="navList-item ${classVal}">
                                                                 <a href="${url}${x}${key}=${filter_name}" class="navList-action navList-action--checkbox ${is_selected == 1 ? 'is-selected' : ''}" rel="nofollow" data-faceted-search-facet="">
@@ -727,6 +755,9 @@ function miros_query_load() {
                 //console.log("length", skus.length);
                 storedValue = storedValue.replaceAll('%20', ' ');
                 storedValue = storedValue.replaceAll('%2B', ' ');
+                storedValue = storedValue.replaceAll('%2B%2B%2B', ' + ');
+                
+                console.log("page_count", page_count);
                  // Pagination Logic
                 if (page_count > 1) {
                     let pagination_block = '<ul class="pagination-list">';
@@ -814,7 +845,9 @@ function miros_query_updated(url, old_url){
         function constructFilterQuery(filters) {
                 if (Object.keys(filters).length > 0) {
                     filter_query = '{' + Object.keys(filters).map(key => {
+                        if (key !== 'page') {
                         return `${key}: {__eq: "${filters[key]}"}`
+                        }
                     }).join(', ') + '}';
                 }
                 return filter_query;
@@ -892,6 +925,7 @@ function miros_query_updated(url, old_url){
             if (str_name && str_val) {
                 //filter_val = decodeURIComponent(str_val.replaceAll('+', ' '));
                 filter_val = filter_val.replaceAll('+', ' ');
+                if (str_name !== 'page')
                 filter_query = `{${str_name}: {__eq: "${filter_val}"}}`;
             }
             filters = extractFilterParams(url);
@@ -906,6 +940,7 @@ function miros_query_updated(url, old_url){
         }
         storedValue = storedValue.replaceAll('%20', ' ');
         storedValue = storedValue.replaceAll('%2B', ' ');
+        storedValue = storedValue.replaceAll('%2B%2B%2B', ' + ');
         storedValue = storedValue.replaceAll('+', ' ');
         storedValue = storedValue.replaceAll('%26', '&');
         storedValue = decodeURIComponent(storedValue);
@@ -965,7 +1000,10 @@ function miros_query_updated(url, old_url){
             // let skus = res.data.search.data.map(item => item.alias);
             // console.log('SKU Array Length:', skus.length);
 
-           let ids = res.data.search.data.map(item => item.payload.metadata.product_id);
+           let ids = res?.data?.search?.data.map(item => item?.payload?.metadata?.product_id);
+
+           localStorage.setItem('hits', res.data.search.approximate_hits);
+
            var chunkedArrays = splitArrayIntoChunks(ids, 50);
  
            //console.log("chunkedArrays", chunkedArrays);
@@ -979,7 +1017,7 @@ function miros_query_updated(url, old_url){
            accordion_block += `<nav><div class="brand-product-count"></div>
                     <div class="accordion accordion--navList">
                         <div id="facetedSearch" class="facetedSearch sidebarBlock">
-                            <a href="javascript:;" role="button" class="facetedSearch-toggle toggleLink is-open" data-collapsible="" aria-label="Filters Filters" aria-controls="facetedSearch-navList" aria-expanded="true"> 
+                            <a href="#" role="button" class="facetedSearch-toggle toggleLink is-open" data-collapsible="" aria-label="Filters Filters" aria-controls="facetedSearch-navList" aria-expanded="true"> 
                                 <span class="facetedSearch-toggle-indicator"> 
                                     <span class="toggleLink-text toggleLink-text--on"> Filters <i class="icon" aria-hidden="true"> 
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 14C0.447715 14 0 14.4477 0 15C0 15.5523 0.447715 16 1 16H5C5.55228 16 6 15.5523 6 15C6 14.4477 5.55228 14 5 14H1ZM1 2C0.447716 2 0 2.44772 0 3C0 3.55228 0.447715 4 1 4H9C9.55228 4 10 3.55228 10 3C10 2.44772 9.55228 2 9 2H1ZM9 18C9.55228 18 10 17.5523 10 17V16H17C17.5523 16 18 15.5523 18 15C18 14.4477 17.5523 14 17 14H10V13C10 12.4477 9.55228 12 9 12C8.44772 12 8 12.4477 8 13V17C8 17.5523 8.44772 18 9 18ZM5 6C4.44772 6 4 6.44772 4 7V8H1C0.447715 8 0 8.44772 0 9C0 9.55228 0.447715 10 1 10H4V11C4 11.5523 4.44772 12 5 12C5.55228 12 6 11.5523 6 11V7C6 6.44772 5.55228 6 5 6ZM17 10C17.5523 10 18 9.55228 18 9C18 8.44772 17.5523 8 17 8H9C8.44772 8 8 8.44772 8 9C8 9.55228 8.44772 10 9 10H17ZM12 5C12 5.55228 12.4477 6 13 6C13.5523 6 14 5.55228 14 5V4H17C17.5523 4 18 3.55228 18 3C18 2.44772 17.5523 2 17 2H14V1C14 0.447715 13.5523 0 13 0C12.4477 0 12 0.447715 12 1V5Z" fill="#333333"></path></svg> </i> 
@@ -1175,6 +1213,25 @@ function miros_query_updated(url, old_url){
                             var x = '&_bc_fsnf=1&';
                             url = window.location.href;
                             
+                                // Parse the URL
+                                let parsedUrl = new URL(url);
+                                
+                                // Get the search params
+                                let searchParams = new URLSearchParams(parsedUrl.search);
+                                
+                                // Check if 'page' parameter exists
+                                if (searchParams.has('page')) {
+                                    // Remove the 'page' parameter
+                                    searchParams.delete('page');
+                                    
+                                    // Construct the new URL
+                                     url = parsedUrl.origin + parsedUrl.pathname + '?' + searchParams.toString();
+                                    
+                                    // Log the new URL
+                                    
+                            }
+                            console.log("Updated URL:", url);
+
                             if (url.includes("_bc_fsnf")) {
                                 x = '&';
                             }
@@ -1398,7 +1455,9 @@ function miros_query_updated(url, old_url){
                 //console.log("length", skus.length);
                 storedValue = storedValue.replaceAll('%20', ' ');
                 storedValue = storedValue.replaceAll('%2B', ' ');
+                storedValue = storedValue.replaceAll('%2B%2B%2B', ' + ');
                 // Pagination Logic
+                 console.log("page_count2", page_count);
                 if (page_count > 1) {
                     let pagination_block = '<ul class="pagination-list">';
                     const currentPage = parseInt(new URLSearchParams(window.location.search).get('page') || 1);
@@ -1438,6 +1497,8 @@ function miros_query_updated(url, old_url){
     
                     pagination_block += '</ul>';
                     $('.pagination-container').html(pagination_block);
+                }else{
+                    $('.pagination-container').html("");
                 }
                 
             // }
