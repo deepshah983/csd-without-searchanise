@@ -45,7 +45,6 @@ export default function (secureBaseUrl, cartId) {
                 var qty = 1;
             }
             
-            //console.log(qty);
             var _this_product_id = $(this).attr("data-product-id");
             add_to_cart_with_ajax(_this_product_id, qty, _this);
         });
@@ -66,7 +65,6 @@ export default function (secureBaseUrl, cartId) {
                             template: 'common/cart-preview',
                         };
                         utils.api.cart.getContent(options, (err, response) => {
-                            console.log(response);
                             $cartPopup
                                 .addClass('is-open').html(response); 
                                 $('.body').addClass('overlay');    
@@ -120,7 +118,6 @@ export default function (secureBaseUrl, cartId) {
                                 }
                             }).then(function (response) {
                                 response.json().then(function (data) {
-                                     console.log("data", data);
 
                                     let items = data[0].lineItems.physicalItems;
 
@@ -157,8 +154,7 @@ export default function (secureBaseUrl, cartId) {
                                     bodl_data.bodl_ecommerce = payload;
                                      
                                      window.dataLayer.push(bodl_data);
-                                    console.log("dataLayer", dataLayer);
-                                     //console.log("dataLayer_bodl remove item", dataLayer_bodl);
+                                  
                                     }
                                 });
                                 });
@@ -174,7 +170,7 @@ export default function (secureBaseUrl, cartId) {
         });
         function remove_cart_with_ajax(product_id,qty,_this){
             _this.attr('disabled',true);
-            console.log("func" + product_id);
+          
             $.ajax({
                 url: '/cart.php',
                 success: function(data) {
@@ -205,7 +201,7 @@ export default function (secureBaseUrl, cartId) {
                                 type: "POST",
                                 url:"/cart.php",
                                 success: function(data){
-                                    console.log("removed!");
+                                
                                     if($(data).find('.cart').attr('data-cart-quantity')){
                                         var cart_total_quantity = $(data).find('.cart').attr('data-cart-quantity');
                                         $('.cart-quantity').text(cart_total_quantity);
@@ -225,9 +221,9 @@ export default function (secureBaseUrl, cartId) {
     $(document).on('click','.product-with-options',function(evnt){
             
         var selected_option = $(".form-option-wrapper input:checked + .form-option span").text();
-        console.log(selected_option);
+    
         if(selected_option){
-            console.log("selected_option true");
+           
             setTimeout(function(){
                 $.ajax({
                     type: "GET",

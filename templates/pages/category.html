@@ -242,7 +242,6 @@ fragment MoneyFields on Money {
                        if(value.node.inventory.isInStock && count < 8){
 
                         count++;
-                        console.log(count)
                         html += '<div class="product">'
                         html += '<article class="card" data-entity-id="' + value.node.entityId + '" data-name="' + value.node.name + '" data-product-brand="Chanel" data-product-price="' + value?.node?.prices?.salePrice + '" data-product-currency="USD">'
                         html += '<figure class="card-figure">'

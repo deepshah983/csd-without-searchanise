@@ -179,7 +179,7 @@ class FacetedSearch {
     getMoreFacetResults($navList) {
         const facet = $navList.data('facet');
         const facetUrl = urlUtils.getUrl();
-
+        
         if (this.requestOptions.showMore) {
             api.getPage(facetUrl, {
                 template: this.requestOptions.showMore,
@@ -187,15 +187,12 @@ class FacetedSearch {
                     list_all: facet,
                 },
             }, (err, response) => {
+                
                 if (err) {
                     throw new Error(err);
                 }
-                console.log(response);
-                $("[data-facet="+facet+"]").parent().find(".toggleLink").hide();
-                $("[data-facet="+facet+"]").html(response);
-                //this.options.modal.open();
-                //this.options.modalOpen = true;
-                //this.options.modal.updateContent(response);
+                $("[data-facet='"+facet+"']").parent().find(".toggleLink").hide();
+                $("[data-facet='"+facet+"']").html(response);
             });
         }
 
