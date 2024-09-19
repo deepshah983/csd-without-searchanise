@@ -135,16 +135,12 @@ pintrk('page');
               'event': 'bodl_v1_begin_checkout'
           }
           
-          console.log(
-            'window.bodlEvents.checkout.checkoutBegin ~ payload',
-            payload
-          );
+        
           
           
           bodl_data.bodl_ecommerce = payload;
           
         window.dataLayer.push(bodl_data);
-        console.log("dataLayer", dataLayer);
         });    
       }
      
@@ -159,14 +155,10 @@ pintrk('page');
               'event': 'bodl_v1_shipping_information_added'
           }
           
-          console.log(
-            'window.bodlEvents.checkout.shippingDetailsProvided ~ payload',
-            payload
-          );
+       
           bodl_data.bodl_ecommerce = payload;
           
         window.dataLayer.push(bodl_data);
-        console.log("dataLayer", dataLayer);
         
         });
       }
@@ -182,15 +174,10 @@ pintrk('page');
                   'event': 'bodl_v1_payment_information_added'
               }
               
-          console.log(
-            'window.bodlEvents.checkout.paymentDetailsProvided ~ payload',
-            payload
-          );
           
           bodl_data.bodl_ecommerce = payload;
           
         window.dataLayer.push(bodl_data);
-        console.log("dataLayer", dataLayer);
         
         });
       }
