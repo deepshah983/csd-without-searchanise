@@ -41,20 +41,34 @@ brand:
 
 
 <div class="page">
+    {{#if brand.products.length}}
     <div class="page-sidebar-sticky">
         <aside class="page-sidebar" id="faceted-search-container">
             {{> components/brand/sidebar}}
         </aside>
     </div>
-
-    <main class="page-content" id="product-listing-container">
+    {{/if}}
+    
+    <main class="page-content no-brand-product" id="product-listing-container">
         {{#if brand.search_error }}
             <p>{{lang 'search.errorMessage'}}</p>
         {{else}}
-            {{#if brand.products}}
+            {{#if brand.products.length}}
                 {{> components/brand/product-listing}}
             {{else}}
-                <p>{{lang 'brands.no_products'}}</p>				
+                <p style="text-align: center;">{{lang 'brands.no_products'}}</p>	
+                <div class="you-may-also-like" >
+                    <h3 class="you-may-also-like-title">You May Also Like</h3>
+                    <div class="loaded-products-container productGridFavourite productGrid productGrid--maxCol">
+                    </div>
+                    <div class="page-load-status" style="display: none;">
+                        <div class="infinite-scroll-request" style="display: none;">
+                            <img src="https://cdn11.bigcommerce.com/s-bg6cc73hmt/images/stencil/original/image-manager/animation-1721652758711-2-.gif?t=1721653380"> 
+                        </div>
+                        <p class="infinite-scroll-last" style="display: none;">No more products to load</p>
+                        <p class="infinite-scroll-error" style="display: none;">No more products to load</p>
+                    </div>
+                </div>		
             {{/if}}
             {{{region name="brand_below_content"}}}
         {{/if}}
@@ -62,17 +76,12 @@ brand:
 </div>
 
 
+
 {{#comment}}
 <script src="//www.searchanise.com/widgets/bigcommerce/init.js?api_key=3L7x6q3O0Y"></script> 
 <div class="snize" id="snize_results" data-brand-page="true"></div>
 {{/comment}}
-<div class="you-may-also-like" style="display: none;">
-    <h3 class="you-may-also-like-title">You May Also Like</h3>
-    <div class="loaded-products-container productGridFavourite productGrid productGrid--maxCol">
 
-    </div>
-    
-</div>
 
 <style type="text/css"><!--
 /* Load spinner */
@@ -115,202 +124,262 @@ brand:
 }(window));
 // ]]></script>
 <script>
-    let interval = setInterval(() => {
-        if ($(".snize-search-results-content .snize-product").length != 0 && $(".snize-search-results-content .snize-product").length < 3) {
-            clearInterval(interval)
-            youMayAlsoLike()
-        }
-    },1000);
-    
-    setTimeout(() => {clearInterval(interval)},5000);
 
-    function youMayAlsoLike() {
-        let graphqlQuery = `query CategoryByUrl {
-  site {
-    route(path: "/sales/women/new-arrivals/") {
-      node {
-        id
-        ... on Category {
-          name
-          entityId
-          description
-          products(first: 50, sortBy: NEWEST, hideOutOfStock: true) {
-            edges {
-              node {
-                entityId
-                name
-                path
-                defaultImage {
-                  url(width: 1200)
-                }
-                customFields {
-                    edges {
-                    node {
-                        value
+// Global variables
+let endCursor = null;
+let isLoading = false;
+let hasNextPage = true;
+
+// Function to check if element is in viewport
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+// Function to load more products
+function loadMoreProducts() {
+    if(!hasNextPage){
+        $(".you-may-also-like .page-load-status").show();
+        $(".you-may-also-like .infinite-scroll-last").show();
+    }
+
+    if (isLoading || !hasNextPage) return;
+    
+    isLoading = true;
+    $(".you-may-also-like .page-load-status").show();
+    $(".you-may-also-like .infinite-scroll-request").show();
+    youMayAlsoLike();
+    
+}
+
+// Scroll event listener
+function scrollOfWithoutDefault(){
+window.addEventListener('scroll', () => {
+    const lastProduct = document.querySelector('.productGridFavourite .product:last-child');
+    if (lastProduct && isElementInViewport(lastProduct)) {
+        loadMoreProducts();
+        
+    }
+});
+}
+
+function youMayAlsoLike() {
+    let graphqlQuery = `query CategoryByUrl($endCursor: String) {
+        site {
+            route(path: "/sales/women/new-arrivals/") {
+                node {
+                    id
+                    ... on Category {
                         name
                         entityId
-                    }
-                    }
-                }
-                 inventory {
-                    isInStock
-                    hasVariantInventory
-                  }
-                brand {
-                  name
-                  defaultImage {
-                    url(width: 200)
-                  }
-                }
-                prices (includeTax:true){
-                  price {
-                  ...MoneyFields
-                  }
-                  
-                  salePrice {
-                  ...MoneyFields
-                  }
-                  retailPrice {
-                  ...MoneyFields
-                  }
-                  basePrice {
-                        ...MoneyFields
+                        description
+                        products(first: 48, sortBy: NEWEST, hideOutOfStock: true, after: $endCursor) {
+                            pageInfo {
+                                startCursor
+                                endCursor
+                                hasNextPage
+                            }
+                            edges {
+                                node {
+                                    entityId
+                                    name
+                                    path
+                                    sku
+                                    defaultImage {  
+                                        url(width: 1200)
+                                    }
+                                    inventory {
+                                        isInStock
+                                        hasVariantInventory
+                                    }
+                                    brand {
+                                        name
+                                        defaultImage {
+                                            url(width: 200)
+                                        }
+                                    }
+                                    customFields {
+                                        edges {
+                                            node {
+                                                value
+                                                name
+                                                entityId
+                                            }
+                                        }
+                                    }
+                                    prices(includeTax:true) {
+                                        price {
+                                            ...MoneyFields
+                                        }
+                                        salePrice {
+                                            ...MoneyFields
+                                        }
+                                        retailPrice {
+                                            ...MoneyFields
+                                        }
+                                        basePrice {
+                                            ...MoneyFields
+                                        }
+                                    }
+                                }
+                            }
                         }
-              }
-              }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
-}
  
-fragment MoneyFields on Money {
-  value
-  currencyCode
-}`;
+    fragment MoneyFields on Money {
+        value
+        currencyCode
+    }`;
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer {{ settings.storefront_api.token }}'
-        };
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer {{ settings.storefront_api.token }}'
+    };
 
-        // Make the AJAX POST request
-        $.ajax({
-            type: 'POST',
-            url: '/graphql',
-            headers: headers,
-            data: JSON.stringify({ query: graphqlQuery }),
-            dataType: 'json',
-            success: function (data) {
-          
-                if (data.data.site.route.node != null && data.data.site.route.node.products.edges.length > 0) {
-                    let allData = data.data.site.route.node.products.edges;
-                    let html = '';
-                    let currency = getCurrencySymbol(allData[0].node?.prices?.price?.currencyCode)
-                    let count = 0;
-                    $.each(allData, function (index, value) {
+    // Make the AJAX POST request
+    $.ajax({
+        type: 'POST',
+        url: '/graphql',
+        headers: headers,
+        data: JSON.stringify({ 
+            query: graphqlQuery,
+            variables: { endCursor: endCursor }
+        }),
+        dataType: 'json',
+        success: function (data) {
+            if (data.data.site.route.node != null && data.data.site.route.node.products.edges.length > 0) {
+                let allData = data.data.site.route.node.products.edges;
+                let html = '';
+                let currency = getCurrencySymbol(allData[0].node?.prices?.price?.currencyCode);
 
-                       
-                        let custFileds = '';
-                        $.each(value?.node?.customFields?.edges, function (ind, val) {
-                               let name = val.node.name;
-                               let values = val.node.value
-                               if(name == "UK" || name == "US" || name == "FR" || name == "IT" || name == "EU/IT"){
-                                 if(custFileds == "")
-                                   custFileds = name+' '+values;
-                                   else
-                                   custFileds = custFileds+', '+name+' '+values;
-                               }
-                        })
+                $.each(allData, function (index, value) {
+                    let custFileds = '';
+                    
+                    $.each(value?.node?.customFields?.edges, function (ind, val) {
+                        let name = val.node.name;
+                        let values = val.node.value;
+                        if(name == "UK" || name == "US" || name == "FR" || name == "IT" || name == "EU/IT"){
+                            if(custFileds == "")
+                                custFileds = name+' '+values;
+                            else
+                                custFileds = custFileds+', '+name+' '+values;
+                        }
+                    });
+        
+                    if(value.node.inventory.isInStock){
+                        html += generateProductHTML(value, currency, custFileds);
+                    }
+                });
 
-             
-                       if(value.node.inventory.isInStock && count < 8){
+                // Append new products instead of replacing
+                $(".productGridFavourite").append(html);
+                $(".you-may-also-like").show();
+                $(".you-may-also-like .page-load-status").hide();
+                $(".you-may-also-like .infinite-scroll-request").hide();
+                $(".you-may-also-like .infinite-scroll-last").hide();
 
-                        count++;
-                       
-                        html += '<div class="product">'
-                        html += '<article class="card" data-entity-id="' + value.node.entityId + '" data-name="' + value.node.name + '" data-product-brand="Chanel" data-product-price="' + value?.node?.prices?.salePrice + '" data-product-currency="USD">'
-                        html += '<figure class="card-figure">'
+                // Update pagination info
+                endCursor = data.data.site.route.node.products.pageInfo.endCursor;
+                hasNextPage = data.data.site.route.node.products.pageInfo.hasNextPage;
+            }
 
-                        html += '<div class="badge-wishlist-wrapper">'
-                        html += '<a href="' + value.node.path + '" class="card-alt-img--hover card-image-normal" data-event-type="product-click">'
-                        html += '<div class="card-img-container">'
-                        html += '<span class="card-main-image"> <img class="card-image lazyautosizes ls-is-cached lazyloaded" data-sizes="auto" src="' + value.node.defaultImage.url + '" alt="' + value.node.name + '" title="' + value.node.name + '" sizes="339px"></span>'
-                        html += '<span class="card-alt-image">  <img class="card-image lazyautosizes ls-is-cached lazyloaded" data-sizes="auto" src="' + value.node.defaultImage.url + '" alt="' + value.node.name + '" title="' + value.node.name + '" data-src="' + value.node.defaultImage.url + '" sizes="339px"></span>'
-                        html += '</div>'
-                        html += '</a>'
-                        <!-- Wishlist -->
-                        html += '<span class="product-wishlist" data-product-id="' + value.node.entityId + '">'
-                        html += '<button aria-label="wishlist_' + value.node.entityId + '">'
-                        html += '<i class="icon" aria-hidden="true">'
-                        html += '<svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"></path></svg>'
-                        html += '<svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"></path></svg>'
-                        html += '</i>'
-                        html += '</button>'
-                        html += '</span>'
+            isLoading = false;
+        },
+        error: function (error) {
+            console.error('Error:', error);
+            $(".you-may-also-like").hide();
+            $(".you-may-also-like .page-load-status").hide();
+            $(".you-may-also-like .infinite-scroll-request").hide();
+            $(".you-may-also-like .infinite-scroll-last").hide();
+            isLoading = false;
+        }
+    });
+}
 
-                        html += '</div>'
-                        html += '</figure>'
-                        html += '<div class="card-body">'
-                        html += '<div>'
-                        html += '<a class="card-link" href="' + value.node.path + '" data-event-type="product-click">'
-                        if (value?.node?.brand)
-                            html += '<h3 class="card-text brand-name" data-test-info-type="brandName">' + value.node.brand.name + '</h3>'
-                        html += '<h4 class="card-title">' + value.node.name + '</h4>'
-                        html += '<div class="card-fields">'
+function generateProductHTML(value, currency, custFileds) {
+    let html = '<div class="product">';
+    html += '<article class="card" data-entity-id="' + value.node.entityId + '" data-name="' + value.node.name + '" data-product-brand="' + (value.node.brand ? value.node.brand.name : '') + '" data-product-price="' + (value.node.prices.salePrice ? value.node.prices.salePrice.value : value.node.prices.price.value) + '" data-product-currency="' + value.node.prices.price.currencyCode + '">';
+    
+    html += '<figure class="card-figure">';
+    html += '<div class="badge-wishlist-wrapper">';
+    html += '<a href="' + value.node.path + '" class="card-alt-img--hover card-image-normal" data-event-type="product-click">';
+    html += '<div class="card-img-container">';
+    html += '<span class="card-main-image"> <img class="card-image lazyautosizes ls-is-cached lazyloaded" data-sizes="auto" src="' + value.node.defaultImage.url + '" alt="' + value.node.name + '" title="' + value.node.name + '" sizes="339px"></span>';
+    html += '<span class="card-alt-image">  <img class="card-image lazyautosizes ls-is-cached lazyloaded" data-sizes="auto" src="' + value.node.defaultImage.url + '" alt="' + value.node.name + '" title="' + value.node.name + '" data-src="' + value.node.defaultImage.url + '" sizes="339px"></span>';
+    html += '</div>';
+    html += '</a>';
+    
+    // Wishlist
+    html += '<span class="product-wishlist" data-product-id="' + value.node.entityId + '">';
+    html += '<button aria-label="wishlist_' + value.node.entityId + '">';
+    html += '<i class="icon" aria-hidden="true">';
+    html += '<svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"></path></svg>';
+    html += '<svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"></path></svg>';
+    html += '</i>';
+    html += '</button>';
+    html += '</span>';
+    html += '</div>';
+    html += '</figure>';
+    
+    html += '<div class="card-body">';
+    html += '<div>';
+    html += '<a class="card-link" href="' + value.node.path + '" data-event-type="product-click">';
+    if (value.node.brand)
+        html += '<h3 class="card-text brand-name" data-test-info-type="brandName">' + value.node.brand.name + '</h3>';
+    html += '<h4 class="card-title">' + value.node.name + '</h4>';
+    html += '<div class="card-fields">';
+    html += '</div>';
+    
+    if(custFileds){
+        html += '<div class="card-fields">';
+        html += '<div class="custom-fields-list">';
+        html += '<span class="custom-field">' + custFileds + '</span>';
+        html += '</div>';
+        html += '</div>';
+    }
+    
+    html += '<div class="card-text" data-test-info-type="price">';
+    html += '<div class="price-section price-section--withoutTax">';
+    html += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax">';
+    if (value.node.prices.retailPrice != null)
+        html += '<span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;<span class="currency-symbol"></span>' + currency + '' + value.node.prices.retailPrice.value + '</span>';
+    html += '</div>';
 
-                        html += '</div>'
-                        if(custFileds){
-                        html += '<div class="card-fields">'
-                        html += '<div class="custom-fields-list">'
-                               html += '<span class="custom-field">'+custFileds+'</span>' 
-                        html += '</div>'
-                       html += '</div>'
-                      }
-                        html += '<div class="card-text" data-test-info-type="price">'
-
-                        html += '<div class="price-section price-section--withoutTax">'
-                        html += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax">'
-                        if (value.node?.prices?.retailPrice != null)
-                            html += '<span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;<span class="currency-symbol"></span>'+currency+'' + value.node?.prices?.retailPrice?.value + '</span>'
-                        html += '</div>'
-
-                        html += '<div class="price price--listPrice">'
-
-                        if (value.node.prices.salePrice != null)
-                            html += '<span data-product-price-without-tax="" class="price price--withoutTax sale_price">'+currency+'' + value.node.prices.salePrice.value + '</span>'
-                        else
+    html += '<div class="price price--listPrice">';
+    if (value.node.prices.salePrice != null)
+        html += '<span data-product-price-without-tax="" class="price price--withoutTax sale_price">' + currency + '' + value.node.prices.salePrice.value + '</span>';
+        else
                             html += '<span data-product-price-without-tax="" class="price price--withoutTax sale_price">'+currency+'' + value.node.prices.price.value + '</span>'
+
                         html += '</div>'
+                        
                         html += '</div>'
 
                         html += '</div>'
+                        
                         html += '</a>'
+                        html += '<p class="view-link" data-miros-entry="custom" data-miros-item="'+value.node.sku+'">View Similar</p> ';
                         html += '</div>'
+                        html += '</div>'
+                        html += '<div class="card-figcaption-listing">'
+                            html += '<a href="#" data-event-type="product-click" data-button-type="add-cart" data-product-name="'+value.node.name+'" data-product-price="'+value?.node?.prices?.price?.value+'" data-product-cat="" data-product-img="' + value.node.defaultImage.url + '" data-product-id="'+value.node.entityId+'" class="button button--small card-figcaption-button custom-add-to-cart">Add to cart</a>'
                         html += '</div>'
                         html += '</article>'
                         html += '</div>'
-                    }
+    
+    return html;
+}
 
-                    });
-                    $(".you-may-also-like").show();
-                    $(".productGridFavourite").html(html);
-
-                }
-
-
-            },
-            error: function (error) {
-                console.error('Error:', error);
-                $(".you-may-also-like").hide();
-            }
-        });
-    }
-
-    function getCurrencySymbol(currencyCode) {
-    // Use Intl.NumberFormat to get the currency symbol
+function getCurrencySymbol(currencyCode) {
     return (0).toLocaleString(undefined, {
         style: 'currency',
         currency: currencyCode,
@@ -318,6 +387,19 @@ fragment MoneyFields on Money {
         maximumFractionDigits: 0
     }).replace(/\d/g, '').trim();
 }
+
+$(document).ready(function(){
+            let interval = setInterval(() => {
+        if ($(".productGrid .product").length < 3) {
+            clearInterval(interval)
+            youMayAlsoLike();
+            scrollOfWithoutDefault();
+        }
+    }, 1000)
+    setTimeout(() => {
+        clearInterval(interval);
+    }, 5000)
+        });
 </script>
 <input type="hidden" id="brandProductsCount" value="" />
 <script>
@@ -417,6 +499,9 @@ let url = window.location.href;
                     }
           }
         }
+
+  
+        
 </script>
 {{/partial}}
 {{> layout/base}}

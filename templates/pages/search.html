@@ -18,6 +18,10 @@ product_results:
 
 {{{ stylesheet '/assets/scss/vendor/jstree/style.css' }}}
 {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+<!--<div class="test-sidebar"></div>
+<ul class="productGrid miros-search-result"></ul> 
+-->                
 {{#comment}}
 <section class="nav">
     {{#if forms.search.query}}
@@ -61,97 +65,1521 @@ product_results:
 {{/comment}}
 
 <section class="page">
-    {{#if product_results.faceted_search_enabled}}
     <div class="page-sidebar-sticky">
-        <aside class="page-sidebar{{#if forms.search.section '!=' 'product'}} u-hiddenVisually{{/if}}" id="faceted-search-container">
+        <aside class="aside page-sidebar{{#if forms.search.section '!=' 'product'}} u-hiddenVisually{{/if}}" id="faceted-search-container">
             <nav>
                 <div class="brand-product-count">
-                    {{{lang 'search.results.quick_count' count=pagination.product_results.total search_query=(sanitize forms.search.query) }}}
+                    
                 </div>
-            <div class="accordion accordion--navList">
-                {{> components/faceted-search/index product_results}}
-            </div>
+                <div class="accordion accordion--navList" style="opacity: 0;">
+                    <div id="facetedSearch" class="facetedSearch sidebarBlock"></div>
+                </div>
             </nav>
         </aside>
     </div>
-    {{/if}}
     <main class="page-content">
-        {{#comment}}
-        {{#if forms.search.has_suggestions}}
-            <div class="panel panel--large">
-                <div class="panel-body">
-                    {{#if forms.search.suggested_query}}
-                        <div class="search-suggestion">
-                            {{lang 'forms.search.did_you_mean'}} <strong>{{forms.search.suggested_query.query}}</strong>
-                            <a href="{{forms.search.suggested_query.url}}" class="search-refine">{{lang 'forms.search.refine'}}</a>
-                        </div>
-
-                        {{#if result_count '===' 0}}
-                            <div class="search-suggestion">
-                                <p>
-                                    {{lang 'forms.search.your_search_for'}}
-                                    "<strong>{{{sanitize forms.search.query}}}</strong>"
-                                    {{lang 'forms.search.no_match'}}
-                                </p>
-                            </div>
-                        {{/if}}
-                    {{/if}}
-
-                    {{#if category_results.length}}
-                        <div class="search-suggestion">
-                            <h5 class="suggestion-title">{{lang 'forms.search.categories'}}</h5>
-                            <ul class="category-suggestion-list">
-
-                                {{#each category_results}}
-                                <li class="category-suggestion">
-
-                                    {{#each this}}
-                                        <a href="{{url}}">{{name}}</a>
-                                        {{#unless @last}} > {{/unless}}
-                                    {{/each}}
-
-                                </li>
-                                {{/each}}
-                            </ul>
-                        </div>
-                    {{/if}}
-
-                    {{#if brand_results.length}}
-                        <div class="search-suggestion">
-                            <h5 class="suggestion-title">{{lang 'forms.search.brand'}}</h5>
-                            {{#each brand_results}}
-                                <a href="{{url}}">{{name}}</a>
-                                {{#unless @last}}, {{/unless}}
-                            {{/each}}
-                        </div>
-                    {{/if}}
-
-                    {{#if result_count '===' 0}}
-                        <div class="search-suggestion">
-                            <h5 class="suggestion-title">{{lang 'forms.search.suggestions.title'}}</h5>
-                            <ul>
-                                <li>{{lang 'forms.search.suggestions.line1'}}</li>
-                                <li>{{lang 'forms.search.suggestions.line2'}}</li>
-                                <li>{{lang 'forms.search.suggestions.line3'}}</li>
-                            </ul>
-                        </div>
-                    {{/if}}
-                </div>
+        <div class="miros-search-section">
+            <form class="actionBar" method="get" data-sort-by="product">
+                <fieldset class="form-fieldset actionBar-section">
+                    <div class="form-field">
+                        <select class="form-select form-select--small " name="sort" id="sort" role="listbox">
+                            <option value="discount_percentage">Discount</option>
+                            <option value="price_discounted">Price</option>
+                            <option value="score" selected="">Relevance</option>
+                        </select>
+                    </div>
+                </fieldset>
+            </form>
+            <div data-list-name="Search Results">
+                <ul class="productGrid miros-search-result">
+                </ul>
             </div>
-        {{/if}}
-        {{/comment}}
-
-        <div role="tabpanel" id="search-results-content" aria-labelledby="search-results-content-count" {{#if forms.search.section '!=' 'content'}}class="u-hidden"{{/if}}>
-            {{> components/search/content-listing}}
+            <nav class="pagination-container" aria-label="pagination" style="display: none;"></nav>
         </div>
-
-        <div role="tabpanel" id="product-listing-container" aria-labelledby="search-results-product-count" {{#if forms.search.section '!=' 'product'}}class="u-hidden"{{/if}}>
-            {{> components/search/product-listing}}
-        </div>
-
         {{{region name="search_below_content"}}}
     </main>
 </section>
 
 {{/partial}}
 {{> layout/base}}
+
+
+<!--Miros Search recommendation -->
+<script>
+
+    var a = window.location.href;
+    str = a.split("/search.php?search_query=").pop();
+    localStorage.setItem('savedParam', str);
+
+    function extractFilterParams(url) {
+                const queryParams = new URLSearchParams(new URL(url).search);
+                queryParams.forEach((value, key) => {
+                    if (key !== 'search_query' && key !== '_bc_fsnf' && key !== 'page' && key !== 'sort') {
+                        filters[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+                    }
+                });
+                return filters;
+}
+function constructFilterQuery(filters) {
+                if (Object.keys(filters).length > 0) {
+                    filter_query = '{' + Object.keys(filters).map(key => {
+                        if (key !== 'page') {
+                        return `${key}: {__eq: "${filters[key]}"}`
+                        }
+                    }).join(', ') + '}';
+                }
+                return filter_query;
+}
+function getQueryParam(param) {
+            var regex = new RegExp('[?&]' + param + '=([^&#]*)');
+            var results = regex.exec(window.location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+let filters = {};
+let filter_query = '{}';
+    
+function miros_query_load() {
+    let url = window.location.href;
+        const end = "&_bc_fsnf=1&";
+        const sort = "&sort=";
+        let sort_val = 'score';
+        let filter_val = ''; 
+        let skip_val = 0;
+        let price = 'price';
+        let min_price= '&min_price=';
+        let max_price= '&max_price=';
+        
+        var page = "&page=";
+        var regex = new RegExp(page + "(\\d+)");
+        var match = url.match(regex);
+
+        let storedValue = null;
+        let str_name = '';
+        let str_val = [];
+
+        filters = extractFilterParams(url);
+        filter_query = constructFilterQuery(filters);
+        var minPrice = getQueryParam('min_price');
+        var maxPrice = getQueryParam('max_price');
+
+        if (url.includes(sort)) {
+            sort_val = url.split(sort).pop().split('&')[0];
+            $('#sort option[value="'+sort_val+'"]').attr('selected', true);
+        }
+        if (url.includes('&page=')) {
+            if (match) {
+                var pageNumber = match[1];
+                skip_val = 60 * (pageNumber - 1);
+            }
+        }
+        
+        if (url.includes(end) || url.includes(page) || url.includes(sort)) {
+
+            // Define the delimiters
+            let startDelimiter = "/search.php?search_query=";
+            let endDelimiter = "&";
+    
+            // Find the positions of the delimiters
+            let startIndex = url.indexOf(startDelimiter) + startDelimiter.length;
+            let endIndex = url.indexOf(endDelimiter);
+    
+            // Extract the substring
+            storedValue = startIndex >= startDelimiter.length && endIndex > startIndex
+                ? url.substring(startIndex, endIndex)
+                : null;
+    
+            // Extract the filter value
+                const queryParams = new URLSearchParams(new URL(url).search);
+                queryParams.forEach((value, key) => {
+                    
+                    if (key !== 'search_query' && key !== '_bc_fsnf' && key !== 'page' && key !== 'sort') {
+                        filters[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+                        
+                        str_val.push(filters[key]);
+                        
+                    }
+                });
+               // console.log('str_val load', str_val);
+            // let filterParts = url.split(end).pop().split('=');
+            // str_name = filterParts[0];
+            // str_val = filterParts[1];
+            // str_val = str_val.replace('&sort', '');
+            // str_val = str_val.replace('&page', '');
+    
+            if (str_name && str_val) {
+               // filter_val = decodeURIComponent(str_val.replaceAll('+', ' '));
+                filter_val = filter_val.replaceAll('+', ' ');
+                if (str_name !== 'page') {
+                filter_query = `{${str_name}: {__eq: "${filter_val}"}}`;
+                }
+            }
+
+        } else if (url.includes(min_price) && url.includes(max_price)) {
+            storedValue = url.split("/search.php?search_query=").pop().split('&')[0];
+            filter_query = `{price_discounted: {__gte: ${minPrice}, __lte: ${maxPrice}}}`;
+            filter_val = minPrice+ '-' +maxPrice;
+        } else {
+            storedValue = url.split("/search.php?search_query=").pop().split('&')[0];
+        }
+        storedValue = storedValue.replaceAll('%20', ' ');
+        storedValue = storedValue.replaceAll('+', ' ');
+        storedValue = storedValue.replaceAll('%26', '&');
+        storedValue = decodeURIComponent(storedValue);
+        console.log('Search query', storedValue);
+        console.log('Sort Value:', sort_val);
+        console.log('filters', filters);
+        console.log('Filter Query:', filter_query);
+        console.log('Skip val:', skip_val);
+      
+        // Construct GraphQL query
+        const graphqlQuery = `
+            query SearchQuery($integration_id: String!, $search_query: String!, $text_query_language: String!) {
+                search(query: {
+                    integration_id: $integration_id,
+                    text_query: $search_query,
+                    text_query_language: $text_query_language,
+                    limit: 60,
+                    skip: ${skip_val},
+                    sort: {
+                        field: ${sort_val}
+                    },
+                    filter_query: ${filter_query}
+                }) {
+                    filter_facets
+                    approximate_hits
+                    data {
+                        alias
+                        name
+                        payload
+                    }
+                }
+            }
+        `;
+    
+        const variables = {
+            integration_id: '7fb78fcf-d37e-4021-abab-74d146bc9997',
+            search_query: storedValue,
+            text_query_language: 'en'
+        };
+    
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer {{ settings.storefront_api.token }}',
+            'Access-Control-Allow-Origin': '*'
+        };
+    
+        // Execute the GraphQL query via AJAX
+        $.ajax({
+            type: 'POST',
+            url: 'https://api.miros.services/graphql',
+            headers: headers,
+            data: JSON.stringify({ 
+                query: graphqlQuery,
+                variables: variables
+            }),
+            dataType: 'json',
+            success: function (res) {
+                console.log('Miros Response:', res);
+                //console.log("approximate_hits", res.data.search.approximate_hits);
+                let skus = res.data.search.data.map(item => item.alias);
+                //console.log('SKU Array Length:', skus.length);
+                localStorage.setItem('hits', res.data.search.approximate_hits);
+                let ids = res.data.search.data.map(item => item.payload.metadata.product_id);
+
+                var chunkedArrays = splitArrayIntoChunks(ids, 50);
+              
+                
+                //console.log('ID Array Length:', ids.length);
+
+                //let page_count = Math.ceil(skus.length / 3);
+                var page_count = Math.ceil(res.data.search.approximate_hits / 60);
+                //console.log('Page Count:', page_count); 
+                let accordion_block = '';
+                accordion_block += `<nav><div class="brand-product-count"></div>
+                    <div class="accordion accordion--navList">
+                        <div id="facetedSearch" class="facetedSearch sidebarBlock">
+                            <a href="#" role="button" class="facetedSearch-toggle toggleLink is-open" data-collapsible="" aria-label="Filters Filters" aria-controls="facetedSearch-navList" aria-expanded="true"> 
+                                <span class="facetedSearch-toggle-indicator"> 
+                                    <span class="toggleLink-text toggleLink-text--on"> Filters <i class="icon" aria-hidden="true"> 
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 14C0.447715 14 0 14.4477 0 15C0 15.5523 0.447715 16 1 16H5C5.55228 16 6 15.5523 6 15C6 14.4477 5.55228 14 5 14H1ZM1 2C0.447716 2 0 2.44772 0 3C0 3.55228 0.447715 4 1 4H9C9.55228 4 10 3.55228 10 3C10 2.44772 9.55228 2 9 2H1ZM9 18C9.55228 18 10 17.5523 10 17V16H17C17.5523 16 18 15.5523 18 15C18 14.4477 17.5523 14 17 14H10V13C10 12.4477 9.55228 12 9 12C8.44772 12 8 12.4477 8 13V17C8 17.5523 8.44772 18 9 18ZM5 6C4.44772 6 4 6.44772 4 7V8H1C0.447715 8 0 8.44772 0 9C0 9.55228 0.447715 10 1 10H4V11C4 11.5523 4.44772 12 5 12C5.55228 12 6 11.5523 6 11V7C6 6.44772 5.55228 6 5 6ZM17 10C17.5523 10 18 9.55228 18 9C18 8.44772 17.5523 8 17 8H9C8.44772 8 8 8.44772 8 9C8 9.55228 8.44772 10 9 10H17ZM12 5C12 5.55228 12.4477 6 13 6C13.5523 6 14 5.55228 14 5V4H17C17.5523 4 18 3.55228 18 3C18 2.44772 17.5523 2 17 2H14V1C14 0.447715 13.5523 0 13 0C12.4477 0 12 0.447715 12 1V5Z" fill="#333333"></path></svg> </i> 
+                                    </span> 
+                                    <span class="toggleLink-text toggleLink-text--off"> Filters <i class="icon" aria-hidden="true"> 
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 14C0.447715 14 0 14.4477 0 15C0 15.5523 0.447715 16 1 16H5C5.55228 16 6 15.5523 6 15C6 14.4477 5.55228 14 5 14H1ZM1 2C0.447716 2 0 2.44772 0 3C0 3.55228 0.447715 4 1 4H9C9.55228 4 10 3.55228 10 3C10 2.44772 9.55228 2 9 2H1ZM9 18C9.55228 18 10 17.5523 10 17V16H17C17.5523 16 18 15.5523 18 15C18 14.4477 17.5523 14 17 14H10V13C10 12.4477 9.55228 12 9 12C8.44772 12 8 12.4477 8 13V17C8 17.5523 8.44772 18 9 18ZM5 6C4.44772 6 4 6.44772 4 7V8H1C0.447715 8 0 8.44772 0 9C0 9.55228 0.447715 10 1 10H4V11C4 11.5523 4.44772 12 5 12C5.55228 12 6 11.5523 6 11V7C6 6.44772 5.55228 6 5 6ZM17 10C17.5523 10 18 9.55228 18 9C18 8.44772 17.5523 8 17 8H9C8.44772 8 8 8.44772 8 9C8 9.55228 8.44772 10 9 10H17ZM12 5C12 5.55228 12.4477 6 13 6C13.5523 6 14 5.55228 14 5V4H17C17.5523 4 18 3.55228 18 3C18 2.44772 17.5523 2 17 2H14V1C14 0.447715 13.5523 0 13 0C12.4477 0 12 0.447715 12 1V5Z" fill="#333333"></path></svg> </i> 
+                                    </span> 
+                                </span> 
+                                <span class="selected-filters-count"></span> 
+                            </a>
+                            <div id="facetedSearch-navList" class="facetedSearch-navList" aria-hidden="false">
+                                <div class="mobile-only">
+                                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                                        <path d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z"></path>
+                                    </svg>
+                                    <span>Filters</span>
+                                </div>`;
+                    if (url.includes(end)) {
+                        //console.log("filter value on update", filter_val);
+                        accordion_block += '<div class="facetedSearch-refineFilters sidebarBlock accordion-block"><h2 class="sidebarBlock-heading desk-only">Filters</h2><ul class="inlineList inlineList--labels">';
+                        
+                                // Get the part of the URL after "_bc_fsnf=1&"
+                                const queryPart = url.split(end).pop();
+                                //console.log('queryPart', queryPart);
+                                let filterValues = [];
+                
+                                // Split the query part by '&' to get key-value pairs
+                                let queryParams = queryPart.split('&');
+                                
+                                // Check if both min_price and max_price exist in the array
+                                if ($.grep(queryParams, function(param) { return param.startsWith("min_price="); }).length &&
+                                    $.grep(queryParams, function(param) { return param.startsWith("max_price="); }).length) {
+                                    
+                                    // Extract min and max prices
+                                    let minPrice = $.grep(queryParams, function(param) { return param.startsWith("min_price="); })[0].split("=")[1];
+                                    let maxPrice = $.grep(queryParams, function(param) { return param.startsWith("max_price="); })[0].split("=")[1];
+                                    
+                                    // Remove min_price and max_price from the array
+                                    queryParams = $.grep(queryParams, function(param) {
+                                        return !param.startsWith("min_price=") && !param.startsWith("max_price=");
+                                    });
+                                    
+                                    // Add the combined min_max_price parameter
+                                    queryParams.push("&min_price=" + minPrice + "&" + "max_price=" +maxPrice);
+                                }
+                                
+                                // Iterate over each key-value pair
+                                
+                                        
+                                queryParams.forEach(param => {
+                                    if(param.includes('price')){
+                                        var url = new URL(window.location.href);
+                                        let value = param.split('=').pop();
+                                        let val_new = decodeURIComponent(value);
+                                        val_new = val_new.replaceAll('+', ' ');
+                                        val_new = val_new.replaceAll('%2F', '/');
+                                        // Define the value to match for removal
+                                        
+                                        var valueToRemove = value;
+                                        var searchParams = new URLSearchParams(url.search);
+                                        for (const [key, value] of searchParams) {
+                                            if ((key.includes('max_price'))) {
+                                                searchParams.delete(key);
+                                            }
+                                        }
+                                        for (const [key, value] of searchParams) {
+                                            if ((key.includes('min_price'))) {
+                                                searchParams.delete(key);
+                                            }
+                                        }
+                                        url.search = searchParams.toString();
+                                        updatedUrl = url.toString();
+                                       
+                                        
+                                        accordion_block += '<li><a href="'+updatedUrl+'" class="facetLabel" rel="nofollow" data-faceted-search-facet="">'+filter_val+'<svg class="icon"><use href="#icon-close"></use></svg></a></li>'
+                                    }
+                                    
+                                    if(!param.includes('_bc_fsnf') && !param.includes('price')){
+                                        //console.log('param', param);
+                                        let value = param.split('=').pop();
+                                        let val_new = decodeURIComponent(value);
+                                        val_new = val_new.replaceAll('+', ' ');
+                                        val_new = val_new.replaceAll('%2F', '/');
+                                        // Define the value to match for removal
+                                       
+                                        var valueToRemove = val_new;
+                                        // Get the current URL
+                                        var url = new URL(window.location.href);
+                                        // Retrieve all query parameters
+                                        var searchParams = new URLSearchParams(url.search);
+
+                                        // Loop through all query parameters to find and remove the one with the specified value
+                                        for (let [key, value] of searchParams) {
+                                            
+                                            if(key !== 'page'){
+                                               
+                                                value = value.replace(/\+/g, ' ');
+                                                //console.log("valuee", value , valueToRemove);
+                                                if ((value === valueToRemove)){
+                                                    searchParams.delete(key);
+                                                    // Update the URL in the browser without reloading the page
+                                                    url.search = searchParams.toString();
+                                                    //console.log('Updated URL:', url.toString());
+                                                    updatedUrl = url.toString();
+                                                    
+                                                    let classVal =  value
+                                                        .toLowerCase()                   // Convert the whole string to lowercase
+                                                        .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g,   // Find the first letter of each word
+                                                            (match, index) => index === 0 ? match.toLowerCase() : match.toUpperCase()) // Capitalize subsequent words
+                                                        .replace(/\s+/g, '');
+                                                        let latstUrl = updatedUrl;
+                                                        setTimeout(() => {
+                                                            //console.log("latstUrl", latstUrl);
+                                                            //console.log("value", classVal);
+                                                            $(`li.${classVal} a`).attr("href", latstUrl);
+                                                        }, 2000);
+                                                    // if (!updatedUrl.includes(sort) && !updatedUrl.includes(page) && !updatedUrl.includes('price')) {
+                                                        accordion_block += '<li><a href="'+updatedUrl+'" class="facetLabel" rel="nofollow" data-faceted-search-facet="">'+val_new+'<svg class="icon"><use href="#icon-close"></use></svg></a></li>'
+                                                    // }
+                                                    //break; // Remove the first matching parameter and stop checking
+                                                }
+                                            }
+                                        }
+                                        
+                                        
+                                        // Decode and add to the array
+                                        filterValues.push(decodeURIComponent(value.replaceAll('+', ' ')));
+                                    }
+                                });
+                                console.log('storedValue', storedValue);
+                        accordion_block += '</ul><a href="/search.php?search_query='+storedValue+'&_bc_fsnf=1" class="reset-btn desk-only" data-faceted-search-facet="">Reset filters</a></div>';
+                    } 
+                accordion_block += `<div class="mobile-only category-sort">
+                                    <form class="actionBar" method="get" data-sort-by="product">
+                                        <fieldset class="form-fieldset actionBar-section">
+                                            <div class="form-field">
+                                                <select class="form-select form-select--small " name="sort" id="sort" role="listbox">
+                                                    <option value="discount_percentage">Discount</option>
+                                                    <option value="price_discounted">Price</option>
+                                                    <option value="score" selected="">Relevance</option>
+                                                </select>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                        <div class="accordion-1 accordion--navList-1">`;
+                let arr = res.data.search.filter_facets;
+                
+                for (const [key, value] of Object.entries(arr)) {
+                    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                        const filter_label = key.replaceAll('_', ' ');
+                        if (key === 'price_discounted') {
+                            // Price range form block
+                            accordion_block += `
+                                <div class="accordion-block">
+                                    <div class="accordion-nav-clear-holder">
+                                        <button type="button" class="accordion-navigation toggleLink is-open" data-collapsible="#facetedSearch-content--price" aria-label="Price" aria-controls="facetedSearch-content--price" aria-expanded="true">
+                                            <span class="accordion-title">
+                                                Price
+                                            </span>
+    
+                                            <span>
+                                                <svg class="icon accordion-indicator toggleLink-text toggleLink-text--off">
+                                                    <use href="#icon-add"></use>
+                                                </svg>
+                                                <svg class="icon accordion-indicator toggleLink-text toggleLink-text--on">
+                                                    <use href="#icon-remove"></use>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+    
+                                    <div id="facetedSearch-content--price" class="accordion-content is-open" aria-hidden="false">
+                                        <form id="facet-range-form" class="form" method="get" data-faceted-search-range="" novalidate="">
+                                            <input type="hidden" name="search_query" value="${storedValue}">
+                                            <fieldset class="form-fieldset">
+                                                <div class="form-minMaxRow">
+                                                    ${Object.entries(value).map(([subKey, subValue]) => {
+                                                        if (subKey !== '__supported_operators') {
+                                                            const filter_name = encodeURIComponent(subKey.replaceAll(' ', '+').replaceAll('/', '%2F'));
+                                                            return `
+                                                            <div class="form-field">
+                                                                <input name="${subKey}_price" class="${subKey}_price form-input form-input--small" placeholder="${subKey}." ${subKey}="${subValue}" required="" type="number" aria-label="${subKey}." aria-describedby="${subKey}_price_description">
+                                                                <span id="${subKey}_price_description" class="aria-description--hidden">Enter the price to filter products by</span>
+                                                            </div>`;
+                                                            }
+                                                        }).join('')
+                                                    }
+                                                    <div class="form-field">
+                                                        <button class="button button--small" type="submit">
+                                                            Update
+                                                        </button>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="form-inlineMessage" aria-live="polite" role="alert"></div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>`;
+                        }
+                        if ((key !== 'price') && (key !== 'price_bucket') && (key !== 'price_discounted')) {
+                            var x = '&_bc_fsnf=1&';
+                            url = window.location.href;
+                            
+                               // Parse the URL
+                                let parsedUrl = new URL(url);
+                                
+                                // Get the search params
+                                let searchParams = new URLSearchParams(parsedUrl.search);
+                                
+                                // Check if 'page' parameter exists
+                                if (searchParams.has('page')) {
+                                    // Remove the 'page' parameter
+                                    searchParams.delete('page');
+                                    
+                                    // Construct the new URL
+                                     url = parsedUrl.origin + parsedUrl.pathname + '?' + searchParams.toString();
+                                    
+                                    // Log the new URL
+                                    
+                            }
+                            console.log("Updated URL:", url);
+                            if (url.includes("_bc_fsnf")) {
+                                x = '&';
+                            }
+                                accordion_block += `
+                                    <div class="accordion-block">
+                                        <div class="accordion-nav-clear-holder">
+                                            <button type="button" class="accordion-navigation toggleLink is-open" data-collapsible="#facetedSearch-content--${key}" aria-label="${key}" aria-controls="facetedSearch-content--${key}" aria-expanded="true">
+                                                <span class="accordion-title">${filter_label}</span>
+                                                <span>
+                                                    <svg class="icon accordion-indicator toggleLink-text toggleLink-text--off">
+                                                        <use href="#icon-add"></use>
+                                                    </svg>
+                                                    <svg class="icon accordion-indicator toggleLink-text toggleLink-text--on">
+                                                        <use href="#icon-remove"></use>
+                                                    </svg>
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <div id="facetedSearch-content--${key}" class="accordion-content is-open" aria-hidden="false">
+                                            <ul id="facetedSearch-navList--${key}" class="navList">
+                                                ${Object.entries(value).map(([subKey, subValue]) => {
+                                                    if (subKey !== '__supported_operators') {
+                                                        const filter_name = encodeURIComponent(subKey.replaceAll(' ', '+').replaceAll('/', '%2F'));
+                                                        //console.log("str_val", str_val , subKey);
+                                                        let is_selected = 0; 
+                                                        str_val.forEach(element => {
+                                                            if(element === subKey)
+                                                            is_selected = 1; 
+                                                        })
+
+                                                        let classVal =  subKey
+                                                        .toLowerCase()                   // Convert the whole string to lowercase
+                                                        .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g,   // Find the first letter of each word
+                                                            (match, index) => index === 0 ? match.toLowerCase() : match.toUpperCase()) // Capitalize subsequent words
+                                                        .replace(/\s+/g, '');
+
+                                                        // console.log("urllllll", url);
+
+                                                        // console.log("data", x, key, filter_name);
+                                                        return `
+                                                            <li class="navList-item ${classVal}">
+                                                                <a href="${url}${x}${key}=${filter_name}" class="navList-action navList-action--checkbox ${is_selected == 1 ? 'is-selected' : ''}" rel="nofollow" data-faceted-search-facet="">
+                                                                    ${subKey}<span>(${subValue})</span>
+                                                                </a>
+                                                            </li>`;
+                                                    }
+                                                }).join('')}
+                                            </ul>
+                                        </div>
+                                    </div>`;
+                            }
+                    }
+                }
+                accordion_block += `</div>
+                <div class="mobile-bottom mobile-only">
+                                            <div class="facetedSearch-refineFilters sidebarBlock accordion-block popup-accordion-block">
+                                                <a href="/search.php?search_query=${storedValue}&_bc_fsnf=1" class="reset-btn-mobile" data-faceted-search-facet="">
+                                                        Reset filters
+                                                    </a>
+                                                <button class="done-btn button mobile-only">DONE<svg width="17" height="12" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.2957 0.294775C17.6851 0.684228 17.6851 1.31566 17.2957 1.70511L6.00083 12.9999L1.20626 8.20537C0.816663 7.81577 0.816662 7.18411 1.20626 6.79451C1.59552 6.40525 2.22652 6.40486 2.61626 6.79365L6.00083 10.1699L15.8857 0.294442C16.2752 -0.0946967 16.9063 -0.0945475 17.2957 0.294775Z" fill="white"></path></svg></button>
+                                            </div>
+                                        </div><div class="blocker" style="display: none;"></div>
+                </div></div></div></nav>`;
+                $('.aside').html(accordion_block);
+                $('.brand-product-count').html('Showing <strong>' + res.data.search.approximate_hits + '</strong> results for "' +storedValue+'"');
+                $('.accordion').css('opacity', '1');
+                if(minPrice && maxPrice){
+                    $(".min_price").attr('value', minPrice);
+                    $(".max_price").attr('value', maxPrice);
+                }
+                
+                // for(var j=0; j<skus.length; j++){
+                // var sku = skus[j];
+                //console.log('single sku from array', sku);
+                chunkedArrays.forEach((prd_ids) => {
+                let productQuery = `query {
+                    site{
+                        products(entityIds: [` + prd_ids + `], first: 50){
+                            edges{
+                                node{
+                                    name
+                                    sku
+                                    path
+                                    entityId
+                                    brand{
+                                        name
+                                    }
+                                    defaultImage {
+                                        url640wide: url(width: 640)
+                                    }
+                                    images {
+                                        edges {
+                                          node {
+                                            url(width: 640)
+                                          }
+                                        }
+                                    }
+                                    customFields {
+                                        edges {
+                                          node {
+                                            name
+                                            value
+                                          }
+                                        }
+                                      }
+                                    prices{
+                                        basePrice{
+                                            value
+                                            formatted
+                                        }
+                                        salePrice{
+                                            value
+                                            formatted
+                                        }
+                                        retailPrice{
+                                            value
+                                            formatted
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }`
+                
+                $.ajax({
+                            type: 'POST',
+                            url: '/graphql',
+                            headers: headers,
+                            async: false,
+                            data: JSON.stringify({ query: productQuery }),
+                            dataType: 'json',
+                            success: function (res) {
+                                //console.log('search_query', res);
+
+                                ids.forEach(function(id){
+                                    
+                                    let p_edges = res.data.site.products.edges; 
+
+                                    p_edges.forEach(function(data){
+                                        let p_id = data.node.entityId;
+                                        if(id == p_id){
+                                            //console.log('match id', id);
+                                            count = 0;
+                                            if(data){
+                                                var product_card = '';
+                                                product_card += '<li class="product"><article class="card" data-event-type="list" data-entity-id="'+ data.node.entityId +'" data-name="'+ data.node.name +'" data-product-price="'+ data.node.prices.basePrice.formatted +'"> <figure class="card-figure"> <div class="badge-wishlist-wrapper"> <a href="'+ data.node.path +'" class="card-alt-img--hover card-image-normal" data-event-type="product-click"> <div class="card-img-container"> <span class="card-main-image"> <img class="card-image" src="'+ data.node.defaultImage.url640wide +'" data-src="'+ data.node.defaultImage.url640wide +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
+                                                if(data.node.images.edges[1]){
+                                                    product_card += '<span class="card-alt-image"><img class="card-image" src="'+ data.node.images.edges[1].node.url +'" data-src="'+ data.node.images.edges[1].node.url +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
+                                                }else{
+                                                    product_card += '<span class="card-alt-image"><img class="card-image" src="'+ data.node.defaultImage.url640wide +'" data-src="'+ data.node.defaultImage.url640wide +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
+                                                }
+                                                product_card += '</div> </a> ';
+                                                
+                                                product_card += '<span class="product-wishlist" data-product-id="'+ data.node.entityId +'"> <button aria-label="wishlist_'+ data.node.entityId +'"> <i class="icon" aria-hidden="true"> <svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/></svg> <svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"/></svg> </i> </button></span>';
+                                                
+                                                product_card += '</div> </figure> <div class="card-body"> <div> <a class="card-link" href="'+ data.node.path +'"> <h3 class="card-text brand-name">'+ data.node.brand.name +'</h3> <h4 class="card-title">'+ data.node.name +'</h4> ';
+                                                if(data.node.customFields.edges){
+                                                    product_card += '<div class="card-fields"> <div class="custom-fields-list"> ';
+                                                    var UK = '';
+                                                    var US = '';
+                                                    var FR = '';
+                                                    var IT = '';
+                                                    var SML = '';
+                                                    var EU = '';
+                                                    var both = '';
+                                                    var count = 0;
+                                                    for(var i=0; i<data.node.customFields.edges.length; i++){
+                                                        var node = data.node.customFields.edges[i].node;
+                                                        if(node.name == 'SML'){
+                                                            SML = '' + node.value +',&nbsp;';    
+                                                        } 
+                                                        if(node.name == 'UK'){
+                                                            UK = '' + node.name + '&nbsp;' + node.value +',&nbsp;' ;  
+                                                        }
+                                                        if(node.name == 'US'){
+                                                            US = '' + node.name + '&nbsp;' + node.value +',&nbsp;';  
+                                                        }
+                                                        if(node.name == 'FR'){
+                                                            FR = '' + node.name + '&nbsp;' + node.value +',&nbsp;';
+                                                        }
+                                                        if(node.name == 'EU'){
+                                                            count++;
+                                                            EU = '' + node.name + '&nbsp;' + node.value +'';    
+                                                        }
+                                                        if(node.name == 'IT'){
+                                                            count++;
+                                                            IT = '' + node.name + '&nbsp;' + node.value +''; 
+                                                            IT_val = node.value;   
+                                                        }
+                                                        if(count == 2){
+                                                            both = 'EU/IT' + '&nbsp;' + IT_val +'';    
+                                                        } 
+                                                        
+                                                    }
+                                                    if(both){
+                                                        product_card += '' + SML + UK + US + FR + both +'</div> </div>';
+                                                    }else{
+                                                        product_card += '' + SML + UK + US + FR + EU + IT +'</div> </div>';
+                                                    }
+                                                }
+                                                product_card += '<div class="card-text" data-test-info-type="price"><div class="price-section price-section--withoutTax">';
+                                                    
+                                                if(data.node.prices.retailPrice){        
+                                                    product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'</span></div>';
+                                                }        
+                                                if(data.node.prices.salePrice){
+                                                    var old = data.node.prices.basePrice.value;
+                                                    var sale = data.node.prices.salePrice.value;
+                                                    var discount = parseInt(Math.round((100 * (old - sale)) / old)) ;
+                                                    product_card += '<span class="price price--non-sale">'+ data.node.prices.basePrice.formatted +'</span> <div class="price price--listPrice has-sale-price"> <div class="price price--saving"> <span class="saving-percentage">-'+ discount +'%</span></div><span class="price price--withoutTax">'+ data.node.prices.salePrice.formatted +'</span> </div> </div> </div>';
+                                                }else{
+                                                    product_card += '<span class="price price--withoutTax">'+ data.node.prices.basePrice.formatted +'</span> </div> </div> </div>';
+                                                }
+                                                product_card += '</a><p class="view-link" data-miros-entry="custom" data-miros-item="'+data.node.sku+'">View Similar</p> </div> </div> </article></li>';
+                                                
+                                                
+                                                $('.miros-search-result').append(product_card);
+                                                $('#search-results-content').addClass('u-hidden');
+                                                $('#product-listing-container').removeClass('u-hidden');
+                                                $('.pagination-container').css('display', 'block');
+                                            }
+                                        }
+                                    });
+                                });
+                                
+                                
+                            }
+                });
+            });
+                //console.log("length", skus.length);
+                storedValue = storedValue.replaceAll('%20', ' ');
+                storedValue = storedValue.replaceAll('%2B', ' ');
+                storedValue = storedValue.replaceAll('%2B%2B%2B', ' + ');
+                
+                console.log("page_count", page_count);
+                 // Pagination Logic
+                if (page_count > 1) {
+                    let pagination_block = '<ul class="pagination-list">';
+                    const currentPage = parseInt(new URLSearchParams(window.location.search).get('page') || 1);
+                    
+                    if (currentPage > 1) {
+                        // Previous Button
+                        pagination_block += `<li class="pagination-item pagination-item--previous ${currentPage === 1 ? 'disabled' : ''}">
+                            <a class="pagination-link" href="${getPaginationUrl(currentPage - 1)}" data-faceted-search-facet aria-label="Previous">
+                                <i class="icon" aria-hidden="true">
+                                    <svg><use href="#icon-chevron-left"></use></svg>
+                                </i>
+                                Previous
+                            </a>
+                        </li>`;
+                    }
+    
+                    // Page Numbers
+                    for (let i = 1; i <= page_count; i++) {
+                        pagination_block += `<li class="pagination-item item-num ${i === currentPage ? 'pagination-item--current' : ''}">
+                            <a class="pagination-link" href="${getPaginationUrl(i)}" data-faceted-search-facet aria-label="Page ${i} of ${page_count}">
+                                ${i}
+                            </a>
+                        </li>`;
+                    }
+                    
+                    if (currentPage < page_count) {
+                        // Next Button
+                        pagination_block += `<li class="pagination-item pagination-item--next ${currentPage === page_count ? 'disabled' : ''}">
+                            <a class="pagination-link" href="${getPaginationUrl(currentPage + 1)}" data-faceted-search-facet aria-label="Next">
+                                Next
+                                <i class="icon" aria-hidden="true">
+                                    <svg><use href="#icon-chevron-right"></use></svg>
+                                </i>
+                            </a>
+                        </li>`;
+                    }
+    
+                    pagination_block += '</ul>';
+                    $('.pagination-container').html(pagination_block);
+                }
+            }
+            // }
+            
+        });
+        
+    }
+    
+function miros_query_updated(url, old_url){
+    $('.accordion').css('opacity', '0');
+    $('.pagination-container').css('display', 'none');
+    $('.miros-search-result').html('');
+    const hits = parseInt(localStorage.getItem('hits'));
+    //console.log("hits", hits);
+        //let url = window.location.href;
+        const end = "&_bc_fsnf=1&";
+        const sort = "&sort=";
+        let sort_val = 'score';
+        let filter_val = ''; // Initialize filter_val with an empty string
+        let skip_val = 0;
+        let limit_val = 60;
+        let price = 'price';
+        let min_price= '&min_price=';
+        let max_price= '&max_price=';
+        
+        var page = "&page=";
+        var regex = new RegExp(page + "(\\d+)");
+        var match = url.match(regex);
+        
+        let filter_query = '{}';
+        let storedValue = null;
+        let str_name = '';
+        let str_val = [];
+        let filters = {};
+
+        function extractFilterParams(url) {
+                const queryParams = new URLSearchParams(new URL(url).search);
+                queryParams.forEach((value, key) => {
+                    if (key !== 'search_query' && key !== '_bc_fsnf' && key !== 'page' && key !== 'sort') {
+                        filters[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+                    }
+                });
+                return filters;
+            }
+        function constructFilterQuery(filters) {
+                if (Object.keys(filters).length > 0) {
+                    filter_query = '{' + Object.keys(filters).map(key => {
+                        if (key !== 'page') {
+                        return `${key}: {__eq: "${filters[key]}"}`
+                        }
+                    }).join(', ') + '}';
+                }
+                return filter_query;
+            }
+        function getQueryParam(param) {
+            var regex = new RegExp('[?&]' + param + '=([^&#]*)');
+            var results = regex.exec(window.location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+    
+        // Extract min_price and max_price
+        var minPrice = getQueryParam('min_price');
+        var maxPrice = getQueryParam('max_price');
+    
+        // Determine sort value
+        if (url.includes(sort)) {
+            sort_val = url.split(sort).pop().split('&')[0];
+        }
+        if (url.includes('&page=')) {
+            //skip_val = parseInt(a.split('&page=').pop()) - 1;
+            if (match) {
+                var pageNumber = match[1];
+                //console.log("Page number: " + pageNumber);
+                skip_val = 60 * (pageNumber - 1);
+                if(skip_val+60 > hits){
+                    limit_val = hits-(60 * (pageNumber - 1));
+                }
+            }
+        }
+    
+        if (url.includes(end)) {
+           
+            const urlString = new URL(url);
+            const params = new URLSearchParams(urlString.search);
+            //console.log(Object.fromEntries(params));
+            
+            let lastAmpersandIndex = url.lastIndexOf('&');
+    
+            // Find the position of the first '=' after the last '&'
+            let equalsIndex = url.indexOf('=', lastAmpersandIndex);
+    
+            // Extract the string between the last '&' and the first '=' after it
+            str_name = url.substring(lastAmpersandIndex + 1, equalsIndex);
+    
+           // str_val = url.split('=').pop();
+    
+            let startDelimiter = "/search.php?search_query=";
+            let endDelimiter = "&";
+    
+            let startIndex = url.indexOf(startDelimiter) + startDelimiter.length;
+            let endIndex = url.indexOf(endDelimiter);
+    
+            storedValue = startIndex >= startDelimiter.length && endIndex > startIndex
+                ? url.substring(startIndex, endIndex)
+                : null;
+            
+                const queryParams = new URLSearchParams(new URL(url).search);
+                queryParams.forEach((value, key) => {
+                    
+                    if (key !== 'search_query' && key !== '_bc_fsnf' && key !== 'page' && key !== 'sort') {
+                        filters[key] = decodeURIComponent(value.replace(/\+/g, ' '));
+                        
+                        str_val.push(filters[key]);
+                        
+                    }
+                });
+                // let filterParts = url.split(end).pop().split('=');
+                // str_name = filterParts[0];
+                // str_val = filterParts[1];
+                // str_val = str_val.replace('&sort', '');
+                // str_val = str_val.replace('&page', '');
+                // str_val = str_val.replaceAll('%20', ' ');
+                // str_val = str_val.replaceAll('%2B', ' ');
+    
+            if (str_name && str_val) {
+                //filter_val = decodeURIComponent(str_val.replaceAll('+', ' '));
+                filter_val = filter_val.replaceAll('+', ' ');
+                if (str_name !== 'page')
+                filter_query = `{${str_name}: {__eq: "${filter_val}"}}`;
+            }
+            filters = extractFilterParams(url);
+            filter_query = constructFilterQuery(filters);
+    
+        } else if (url.includes(min_price) && url.includes(max_price)) {
+            storedValue = url.split("/search.php?search_query=").pop().split('&')[0];
+            filter_query = `{price_discounted: {__gte: ${minPrice}, __lte: ${maxPrice}}}`;
+            filter_val = minPrice+ '-' +maxPrice;
+        } else {
+            storedValue = url.split("/search.php?search_query=").pop().split('&')[0];
+        }
+        storedValue = storedValue.replaceAll('%20', ' ');
+        storedValue = storedValue.replaceAll('%2B', ' ');
+        storedValue = storedValue.replaceAll('%2B%2B%2B', ' + ');
+        storedValue = storedValue.replaceAll('+', ' ');
+        storedValue = storedValue.replaceAll('%26', '&');
+        storedValue = decodeURIComponent(storedValue);
+        console.log('Search query', storedValue);
+        console.log('Sort Value:', sort_val);
+        console.log('Limit value', limit_val);
+        console.log('filters', filters);
+        console.log('Filter Query:', filter_query);
+        console.log('Skip val:', skip_val);
+    
+        
+        let graphqlQuery = `query SearchQuery($integration_id: String!, $search_query: String!, $text_query_language: String!) {
+              search(query: {
+                integration_id: $integration_id,
+                text_query: $search_query,
+                text_query_language: $text_query_language,
+                limit: ${limit_val},
+                skip: ${skip_val},
+                sort: {
+                    field: ${sort_val}
+                },
+                filter_query: ${filter_query}
+              }) {
+                filter_facets
+                approximate_hits
+                data {
+                  alias
+                  name
+                  payload
+                }
+              }
+            }`;
+        
+        const variables = {
+          integration_id: '7fb78fcf-d37e-4021-abab-74d146bc9997',
+          search_query: storedValue,
+          text_query_language: 'en'
+        };
+        const headers = {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer {{ settings.storefront_api.token }}',
+          'Access-Control-Allow-Origin': '*'
+        };
+        
+        $.ajax({
+          type: 'POST',
+          url: 'https://api.miros.services/graphql',
+          headers: headers,
+          data: JSON.stringify({ 
+            query: graphqlQuery,
+            variables: variables
+          }),
+          dataType: 'json',
+          success: function (res) {
+         console.log('miros res on filter', res);
+         //console.log("approximate_hits", res.data.search.approximate_hits);
+            // let skus = res.data.search.data.map(item => item.alias);
+            // console.log('SKU Array Length:', skus.length);
+
+           let ids = res?.data?.search?.data.map(item => item?.payload?.metadata?.product_id);
+
+           localStorage.setItem('hits', res.data.search.approximate_hits);
+
+           var chunkedArrays = splitArrayIntoChunks(ids, 50);
+ 
+           //console.log("chunkedArrays", chunkedArrays);
+           
+           //var page_count = Math.ceil((skus.length)/60);
+           var page_count = Math.ceil((res.data.search.approximate_hits)/60);
+           //console.log('page_count', page_count);
+           $('.facetedSearch-navList').html('');
+           $('.miros-search-result').html('');
+           let accordion_block = '';
+           accordion_block += `<nav><div class="brand-product-count"></div>
+                    <div class="accordion accordion--navList">
+                        <div id="facetedSearch" class="facetedSearch sidebarBlock">
+                            <a href="#" role="button" class="facetedSearch-toggle toggleLink is-open" data-collapsible="" aria-label="Filters Filters" aria-controls="facetedSearch-navList" aria-expanded="true"> 
+                                <span class="facetedSearch-toggle-indicator"> 
+                                    <span class="toggleLink-text toggleLink-text--on"> Filters <i class="icon" aria-hidden="true"> 
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 14C0.447715 14 0 14.4477 0 15C0 15.5523 0.447715 16 1 16H5C5.55228 16 6 15.5523 6 15C6 14.4477 5.55228 14 5 14H1ZM1 2C0.447716 2 0 2.44772 0 3C0 3.55228 0.447715 4 1 4H9C9.55228 4 10 3.55228 10 3C10 2.44772 9.55228 2 9 2H1ZM9 18C9.55228 18 10 17.5523 10 17V16H17C17.5523 16 18 15.5523 18 15C18 14.4477 17.5523 14 17 14H10V13C10 12.4477 9.55228 12 9 12C8.44772 12 8 12.4477 8 13V17C8 17.5523 8.44772 18 9 18ZM5 6C4.44772 6 4 6.44772 4 7V8H1C0.447715 8 0 8.44772 0 9C0 9.55228 0.447715 10 1 10H4V11C4 11.5523 4.44772 12 5 12C5.55228 12 6 11.5523 6 11V7C6 6.44772 5.55228 6 5 6ZM17 10C17.5523 10 18 9.55228 18 9C18 8.44772 17.5523 8 17 8H9C8.44772 8 8 8.44772 8 9C8 9.55228 8.44772 10 9 10H17ZM12 5C12 5.55228 12.4477 6 13 6C13.5523 6 14 5.55228 14 5V4H17C17.5523 4 18 3.55228 18 3C18 2.44772 17.5523 2 17 2H14V1C14 0.447715 13.5523 0 13 0C12.4477 0 12 0.447715 12 1V5Z" fill="#333333"></path></svg> </i> 
+                                    </span> 
+                                    <span class="toggleLink-text toggleLink-text--off"> Filters <i class="icon" aria-hidden="true"> 
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 14C0.447715 14 0 14.4477 0 15C0 15.5523 0.447715 16 1 16H5C5.55228 16 6 15.5523 6 15C6 14.4477 5.55228 14 5 14H1ZM1 2C0.447716 2 0 2.44772 0 3C0 3.55228 0.447715 4 1 4H9C9.55228 4 10 3.55228 10 3C10 2.44772 9.55228 2 9 2H1ZM9 18C9.55228 18 10 17.5523 10 17V16H17C17.5523 16 18 15.5523 18 15C18 14.4477 17.5523 14 17 14H10V13C10 12.4477 9.55228 12 9 12C8.44772 12 8 12.4477 8 13V17C8 17.5523 8.44772 18 9 18ZM5 6C4.44772 6 4 6.44772 4 7V8H1C0.447715 8 0 8.44772 0 9C0 9.55228 0.447715 10 1 10H4V11C4 11.5523 4.44772 12 5 12C5.55228 12 6 11.5523 6 11V7C6 6.44772 5.55228 6 5 6ZM17 10C17.5523 10 18 9.55228 18 9C18 8.44772 17.5523 8 17 8H9C8.44772 8 8 8.44772 8 9C8 9.55228 8.44772 10 9 10H17ZM12 5C12 5.55228 12.4477 6 13 6C13.5523 6 14 5.55228 14 5V4H17C17.5523 4 18 3.55228 18 3C18 2.44772 17.5523 2 17 2H14V1C14 0.447715 13.5523 0 13 0C12.4477 0 12 0.447715 12 1V5Z" fill="#333333"></path></svg> </i> 
+                                    </span> 
+                                </span> 
+                                <span class="selected-filters-count"></span> 
+                            </a>
+                            <div id="facetedSearch-navList" class="facetedSearch-navList" aria-hidden="false">
+                                <div class="mobile-only">
+                                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                                        <path d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z"></path>
+                                    </svg>
+                                    <span>Filters</span>
+                                </div>`;
+    
+           if (url.includes(end)) {
+            //console.log("filter value on update", filter_val);
+            accordion_block += '<div class="facetedSearch-refineFilters sidebarBlock accordion-block"><h2 class="sidebarBlock-heading desk-only">Filters</h2><ul class="inlineList inlineList--labels">';
+               
+                    // Get the part of the URL after "_bc_fsnf=1&"
+                    const queryPart = url.split(end).pop();
+                    //console.log('queryPart', queryPart);
+                    let filterValues = [];
+    
+                    // Split the query part by '&' to get key-value pairs
+                    let queryParams = queryPart.split('&');
+                    
+                    // Check if both min_price and max_price exist in the array
+                    if ($.grep(queryParams, function(param) { return param.startsWith("min_price="); }).length &&
+                        $.grep(queryParams, function(param) { return param.startsWith("max_price="); }).length) {
+                        
+                        // Extract min and max prices
+                        let minPrice = $.grep(queryParams, function(param) { return param.startsWith("min_price="); })[0].split("=")[1];
+                        let maxPrice = $.grep(queryParams, function(param) { return param.startsWith("max_price="); })[0].split("=")[1];
+                        
+                        // Remove min_price and max_price from the array
+                        queryParams = $.grep(queryParams, function(param) {
+                            return !param.startsWith("min_price=") && !param.startsWith("max_price=");
+                        });
+                        
+                        // Add the combined min_max_price parameter
+                        queryParams.push("&min_price=" + minPrice + "&" + "max_price=" +maxPrice);
+                    }
+                    // Iterate over each key-value pair
+                    queryParams.forEach(param => {
+                        if(param.includes('min_price')){
+                            var url = new URL(window.location.href);
+                            //console.log('filter_val in', filter_val);
+                            var searchParams = new URLSearchParams(url.search);
+                            for (const [key, value] of searchParams) {
+                                if ((key.includes('max_price'))) {
+                                    searchParams.delete(key);
+                                }
+                            }
+                            for (const [key, value] of searchParams) {
+                                if ((key.includes('min_price'))) {
+                                    searchParams.delete(key);
+                                }
+                            }
+                            url.search = searchParams.toString();
+                            updatedUrl = url.toString();
+                            accordion_block += '<li><a href="'+updatedUrl+'" class="facetLabel" rel="nofollow" data-faceted-search-facet="">'+filter_val+'<svg class="icon"><use href="#icon-close"></use></svg></a></li>'
+                        }
+                        
+                        if(!param.includes('_bc_fsnf') && !param.includes('price')){
+                            //console.log('param', param);
+                            let value = param.split('=').pop();
+                            let val_new = decodeURIComponent(value);
+                            val_new = val_new.replaceAll('+', ' ');
+                            // Define the value to match for removal
+                            var valueToRemove = val_new;
+                            // Get the current URL
+                            var url = new URL(window.location.href);
+                            // Retrieve all query parameters
+                            var searchParams = new URLSearchParams(url.search);
+
+                            // Loop through all query parameters to find and remove the one with the specified value
+                            for (let [key, value] of searchParams) {
+                                if(key !== 'page'){
+                                    value = value.replace(/\+/g, ' ');
+                                    //console.log("valuee", value , valueToRemove);
+                                    if ((value === valueToRemove)){
+                                        searchParams.delete(key);
+                                        // Update the URL in the browser without reloading the page
+                                        url.search = searchParams.toString();
+                                        
+                                        updatedUrl = url.toString();
+
+                                       
+                                      let classVal =  value
+                                        .toLowerCase()                   // Convert the whole string to lowercase
+                                        .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g,   // Find the first letter of each word
+                                            (match, index) => index === 0 ? match.toLowerCase() : match.toUpperCase()) // Capitalize subsequent words
+                                        .replace(/\s+/g, '');
+
+                                       
+                                        let latstUrl = updatedUrl;
+                                                        setTimeout(() => {
+                                                            //console.log("latstUrl", latstUrl);
+                                                            //console.log("value", classVal);
+                                                            $(`li.${classVal} a`).attr("href", latstUrl)
+                                                        }, 2000);
+                                        // if (!updatedUrl.includes(sort) && !updatedUrl.includes(page) && !updatedUrl.includes('price')) {
+                                            accordion_block += '<li><a href="'+updatedUrl+'" class="facetLabel" rel="nofollow" data-faceted-search-facet="">'+val_new+'<svg class="icon"><use href="#icon-close"></use></svg></a></li>'
+                                        //}
+                                        //break; // Remove the first matching parameter and stop checking
+                                    }
+                                }
+                            }
+                            
+                            
+                            // Decode and add to the array
+                            filterValues.push(decodeURIComponent(value.replaceAll('+', ' ')));
+                        }
+                    });
+                    //console.log('filterValues', filterValues);
+               accordion_block += '</ul><a href="/search.php?search_query='+storedValue+'&_bc_fsnf=1" class="reset-btn desk-only" data-faceted-search-facet="">Reset filters</a></div>';
+           }    
+            accordion_block += `<div class="mobile-only category-sort">
+                                    <form class="actionBar" method="get" data-sort-by="product">
+                                        <fieldset class="form-fieldset actionBar-section">
+                                            <div class="form-field">
+                                                <select class="form-select form-select--small " name="sort" id="sort" role="listbox">
+                                                    <option value="discount_percentage">Discount</option>
+                                                    <option value="price_discounted">Price</option>
+                                                    <option value="score" selected="">Relevance</option>
+                                                </select>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                        <div class="accordion-1 accordion--navList-1">`;
+           let arr = res.data.search.filter_facets;
+           for (const [key, value] of Object.entries(arr)) {
+                    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                        const filter_label = key.replaceAll('_', ' ');
+                        //console.log('key', key);
+                        if (key === 'price_discounted') {
+                            // Price range form block
+                            accordion_block += `
+                                <div class="accordion-block">
+                                    <div class="accordion-nav-clear-holder">
+                                        <button type="button" class="accordion-navigation toggleLink is-open" data-collapsible="#facetedSearch-content--price" aria-label="Price" aria-controls="facetedSearch-content--price" aria-expanded="true">
+                                            <span class="accordion-title">
+                                                Price
+                                            </span>
+    
+                                            <span>
+                                                <svg class="icon accordion-indicator toggleLink-text toggleLink-text--off">
+                                                    <use href="#icon-add"></use>
+                                                </svg>
+                                                <svg class="icon accordion-indicator toggleLink-text toggleLink-text--on">
+                                                    <use href="#icon-remove"></use>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+    
+                                    <div id="facetedSearch-content--price" class="accordion-content is-open" aria-hidden="false">
+                                        <form id="facet-range-form" class="form" method="get" data-faceted-search-range="" novalidate="">
+                                            <input type="hidden" name="search_query" value="${storedValue}">
+                                            <fieldset class="form-fieldset">
+                                                <div class="form-minMaxRow">
+                                                    ${Object.entries(value).map(([subKey, subValue]) => {
+                                                        if (subKey !== '__supported_operators') {
+                                                            const filter_name = encodeURIComponent(subKey.replaceAll(' ', '+').replaceAll('/', '%2F'));
+                                                            return `
+                                                            <div class="form-field">
+                                                                <input name="${subKey}_price" placeholder="${subKey}." ${subKey}="${subValue}" class="${subKey}_price form-input form-input--small" required="" type="number" value="" aria-label="${subKey}." aria-describedby="${subKey}_price_description">
+                                                                <span id="${subKey}_price_description" class="aria-description--hidden">Enter the price to filter products by</span>
+                                                            </div>`;
+                                                            }
+                                                        }).join('')
+                                                    }
+                                                    <div class="form-field">
+                                                        <button class="button button--small" type="submit">
+                                                            Update
+                                                        </button>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="form-inlineMessage" aria-live="polite" role="alert"></div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>`;
+                        }
+                        if ((key !== 'price') && (key !== 'price_bucket') && (key !== 'price_discounted')) {
+                            //console.log('stored value', storedValue);
+                            var x = '&_bc_fsnf=1&';
+                            url = window.location.href;
+                            
+                                // Parse the URL
+                                let parsedUrl = new URL(url);
+                                
+                                // Get the search params
+                                let searchParams = new URLSearchParams(parsedUrl.search);
+                                
+                                // Check if 'page' parameter exists
+                                if (searchParams.has('page')) {
+                                    // Remove the 'page' parameter
+                                    searchParams.delete('page');
+                                    
+                                    // Construct the new URL
+                                     url = parsedUrl.origin + parsedUrl.pathname + '?' + searchParams.toString();
+                                    
+                                    // Log the new URL
+                                    
+                            }
+                            console.log("Updated URL:", url);
+
+                            if (url.includes("_bc_fsnf")) {
+                                x = '&';
+                            }
+                            
+                                accordion_block += `
+                                    <div class="accordion-block">
+                                        <div class="accordion-nav-clear-holder">
+                                            <button type="button" class="accordion-navigation toggleLink is-open" data-collapsible="#facetedSearch-content--${key}" aria-label="${key}" aria-controls="facetedSearch-content--${key}" aria-expanded="true">
+                                                <span class="accordion-title">${filter_label}</span>
+                                                <span>
+                                                    <svg class="icon accordion-indicator toggleLink-text toggleLink-text--off">
+                                                        <use href="#icon-add"></use>
+                                                    </svg>
+                                                    <svg class="icon accordion-indicator toggleLink-text toggleLink-text--on">
+                                                        <use href="#icon-remove"></use>
+                                                    </svg>
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <div id="facetedSearch-content--${key}" class="accordion-content is-open" aria-hidden="false">
+                                            <ul id="facetedSearch-navList--${key}" class="navList">
+                                                ${Object.entries(value).map(([subKey, subValue]) => {
+                                                    if (subKey !== '__supported_operators') {
+                                                        const filter_name = encodeURIComponent(subKey.replaceAll(' ', '+').replaceAll('/', '%2F'));
+                                                        //console.log("updated str_val", str_val,'+----+' ,subKey);
+                                                        //console.log("str_val", str_val , subKey);
+                                                        let is_selected = 0; 
+                                                        str_val.forEach(element => {
+                                                            if(element === subKey)
+                                                            is_selected = 1; 
+                                                        })
+                                                        let classVal =  subKey
+                                                        .toLowerCase()                   // Convert the whole string to lowercase
+                                                        .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g,   // Find the first letter of each word
+                                                            (match, index) => index === 0 ? match.toLowerCase() : match.toUpperCase()) // Capitalize subsequent words
+                                                        .replace(/\s+/g, '');
+                                                        return `
+                                                            <li class="navList-item ${classVal}">
+                                                                <a href="${url}${x}${key}=${filter_name}" class="navList-action navList-action--checkbox ${is_selected == 1 ? 'is-selected' : ''}" rel="nofollow" data-faceted-search-facet="">
+                                                                    ${subKey}<span>(${subValue})</span>
+                                                                </a>
+                                                            </li>`;
+                                                    }
+                                                }).join('')}
+                                            </ul>
+                                        </div>
+                                    </div>`;
+                            }
+                    }
+                }
+                accordion_block += `</div>
+                <div class="mobile-bottom mobile-only">
+                                            <div class="facetedSearch-refineFilters sidebarBlock accordion-block popup-accordion-block">
+                                                <a href="/search.php?search_query=${storedValue}&_bc_fsnf=1" class="reset-btn-mobile" data-faceted-search-facet="">
+                                                        Reset filters
+                                                    </a>
+                                                <button class="done-btn button mobile-only">DONE<svg width="17" height="12" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.2957 0.294775C17.6851 0.684228 17.6851 1.31566 17.2957 1.70511L6.00083 12.9999L1.20626 8.20537C0.816663 7.81577 0.816662 7.18411 1.20626 6.79451C1.59552 6.40525 2.22652 6.40486 2.61626 6.79365L6.00083 10.1699L15.8857 0.294442C16.2752 -0.0946967 16.9063 -0.0945475 17.2957 0.294775Z" fill="white"></path></svg></button>
+                                            </div>
+                                        </div><div class="blocker" style="display: none;"></div>
+                </div></div></div></nav>`;
+                $('.aside').html(accordion_block);
+                $('.brand-product-count').html('Showing <strong>' + res.data.search.approximate_hits + '</strong> results for "' +storedValue+'"');
+                $('.accordion').css('opacity', '1');
+                if(minPrice && maxPrice){
+                    $(".min_price").attr('value', minPrice);
+                    $(".max_price").attr('value', maxPrice);
+                }
+            
+                chunkedArrays.forEach((prd_ids) => {
+                let productQuery = `query {
+                    site{
+                        products(entityIds: [` + prd_ids + `], first: 50){
+                            edges{
+                                node{
+                                    name
+                                    sku
+                                    path
+                                    entityId
+                                    brand{
+                                        name
+                                    }
+                                    defaultImage {
+                                        url640wide: url(width: 640)
+                                    }
+                                    images {
+                                        edges {
+                                          node {
+                                            url(width: 640)
+                                          }
+                                        }
+                                    }
+                                    customFields {
+                                        edges {
+                                          node {
+                                            name
+                                            value
+                                          }
+                                        }
+                                      }
+                                    prices{
+                                        basePrice{
+                                            value
+                                            formatted
+                                        }
+                                        salePrice{
+                                            value
+                                            formatted
+                                        }
+                                        retailPrice{
+                                            value
+                                            formatted
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }`
+               
+                $.ajax({
+                            type: 'POST',
+                            url: '/graphql',
+                            headers: headers,
+                            async: false,
+                            data: JSON.stringify({ query: productQuery }),
+                            dataType: 'json',
+                            success: function (res) {
+                                //console.log('search_query_BC', res);
+                                ids.forEach(function(id){
+                                    
+                                    let p_edges = res.data.site.products.edges; 
+
+                                    p_edges.forEach(function(data){
+                                        let p_id = data.node.entityId;
+                                        if(id == p_id){
+                                            //console.log('match id', id);
+                                            count = 0;
+                                            if(data){
+                                                var product_card = '';
+                                                product_card += '<li class="product"><article class="card" data-event-type="list" data-entity-id="'+ data.node.entityId +'" data-name="'+ data.node.name +'" data-product-price="'+ data.node.prices.basePrice.formatted +'"> <figure class="card-figure"> <div class="badge-wishlist-wrapper"> <a href="'+ data.node.path +'" class="card-alt-img--hover card-image-normal" data-event-type="product-click"> <div class="card-img-container"> <span class="card-main-image"> <img class="card-image" src="'+ data.node.defaultImage.url640wide +'" data-src="'+ data.node.defaultImage.url640wide +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
+                                                if(data.node.images.edges[1]){
+                                                    product_card += '<span class="card-alt-image"><img class="card-image" src="'+ data.node.images.edges[1].node.url +'" data-src="'+ data.node.images.edges[1].node.url +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
+                                                }else{
+                                                    product_card += '<span class="card-alt-image"><img class="card-image" src="'+ data.node.defaultImage.url640wide +'" data-src="'+ data.node.defaultImage.url640wide +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
+                                                }
+                                                product_card += '</div> </a> ';
+                                                
+                                                product_card += '<span class="product-wishlist" data-product-id="'+ data.node.entityId +'"> <button aria-label="wishlist_'+ data.node.entityId +'"> <i class="icon" aria-hidden="true"> <svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/></svg> <svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"/></svg> </i> </button></span>';
+                                                
+                                                product_card += '</div> </figure> <div class="card-body"> <div> <a class="card-link" href="'+ data.node.path +'"> <h3 class="card-text brand-name">'+ data.node.brand.name +'</h3> <h4 class="card-title">'+ data.node.name +'</h4> ';
+                                                if(data.node.customFields.edges){
+                                                    product_card += '<div class="card-fields"> <div class="custom-fields-list"> ';
+                                                    var UK = '';
+                                                    var US = '';
+                                                    var FR = '';
+                                                    var IT = '';
+                                                    var SML = '';
+                                                    var EU = '';
+                                                    var both = '';
+                                                    var count = 0;
+                                                    for(var i=0; i<data.node.customFields.edges.length; i++){
+                                                        var node = data.node.customFields.edges[i].node;
+                                                        if(node.name == 'SML'){
+                                                            SML = '' + node.value +',&nbsp;';    
+                                                        } 
+                                                        if(node.name == 'UK'){
+                                                            UK = '' + node.name + '&nbsp;' + node.value +',&nbsp;' ;  
+                                                        }
+                                                        if(node.name == 'US'){
+                                                            US = '' + node.name + '&nbsp;' + node.value +',&nbsp;';  
+                                                        }
+                                                        if(node.name == 'FR'){
+                                                            FR = '' + node.name + '&nbsp;' + node.value +',&nbsp;';
+                                                        }
+                                                        if(node.name == 'EU'){
+                                                            count++;
+                                                            EU = '' + node.name + '&nbsp;' + node.value +'';    
+                                                        }
+                                                        if(node.name == 'IT'){
+                                                            count++;
+                                                            IT = '' + node.name + '&nbsp;' + node.value +''; 
+                                                            IT_val = node.value;   
+                                                        }
+                                                        if(count == 2){
+                                                            both = 'EU/IT' + '&nbsp;' + IT_val +'';    
+                                                        } 
+                                                        
+                                                    }
+                                                    if(both){
+                                                        product_card += '' + SML + UK + US + FR + both +'</div> </div>';
+                                                    }else{
+                                                        product_card += '' + SML + UK + US + FR + EU + IT +'</div> </div>';
+                                                    }
+                                                }
+                                                product_card += '<div class="card-text" data-test-info-type="price"><div class="price-section price-section--withoutTax">';
+                                                    
+                                                if(data.node.prices.retailPrice){        
+                                                    product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'</span></div>';
+                                                }        
+                                                if(data.node.prices.salePrice){
+                                                    var old = data.node.prices.basePrice.value;
+                                                    var sale = data.node.prices.salePrice.value;
+                                                    var discount = parseInt(Math.round((100 * (old - sale)) / old)) ;
+                                                    product_card += '<span class="price price--non-sale">'+ data.node.prices.basePrice.formatted +'</span> <div class="price price--listPrice has-sale-price"> <div class="price price--saving"> <span class="saving-percentage">-'+ discount +'%</span></div><span class="price price--withoutTax">'+ data.node.prices.salePrice.formatted +'</span> </div> </div> </div>';
+                                                }else{
+                                                    product_card += '<span class="price price--withoutTax">'+ data.node.prices.basePrice.formatted +'</span> </div> </div> </div>';
+                                                }
+                                                product_card += '</a> </div> </div> </article></li>';
+                                                
+                                                $('.miros-search-result').append(product_card);
+                                                $('#search-results-content').addClass('u-hidden');
+                                                $('#product-listing-container').removeClass('u-hidden');
+                                                $('.pagination-container').css('display', 'block');
+                                            }
+                                        }
+                                    });
+                                });
+                            }
+                });
+            });
+                //console.log("length", skus.length);
+                storedValue = storedValue.replaceAll('%20', ' ');
+                storedValue = storedValue.replaceAll('%2B', ' ');
+                storedValue = storedValue.replaceAll('%2B%2B%2B', ' + ');
+                // Pagination Logic
+                 console.log("page_count2", page_count);
+                if (page_count > 1) {
+                    let pagination_block = '<ul class="pagination-list">';
+                    const currentPage = parseInt(new URLSearchParams(window.location.search).get('page') || 1);
+                    
+                    if (currentPage > 1) {
+                        // Previous Button
+                        pagination_block += `<li class="pagination-item pagination-item--previous ${currentPage === 1 ? 'disabled' : ''}">
+                            <a class="pagination-link" href="${getPaginationUrl(currentPage - 1)}" data-faceted-search-facet aria-label="Previous">
+                                <i class="icon" aria-hidden="true">
+                                    <svg><use href="#icon-chevron-left"></use></svg>
+                                </i>
+                                Previous
+                            </a>
+                        </li>`;
+                    }
+    
+                    // Page Numbers
+                    for (let i = 1; i <= page_count; i++) {
+                        pagination_block += `<li class="pagination-item item-num ${i === currentPage ? 'pagination-item--current' : ''}">
+                            <a class="pagination-link" href="${getPaginationUrl(i)}" data-faceted-search-facet aria-label="Page ${i} of ${page_count}">
+                                ${i}
+                            </a>
+                        </li>`;
+                    }
+                    
+                    if (currentPage < page_count) {
+                        // Next Button
+                        pagination_block += `<li class="pagination-item pagination-item--next ${currentPage === page_count ? 'disabled' : ''}">
+                            <a class="pagination-link" href="${getPaginationUrl(currentPage + 1)}" data-faceted-search-facet aria-label="Next">
+                                Next
+                                <i class="icon" aria-hidden="true">
+                                    <svg><use href="#icon-chevron-right"></use></svg>
+                                </i>
+                            </a>
+                        </li>`;
+                    }
+    
+                    pagination_block += '</ul>';
+                    $('.pagination-container').html(pagination_block);
+                }else{
+                    $('.pagination-container').html("");
+                }
+                
+            // }
+            
+          }
+        });
+    }
+    
+    
+    // Utility function to generate the URL for pagination
+    function getPaginationUrl(pageNumber) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('page', pageNumber);
+        return `${window.location.pathname}?${urlParams.toString()}`;
+    }
+    
+    let oldUrl = location.href;
+    let old_url = location.href;
+    localStorage.setItem('oldUrl', oldUrl);
+    new MutationObserver(() => {
+    const url = location.href;
+    if (url !== oldUrl) {
+        oldUrl = url;
+        console.log("mutation called!!");
+        window.history.pushState(null, '', url);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Optional: makes the scroll smooth
+        });
+        miros_query_updated(url, old_url);
+    }
+    }).observe(document, {subtree: true, childList: true});
+    
+    
+$(document).ready(function(){
+    
+        // $(document).on('click', '.pagination-link', function(e) {
+        //     e.preventDefault();
+        // });
+        $(document).on('click', '.pagination-link', function(e) {
+            e.preventDefault();  // Prevent the page from reloading
+            const url = $(this).attr('href'); 
+            const old_url = localStorage.setItem('oldUrl', oldUrl);
+
+            // Update the URL without reloading the page
+            var newUrl = $(this).attr('href'); 
+            history.pushState(null, '', newUrl);
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Optional: makes the scroll smooth
+            });
+            // Call your custom function to update content based on the new page
+            //miros_query_updated(url, old_url);
+        });
+        $(document).on('click', '.item-num', function(){
+            $('.pagination-item').removeClass('pagination-item--current');
+            $(this).addClass('pagination-item--current');
+        });
+        $(document).on('click', '.facetedSearch-toggle', function(){
+            //e.preventDefault();
+            $('#facetedSearch-navList').toggleClass('is-open');
+        });
+        $(document).on('click', '.accordion-navigation', function(){
+            $(this).toggleClass('is-open');
+            $(this).parent('.accordion-nav-clear-holder').next().toggleClass('is-open');
+        });
+
+        miros_query_load();
+    
+        // Handle back/forward navigation
+        window.onpopstate = function(event) {
+            miros_query_updated(window.location.href);
+        };
+    });
+
+     //split array
+     function splitArrayIntoChunks(array, chunkSize) {
+            var result = [];
+            for (var i = 0; i < array.length; i += chunkSize) {
+                result.push(array.slice(i, i + chunkSize));
+            }
+            return result;
+        }
+</script>

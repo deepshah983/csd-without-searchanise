@@ -75,7 +75,6 @@ pintrk('page');
     $(document).ready(function(){
         fetch('/api/storefront/order/{{checkout.order.id}}', {credentials: 'include'})
                 .then((res) => res.json()).then(function (res) {
-                console.log("res", res);
                
               var coupon = ''; 
             if(res.coupons.length > 0){
@@ -132,15 +131,11 @@ pintrk('page');
                   'event': 'bodl_v1_order_purchased'
               }
               
-              console.log(
-                'window.bodlEvents.checkout.orderPurchased ~ payload',
-                payload
-              );
+             
               
                 bodl_data.bodl_ecommerce = payload;
           
                 window.dataLayer.push(bodl_data);
-                console.log("dataLayer", dataLayer);
             });
           }
         });
