@@ -606,7 +606,6 @@
         bodl_data.bodl_ecommerce = payload;
           
         window.dataLayer.push(bodl_data);
-        console.log(bodl_data);
     
         });
       }   
@@ -728,11 +727,6 @@
         const navList = this.nextElementSibling; 
         navList.style.display = navList.style.display === 'none' ? 'block' : 'none';
     
-        if (navList.style.display === 'none') {
-          console.log('Toggle off');
-        } else {
-          console.log('Toggle on');
-        }
       });
     });
     </script>
@@ -825,13 +819,10 @@
             }),
             dataType: 'json',
             success: function (res) {
-                console.log('miros res on quick search', res);
                 
                 // var skus = res.data.search.data.map(item => item.alias);
-                // console.log('sku array', skus.length);
                 
                 let ids = res.data.search.data.map(item => item.payload.metadata.product_id);
-                console.log('id array', ids.length);
                 
                 // if (skus.length > 0) {
                     var productCardContainer = $('<ul class="productGrid" data-list-name="Quick Search Results"></ul>');
@@ -896,7 +887,6 @@
                             data: JSON.stringify({ query: productQuery }),
                             dataType: 'json'
                         }).done(function (res) {
-                            console.log('search_query_BC', res);
                             ids.forEach(function(id){
                                     
                                     let p_edges = res.data.site.products.edges; 
@@ -904,7 +894,6 @@
                                     p_edges.forEach(function(data){
                                         let p_id = data.node.entityId;
                                         if(id == p_id){
-                                            console.log('match id', id);
                                             count = 0;
                                             if(data){
                                                 var product_card = '';
@@ -1016,7 +1005,6 @@
         let searchValue = data;
         searchValue = searchValue.replaceAll('%20', ' ');
         searchValue = decodeURIComponent(searchValue);
-        console.log('Search results:', searchValue);
         miros_quick_search(searchValue);
     }
     
