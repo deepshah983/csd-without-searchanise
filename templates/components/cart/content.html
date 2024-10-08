@@ -185,7 +185,6 @@
         tableRows.forEach(function(row) {
             p_ids.push(row.getAttribute('data-product-id'));
         });
-        console.log(p_ids);
 
         fetch('/graphql', {
             method: 'POST',
@@ -216,7 +215,6 @@
         })
         .then((res) => res.json())
         .then(function(res){
-            console.log(res);
             for(var i=0; i<res.data.site.products.edges.length; i++){
                 if(res.data.site.products.edges[i].node.inventory.aggregated.availableToSell == '1'){
                     $('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .only-one').show();
@@ -224,7 +222,7 @@
                     var qty_added = $('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .qty-added').text();
                     $('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .cart-item-quantity .stock-level').text(res.data.site.products.edges[i].node.inventory.aggregated.availableToSell);
                     var stock = parseInt($('.cart-item[data-product-id='+ res.data.site.products.edges[i].node.entityId +'] .stock-level').text());
-                    console.log(qty_added);
+                    
                     var select_option = '';
                     var count = 2;
                     for(var j=2; j<stock; j++){

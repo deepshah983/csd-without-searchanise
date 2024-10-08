@@ -3678,6 +3678,10 @@
         }
 
     }
+    .no-brand-product{
+        width: 100% !important;
+        margin-left: 0% !important;
+    }
 }
 
 .page-search{ 
@@ -5692,8 +5696,14 @@ div.snize:not(.snize-tab-selected-pages):not(.snize-tab-selected-categories) div
     .loaded-products-container{
             .product{
                 width: 50% !important; 
-                @media screen and (min-width: 480px) {
+                @media screen and (min-width: 550px) {
                     width: 33.33% !important;
+                }
+                @media screen and (min-width: 1024px) {
+                    width: 25% !important;
+                }
+                .custom-fields-list{
+                    min-height: 18px;
                 }
             }
         }
@@ -5776,3 +5786,33 @@ div.snize:not(.snize-tab-selected-pages):not(.snize-tab-selected-categories) div
         text-align: center; 
 	}
 }
+
+// Returns Page Start A Return Btn CSS Start
+.page-page .page-content {
+    .return_btn_wrap{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 9px;
+        @media (max-width: 1024px){
+            margin-bottom: 24px;
+        }
+        a{
+            color: #fff;
+            background: #000;
+            font-size: 18px;
+            line-height: 21px;
+            font-weight: 600;
+            font-family: "Montserrat", Arial, Helvetica, sans-serif;
+            border-radius: 4px;
+            padding: 12px 32px;
+            border: 1px solid #444444;
+            transition: all 0.3s ease-in-out;
+            &:hover{
+                background-color: #ffffff; color: #000000;
+            }
+        }
+    }
+    
+} 
+// Returns Page Start A Return Btn CSS End
