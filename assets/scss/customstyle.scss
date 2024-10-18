@@ -194,16 +194,21 @@ body{
     }
 }
 // Header CSS END 
+
+.page-default .body, #main-content{
+    margin-top: 0px;
+}
+
 .lc-inner{
-    text-align: center; padding: 12px 0 20px 0; min-height: 143px;
+    text-align: center; padding: 0px 0 20px 0 !important; min-height: 143px;
     @media screen and (min-width:768px) {
-        min-height: 165px;
+        min-height: 165px; 
     }
     @media screen and (min-width:801px) {
-        padding: 20px 0 25px 0; min-height: 170px;
+        padding: 0px 0 25px 0 !important; min-height: 170px;
     }
     @media screen and (min-width:801px) {
-        padding: 40px 0 25px;
+        padding: 0px 0 25px !important; 
     }
     #top-brands-2{
         padding-bottom: 0;
@@ -2899,4 +2904,12 @@ html {
     border-radius: 50%;
     text-align: center;
     font-weight: bold;
+}
+
+.desktop-image-banner-beside-item .two-banner-top{
+    display: flex;
+    flex-direction: column;
+    a{
+        flex-grow: 1;display: flex;
+    }
 }
