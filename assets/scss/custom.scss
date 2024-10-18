@@ -90,7 +90,7 @@ input:focus, button:focus, textarea:focus, select:focus, details:focus, [href]:f
 			display: none;
 		}
 
-		.quickSearchResults{
+		.miros-quick-search{
 			margin-top: 0;
 		}
 	}
@@ -111,7 +111,7 @@ input:focus, button:focus, textarea:focus, select:focus, details:focus, [href]:f
 				width: 20px;
 			}
 		}
-		.quickSearchResults {
+		.miros-quick-search {
 			margin: 0;
 		}
 	}
@@ -294,7 +294,7 @@ input:focus, button:focus, textarea:focus, select:focus, details:focus, [href]:f
                 }
             }
         }
-        .quickSearchResults {
+        .miros-quick-search {
             margin-top: 0;
         }
     }
@@ -2794,14 +2794,58 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 		display: none;
 	}
 }
-.quickSearchResults{
+.miros-quick-search{
 	position: absolute;
     left: 0px;
     right: 0;
     background-color: #fff;
 	width: 100vw;
+	display: flex;
+	flex-wrap: wrap;
+	@media screen and (max-width: 767px) {
+		display: block;
+	}
 	@media screen and (max-width: 1199px) {
 		left: 0px;
+	}
+	.trending-list-div{
+		width: 20%;
+		@media screen and (max-width: 767px) {
+			width: 100%;
+		}
+	}
+	.suggestion-div{
+		width: 80%;
+		@media screen and (max-width: 767px) {
+			width: 100%;
+		}
+	}
+	h3{
+		margin: 0 0 10px;
+		font-weight: 600;
+		font-size: 16px;
+		color: #000;
+		padding: 20px 0 0 40px;
+		@media screen and (max-width: 767px) {
+			padding: 20px 20px 0;
+		}
+	}
+	ul{
+		margin: 0;
+		list-style: none;
+		padding: 0 0 40px 40px;
+		max-height: 300px;
+		overflow: auto;
+		@media screen and (max-width: 767px) {
+			padding: 0 20px 20px;
+		}
+		li{
+			margin-bottom: 5px;
+			a{
+				text-transform: capitalize;
+				font-weight: 500;
+			}
+		}
 	}
 	.modal-close{
 		display: none;
@@ -2811,8 +2855,11 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 		min-height: 200px;
 		max-height: 60vh;
 		margin: 0;
+		@media screen and (max-width: 768px) {
+			min-height: 80vh;
+		}
 		.product{
-			width: 20% !important;
+			width: 25% !important;
 			@media screen and (max-width: 991px) {
 				width: 33.33% !important;
 			}
@@ -2870,6 +2917,9 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 .dropdown--quickSearch{
 	.search-icon,.close-icon{
 		display: none;
+	}
+	.productGrid{
+	    padding: 1.5rem 0 120px;
 	}
 }
 
@@ -2995,4 +3045,3 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
     width: auto !important;
 }
 
-// Cart page css start

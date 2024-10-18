@@ -574,10 +574,10 @@ $(document).ready(function () {
     $(document).on('keyup', '.dropdown--quickSearch .form-input', function(){
         if($('.dropdown--quickSearch .form-input').val().length > 0){
             $('.close-icon').show();
-            $('.search-icon').hide();
+            $('.dropdown--quickSearch .form-input').css('background', 'none');
         }else{
             $('.close-icon').hide();
-            $('.search-icon').show();
+            $('.dropdown--quickSearch .form-input').css('background', 'url(https://store-5zask1yt8t.mybigcommerce.com/content/image/icon-search%20%281%29.svg) no-repeat right 10px center');
         }
     });
     
@@ -644,15 +644,28 @@ $(document).ready(function () {
     $(document).on('click', '.left-icon', function () {
         if (jQuery('body').hasClass('expand-search')) {
             jQuery('body').removeClass('expand-search');
-            $('.quickSearchResults').html('');
+            $('.miros-quick-search .trending-list-div').html('');
+            $('.miros-quick-search .suggestion-div').html('');
             $('#nav-quick-search').val('');
             $('.close-icon').hide();
         }
     });
+    $(document).on('click', '#quickSearch .close-icon', function () {
+        
+            $('body').removeClass('expand-search');
+            $('.miros-quick-search .trending-list-div').html('');
+            $('.miros-quick-search .suggestion-div').html('');
+            $('#nav-quick-search-header').val('');
+            $('#nav-quick-search').val('');
+            $('.close-icon').hide();
+            $('.dropdown--quickSearch .form-input').css('background', 'url(https://store-5zask1yt8t.mybigcommerce.com/content/image/icon-search%20%281%29.svg) no-repeat right 10px center');
+       
+    });
     jQuery('body').click(function (event) {
         if (jQuery('body').hasClass('expand-search') && jQuery(event.target).is('.bg-overlay')) {
             jQuery('body').removeClass('expand-search');
-            $('.quickSearchResults').html('');
+            $('.miros-quick-search .trending-list-div').html('');
+            $('.miros-quick-search .suggestion-div').html('');
             $('#nav-quick-search-header').val('');
             $('#nav-quick-search').val('');
             $('.close-icon').hide();

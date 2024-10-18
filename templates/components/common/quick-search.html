@@ -7,7 +7,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25"><path style="fill:#232326" d="M24 12.001H2.914l5.294-5.295-.707-.707L1 12.501l6.5 6.5.707-.707-5.293-5.293H24v-1z" data-name="Left"/></svg>
             
             </a>
-            <input class="form-input"
+            <input class="form-input quick-search-common"
                    data-search-quick
                    name="{{name}}"
                    id="{{name}}"
@@ -27,7 +27,10 @@
         </div>
     </fieldset>
 </form>
-<div class="quickSearchResults" data-bind="html: results"></div>
+<div class="miros-quick-search" data-bind="html: results">
+    <div class="trending-list-div"></div>
+    <div class="suggestion-div"></div>
+</div>
 <p role="status"
    aria-live="polite"
    class="aria-description--hidden"

@@ -783,6 +783,56 @@
     });
 </script>
 <script>
+    function trending_search(){
+        let graphqlQuery = `query SearchQuery($integration_id: String!) {
+            search(query: {
+                integration_id: $integration_id,
+            }) {
+                autocomplete_suggestions {
+                    suggestion
+                }
+            }
+        }`;
+    
+        const variables = {
+            integration_id: '7fb78fcf-d37e-4021-abab-74d146bc9997'
+        };
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer {{ settings.storefront_api.token }}',
+            'Access-Control-Allow-Origin': '*'
+        };
+        $.ajax({
+            type: 'POST',
+            url: 'https://api.miros.services/graphql',
+            headers: headers,
+            data: JSON.stringify({ 
+                query: graphqlQuery,
+                variables: variables
+            }),
+            dataType: 'json',
+            success: function (res) {
+                console.log("Trending response", res, res.data.search.autocomplete_suggestions.length);
+                var title = '<h3>Trending Searches</h3>';
+                var trending_list = $('<ul class="trending-list"></ul>');
+                for (var i = 0; i < res.data.search.autocomplete_suggestions.length; i++) {
+                    trending_list.append(`<li><a href="/search.php?search_query=${res.data.search.autocomplete_suggestions[i].suggestion}">${res.data.search.autocomplete_suggestions[i].suggestion}</a></li>`);
+                }
+
+                // Combine title and trending list
+                var combinedContent = title + trending_list.prop('outerHTML');
+
+                // Update the HTML of the target div
+                setTimeout(function(){
+                    $('.miros-quick-search .trending-list-div').html(combinedContent);
+                    if ($(window).width() < 1024) {
+                        $('.close-icon').show();
+                        $('.dropdown--quickSearch .form-input').css('background', 'none');
+                    } 
+                }, 500);
+            }
+        });
+    }
     function miros_quick_search(searchValue) {
         let graphqlQuery = `query SearchQuery($integration_id: String!, $search_query: String!, $text_query_language: String!) {
           search(query: {
@@ -791,6 +841,9 @@
             text_query_language: $text_query_language,
             limit: 32
           }) {
+            autocomplete_suggestions {
+                suggestion
+            }
             data {
               alias
               payload
@@ -819,16 +872,29 @@
             }),
             dataType: 'json',
             success: function (res) {
-                
-                // var skus = res.data.search.data.map(item => item.alias);
-                
-                let ids = res.data.search.data.map(item => item.payload.metadata.product_id);
-                
-                // if (skus.length > 0) {
-                    var productCardContainer = $('<ul class="productGrid" data-list-name="Quick Search Results"></ul>');
-                    //var ajaxRequests = [];
-    
-                    // skus.forEach(sku => {
+                console.log("Miros response", res);
+                if(res.data.search.autocomplete_suggestions.length){
+                    var title = '<h3>Suggested Searches</h3>';
+                    var auto_list = $('<ul class="auto-suggestion-list"></ul>');
+                    for(var i=0; i<res.data.search.autocomplete_suggestions.length; i++){
+                        auto_list.append(`<li><a href="/search.php?search_query=`+ res.data.search.autocomplete_suggestions[i].suggestion +`">`+ res.data.search.autocomplete_suggestions[i].suggestion +`</a></li>`);
+                    }
+                    // Combine title and trending list
+                    var combinedContent = title + auto_list.prop('outerHTML');
+
+                    // Update the HTML of the target div
+                    $('.miros-quick-search .trending-list-div').html(combinedContent);
+                    if ($(window).width() > 768) {
+                        $('.miros-quick-search .suggestion-div').css('width', '80%'); 
+                    }
+                }else{
+                    $('.miros-quick-search .trending-list-div').html('');
+                    $('.miros-quick-search .suggestion-div').css('width', '100%'); 
+                }
+
+                    let ids = res.data.search.data.map(item => item.payload.metadata.product_id);
+                    var title = '<h3>Results</h3>';
+                    var productCardContainer = $('<ul class="productGrid test" data-list-name="Quick Search Results"></ul>');
                         let productQuery = `query {
                             site{
                                 products(entityIds: [` + ids + `], first: 50){
@@ -887,15 +953,16 @@
                             data: JSON.stringify({ query: productQuery }),
                             dataType: 'json'
                         }).done(function (res) {
+                            
                             ids.forEach(function(id){
-                                    
                                     let p_edges = res.data.site.products.edges; 
-
                                     p_edges.forEach(function(data){
                                         let p_id = data.node.entityId;
                                         if(id == p_id){
+                                            
                                             count = 0;
                                             if(data){
+                                                
                                                 var product_card = '';
                                                 product_card += '<li class="product"><article class="card" data-event-type="list" data-entity-id="'+ data.node.entityId +'" data-name="'+ data.node.name +'" data-product-price="'+ data.node.prices.basePrice.formatted +'"> <figure class="card-figure"> <div class="badge-wishlist-wrapper"> <a href="'+ data.node.path +'" class="card-alt-img--hover card-image-normal" data-event-type="product-click"> <div class="card-img-container"> <span class="card-main-image"> <img class="card-image" src="'+ data.node.defaultImage.url640wide +'" data-src="'+ data.node.defaultImage.url640wide +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
                                                 if(data.node.images.edges[1]){
@@ -968,20 +1035,15 @@
                                                 product_card += '</a><p class="view-link" data-miros-entry="custom" data-miros-item="data.node.sku">View Similar</p> </div> </div> </article></li>';
                                                 
                                                 productCardContainer.append(product_card);
-                                                $('.miros-quick-search').html(productCardContainer);
+                                                // Combine title and trending list
+                                                var combinedContent = title + productCardContainer.prop('outerHTML');
+
+                                                $('.miros-quick-search .suggestion-div').html(combinedContent);
                                             }
                                         }
                                     });
                                 });
                         });
-    
-                        //ajaxRequests.push(ajaxRequest);
-                    // });
-    
-                    //  $.when.apply($, ajaxRequests).done(function () {
-                    //     $('.miros-quick-search').html(productCardContainer);
-                    // });
-                //}
             }
         });
     }
@@ -1017,6 +1079,38 @@
                 debouncedSearch(query);
             }
         });
+        let isFirstClick = true;
+        searchInput.addEventListener('focus', function() {
+            if (isFirstClick && searchInput.value === '') {
+                console.log('Input field clicked for the first time and no text is added.');
+                isFirstClick = false;
+                trending_search();
+            }
+        });
+        searchInput.addEventListener('blur', function() {
+            isFirstClick = true;
+        });
+
+        //For mobile search
+        const searchInputMob = document.getElementById('nav-quick-search');
+        const debouncedSearchMob = debounce(performSearch, 1200);
+
+        searchInputMob.addEventListener('input', (e) => {
+            const query = e.target.value;
+            if (query.length > 2) { 
+                debouncedSearchMob(query);
+            }
+        });
+        searchInputMob.addEventListener('focus', function() {
+            if (isFirstClick && searchInputMob.value === '') {
+                console.log('Input field clicked for the first time and no text is added.');
+                isFirstClick = false;
+                trending_search();
+            }
+        });
+        searchInputMob.addEventListener('blur', function() {
+            isFirstClick = true;
+        });
     
 </script>
 
@@ -1026,4 +1120,5 @@
 <noscript>
     <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=YOUR_TAG_ID&event=pagevisit&noscript=1"/>
 </noscript>
+
 
