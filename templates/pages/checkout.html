@@ -40,7 +40,7 @@ pintrk('page');
  });
 </script>
 <noscript>
-    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=YOUR_TAG_ID&amp;event=checkout&amp;noscript=1" />
+    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=2612737624778&amp;event=checkout&amp;noscript=1" />
 </noscript>
 
  <noscript>
@@ -49,7 +49,7 @@ pintrk('page');
  width="1"
  style="display:none;"
  alt=""
- src="https://ct.pinterest.com/v3/?tid=YOUR_TAG_ID&event=checkout&ed[value]={{order.total.formatted}}&ed[order_quantity]=2&ed[event_id]=eventId0001&noscript=1"
+ src="https://ct.pinterest.com/v3/?tid=2612737624778&event=checkout&ed[value]={{order.total.formatted}}&ed[order_quantity]=2&ed[event_id]=eventId0001&noscript=1"
  />
  </noscript>
 
@@ -109,8 +109,8 @@ pintrk('page');
         var brandElement = document.getElementsByClassName('product-brand')[i];
         var sizeElement = document.getElementsByClassName('product-size')[i];
 
-        $(brandElement).load("https://csd.shop/cart.php tr:nth-child("+(i + 1)+") p[class='cart-item-brand']");
-        $(sizeElement).load("https://csd.shop/cart.php tr:nth-child("+(i + 1)+") [class='definitionList-value']");
+        $(brandElement).load("/cart.php tr:nth-child("+(i + 1)+") p[class='cart-item-brand']");
+        $(sizeElement).load("/cart.php tr:nth-child("+(i + 1)+") [class='definitionList-value']");
     }
 
     function initProcessMobile() {

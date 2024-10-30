@@ -21,6 +21,8 @@
         {{/if}}
         
         <!--<script src="{{cdn 'assets/js/jquery-3.6.3.min.js'}}"></script>-->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         
         <script>
@@ -350,7 +352,7 @@
         {{/unless}}
         {{/if}}
         
-        <script>
+        <!-- <script>
             var form = new FormData();
             var email = '{{customer.email}}';
             form.append("email", email);
@@ -543,7 +545,7 @@
                     $('.account-list').show();
                 }, 1500);
             });
-        </script>
+        </script> -->
         <script>
             var liArray = new Array();
             document.addEventListener('DOMContentLoaded', function () {
@@ -762,7 +764,7 @@
 </script>
 
 
-<script>
+<!-- <script>
     document.addEventListener("DOMContentLoaded", function() {
         setTimeout(() => {
             
@@ -781,7 +783,7 @@
         div.innerHTML = text;
     }, 3000);
     });
-</script>
+</script> -->
 <script>
     function trending_search(){
         let graphqlQuery = `query SearchQuery($integration_id: String!) {
@@ -1077,6 +1079,7 @@
             const query = e.target.value;
             if (query.length > 2) { 
                 debouncedSearch(query);
+                search();
             }
         });
         let isFirstClick = true;
@@ -1121,4 +1124,230 @@
     <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=YOUR_TAG_ID&event=pagevisit&noscript=1"/>
 </noscript>
 
+<!-- Pinterest API start -->
+<script>
+        var email = '{{customer.email}}';
+        // Email
+        if (email) {
+            var hashedEmail = CryptoJS.SHA256(email).toString();
+        } else {
+            var hashedEmail = "24aba99b2defbb47ee981b4200313f61f3ae31541d8717bdac1e463c838939b0";
+        }
+        //console.log("Hashed Email", hashedEmail);
 
+        var currency = "{{currency_selector.active_currency_code}}";
+        let pin_url = "https://consignor.csd.shop/emailtest/pinterest.php";
+        if(currency == 'USD'){
+            pin_url = "test";
+        }
+        console.log('pinterest url', pin_url);
+        //User Agent
+        var client_user_agent = navigator.userAgent;
+        //console.log("Client User Agent:", client_user_agent);
+
+        // Declare variables globally
+        let client_ip_address, country;
+
+        $.getJSON('https://api.ipify.org?format=json', function(data) {
+            client_ip_address = data.ip;
+            checkIfDataReady();  // Check if both values are ready
+        });
+
+        $.getJSON('http://ip-api.com/json/', function(data) {
+            country = CryptoJS.SHA256(data.country).toString();
+            checkIfDataReady(); 
+        });
+
+        function checkIfDataReady() {
+            if (client_ip_address && country) { 
+                pageVisit(); 
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            checkIfDataReady();
+        });
+
+        //Page Visit
+        function pageVisit() {
+            //console.log("Client IP Address:", client_ip_address);
+            //console.log("Country:", country);
+            //Time Stamp
+            var currentTimestamp = Math.floor(Date.now() / 1000);
+            //console.log("Current Timestamp:", currentTimestamp);
+        
+            var settings = {
+                "url": pin_url, 
+                "method": "POST",
+                "contentType": "application/json",
+                "data": JSON.stringify({
+                    "data": [
+                        {
+                            "event_name": "page_visit",
+                            "action_source": "web",
+                            "event_time": currentTimestamp,
+                            "event_id": "pagevisit1",
+                            "event_source_url": window.location.href,
+                            "opt_out": false,
+                            "user_data": {
+                                "em": [hashedEmail],
+                                "country": [country],
+                                "hashed_maids": [],
+                                "client_ip_address": client_ip_address,
+                                "client_user_agent": client_user_agent
+                            },
+                            "custom_data": {
+                                "currency": currency,
+                                "value": "",
+                                "content_ids": [],
+                                "content_name": "",
+                                "content_category": "",
+                                "content_brand": "",
+                                "contents": [],
+                                "num_items": 0,
+                                "order_id": ""
+                            }
+                        }
+                    ]
+                })
+            };
+
+            $.ajax(settings).done(function(response) {
+                console.log("pageVisit", response);
+            });
+        }
+
+        
+        //Search
+        $(document).on("click", "#nav-quick-search-header", function(){
+            search();
+        });
+        function search() {
+            //console.log("Client IP Address:", client_ip_address);
+            //console.log("Country:", country);
+            //Time Stamp
+            var currentTimestamp = Math.floor(Date.now() / 1000);
+            //console.log("Current Timestamp:", currentTimestamp);
+            var settings = {
+                "url": "https://consignor.csd.shop/emailtest/pinterest.php", 
+                "method": "POST",
+                "contentType": "application/json",
+                "data": JSON.stringify({
+                    "data": [
+                        {
+                            "event_name": "search",
+                            "action_source": "web",
+                            "event_time": currentTimestamp,
+                            "event_id": "search1",
+                            "event_source_url": window.location.href,
+                            "opt_out": false,
+                            "user_data": {
+                                "em": [hashedEmail],
+                                "country": [country],
+                                "hashed_maids": [],
+                                "client_ip_address": client_ip_address,
+                                "client_user_agent": client_user_agent
+                            },
+                            "custom_data": {
+                                "currency": currency,
+                                "value": "",
+                                "content_ids": [],
+                                "content_name": "",
+                                "content_category": "",
+                                "content_brand": "",
+                                "contents": [],
+                                "num_items": 0,
+                                "order_id": ""
+                            }
+                        }
+                    ]
+                })
+            };
+
+            $.ajax(settings).done(function(response) {
+                console.log("Search", response);
+            });
+        }
+
+
+        //Add to cart
+        $(document).on("click", "#form-action-addToCart", function(){
+            var price_value = $(this).attr('data-product-price');
+            var product_name = $(this).attr('data-product-name');
+            var product_cat = $(this).attr('data-product-cat');
+            var product_brand = $(this).attr('data-product-brand');
+            
+            setTimeout(function(){
+                //console.log('Log Cart');
+                fetch('/api/storefront/carts', {
+                    credentials: 'include'
+                }).then((res) => res.json()).then(function (res) {
+                    //console.log("cart items", res[0].lineItems.physicalItems);
+                    let ids = [];
+                    let items = [];
+                    let response = res[0].lineItems.physicalItems;
+                    response.forEach(element => {
+                            var id_obj = element.productId;
+                            var item_obj = {
+                                "id": ""+element.productId+"",
+                                "item_price": ""+element.salePrice+"",
+                                "quantity": 1,
+                                "item_name": ""+element.name+"",
+                                "item_brand": ""+element.brand+""
+                            }
+                            ids.push(""+id_obj);               
+                            items.push(item_obj);
+                            //console.log("id array", ids);
+                            //console.log("items array", items);
+                    });
+                    addTocart(price_value, product_name, product_cat, product_brand, ids, items);
+                });
+            }, 3000);
+            
+        });
+        function addTocart(p_val, p_name, p_cat, p_brand, ids, items) {
+            //console.log("Client IP Address:", client_ip_address);
+            //console.log("Country:", country);
+            //Time Stamp
+            var currentTimestamp = Math.floor(Date.now() / 1000);
+            //console.log("Current Timestamp:", currentTimestamp);
+            var settings = {
+                "url": "https://consignor.csd.shop/emailtest/pinterest.php", 
+                "method": "POST",
+                "contentType": "application/json",
+                "data": JSON.stringify({
+                    "data": [
+                        {
+                            "event_name": "add_to_cart",
+                            "action_source": "web",
+                            "event_time": currentTimestamp,
+                            "event_id": "addTocart1",
+                            "event_source_url": window.location.href,
+                            "opt_out": false,
+                            "user_data": {
+                                "em": [hashedEmail],
+                                "country": [country],
+                                "hashed_maids": [],
+                                "client_ip_address": client_ip_address,
+                                "client_user_agent": client_user_agent
+                            },
+                            "custom_data": {
+                                "currency": currency,
+                                "value": p_val,
+                                "content_ids": ids,
+                                "content_name": p_name,
+                                "content_category": p_cat,
+                                "content_brand": p_brand,
+                                "contents": items,
+                                "num_items": 1,
+                                "order_id": ""
+                            }
+                        }
+                    ]
+                })
+            };
+
+            $.ajax(settings).done(function(response) {
+                console.log("Add to cart", response);
+            });
+        }
+</script>

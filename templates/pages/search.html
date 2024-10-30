@@ -83,9 +83,10 @@ product_results:
                 <fieldset class="form-fieldset actionBar-section">
                     <div class="form-field">
                         <select class="form-select form-select--small " name="sort" id="sort" role="listbox">
-                            <option value="discount_percentage">Discount</option>
-                            <option value="price_discounted">Price</option>
                             <option value="score" selected="">Relevance</option>
+                            <option value="discount_percentage">Discount</option>
+                            <option value="priceasc">Price: Low to High</option>
+                            <option value="pricedesc">Price: High to Low</option>
                         </select>
                     </div>
                 </fieldset>
@@ -143,6 +144,7 @@ function miros_query_load() {
         const end = "&_bc_fsnf=1&";
         const sort = "&sort=";
         let sort_val = 'score';
+        let order_val = 'desc';
         let filter_val = ''; 
         let skip_val = 0;
         let price = 'price';
@@ -164,7 +166,21 @@ function miros_query_load() {
 
         if (url.includes(sort)) {
             sort_val = url.split(sort).pop().split('&')[0];
-            $('#sort option[value="'+sort_val+'"]').attr('selected', true);
+            if(sort_val == 'priceasc'){
+                console.log("price low to high");
+                sort_val = "price_discounted";
+                order_val = "asc";
+                $('#sort option[value="priceasc"]').attr('selected', true);
+            }
+            else if(sort_val == 'pricedesc'){
+                console.log("price high to low");
+                sort_val = "price_discounted";
+                order_val = "desc";
+                $('#sort option[value="pricedesc"]').attr('selected', true);
+            }
+            else{
+                $('#sort option[value="'+sort_val+'"]').attr('selected', true);
+            }
         }
         if (url.includes('&page=')) {
             if (match) {
@@ -228,6 +244,7 @@ function miros_query_load() {
         storedValue = decodeURIComponent(storedValue);
         console.log('Search query', storedValue);
         console.log('Sort Value:', sort_val);
+        console.log('Order Value:', order_val);
         console.log('filters', filters);
         console.log('Filter Query:', filter_query);
         console.log('Skip val:', skip_val);
@@ -245,7 +262,8 @@ function miros_query_load() {
                         limit: 60,
                         skip: ${skip_val},
                         sort: {
-                            field: ${sort_val}
+                            field: ${sort_val},
+                            order: ${order_val}
                         },
                         filter_query: ${filter_query}
                     }) {
@@ -445,9 +463,10 @@ function miros_query_load() {
                                             <fieldset class="form-fieldset actionBar-section">
                                                 <div class="form-field">
                                                     <select class="form-select form-select--small " name="sort" id="sort" role="listbox">
-                                                        <option value="discount_percentage">Discount</option>
-                                                        <option value="price_discounted">Price</option>
                                                         <option value="score" selected="">Relevance</option>
+                                                        <option value="discount_percentage">Discount</option>
+                                                        <option value="priceasc">Price: Low to High</option>
+                                                        <option value="pricedesc">Price: High to Low</option>
                                                     </select>
                                                 </div>
                                             </fieldset>
@@ -828,6 +847,7 @@ function miros_query_updated(url, old_url){
         const end = "&_bc_fsnf=1&";
         const sort = "&sort=";
         let sort_val = 'score';
+        let order_val = 'desc';
         let filter_val = ''; // Initialize filter_val with an empty string
         let skip_val = 0;
         let limit_val = 60;
@@ -877,6 +897,16 @@ function miros_query_updated(url, old_url){
         // Determine sort value
         if (url.includes(sort)) {
             sort_val = url.split(sort).pop().split('&')[0];
+            if(sort_val == 'priceasc'){
+                console.log("price low to high");
+                sort_val = "price_discounted";
+                order_val = "asc"
+            }
+            if(sort_val == 'pricedesc'){
+                console.log("price high to low");
+                sort_val = "price_discounted";
+                order_val = "desc"
+            }
         }
         if (url.includes('&page=')) {
             //skip_val = parseInt(a.split('&page=').pop()) - 1;
@@ -959,6 +989,7 @@ function miros_query_updated(url, old_url){
         storedValue = decodeURIComponent(storedValue);
         console.log('Search query', storedValue);
         console.log('Sort Value:', sort_val);
+        console.log('Order Value:', order_val);
         console.log('Limit value', limit_val);
         console.log('filters', filters);
         console.log('Filter Query:', filter_query);
@@ -975,7 +1006,8 @@ function miros_query_updated(url, old_url){
                 limit: ${limit_val},
                 skip: ${skip_val},
                 sort: {
-                    field: ${sort_val}
+                    field: ${sort_val},
+                    order: ${order_val}
                 },
                 filter_query: ${filter_query}
               }) {
@@ -1159,9 +1191,10 @@ function miros_query_updated(url, old_url){
                                             <fieldset class="form-fieldset actionBar-section">
                                                 <div class="form-field">
                                                     <select class="form-select form-select--small " name="sort" id="sort" role="listbox">
-                                                        <option value="discount_percentage">Discount</option>
-                                                        <option value="price_discounted">Price</option>
                                                         <option value="score" selected="">Relevance</option>
+                                                        <option value="discount_percentage">Discount</option>
+                                                        <option value="priceasc">Price: Low to High</option>
+                                                        <option value="pricedesc">Price: High to Low</option>
                                                     </select>
                                                 </div>
                                             </fieldset>

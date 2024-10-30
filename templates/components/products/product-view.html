@@ -669,6 +669,7 @@ $(document).ready(function(){
         limit: 32
       }) {
         alias
+        payload
       }
     }`;
     
@@ -692,19 +693,14 @@ $(document).ready(function(){
       }),
       dataType: 'json',
       success: function (res) {
-     
-        var skus = [];
-        for(var i=0; i<res.data.recommendations.length; i++){
-            skus.push(res.data.recommendations[i].alias);
-        }
-       
-        
-        for(var j=0; j<skus.length; j++){
-            var sku = skus[j];
-            
-            let productQuery = `query {
+        console.log("miros recom", res);
+        let ids = res.data.recommendations.map(item => item.payload.metadata.product_id);
+    
+            let productQuery = `query{
                 site{
-                    product(sku: "${sku}"){
+                    products(entityIds: [` + ids + `], first: 50){
+                        edges{
+                            node{
                                 name
                                 path
                                 entityId
@@ -743,6 +739,8 @@ $(document).ready(function(){
                                         formatted
                                     }
                                 }
+                            }
+                        }
                     }
                 }
             }`
@@ -751,89 +749,91 @@ $(document).ready(function(){
                         type: 'POST',
                         url: '/graphql',
                         headers: headers,
+                        async: false,
                         data: JSON.stringify({ query: productQuery }),
                         dataType: 'json',
                         success: function (res) {
-                            
-                            if(res.data.site.product){
-                                
-                                product_card += '<div class="product"><article class="card" data-entity-id="'+ res.data.site.product.entityId +'" data-name="'+ res.data.site.product.name +'" data-product-price="'+ res.data.site.product.prices.basePrice.formatted +'"> <figure class="card-figure"> <div class="badge-wishlist-wrapper"> <a href="'+ res.data.site.product.path +'" class="card-alt-img--hover card-image-normal" data-event-type="product-click"> <div class="card-img-container"> <span class="card-main-image"> <img class="card-image" src="'+ res.data.site.product.defaultImage.url640wide +'" data-src="'+ res.data.site.product.defaultImage.url640wide +'" alt="'+ res.data.site.product.name +'" title="'+ res.data.site.product.name +'"></span>';
-                                if(res.data.site.product.images.edges[1]){
-                                    product_card += '<span class="card-alt-image"><img class="card-image" src="'+ res.data.site.product.images.edges[1].node.url +'" data-src="'+ res.data.site.product.images.edges[1].node.url +'" alt="'+ res.data.site.product.name +'" title="'+ res.data.site.product.name +'"></span>';
-                                }else{
-                                    product_card += '<span class="card-alt-image"><img class="card-image" src="'+ res.data.site.product.defaultImage.url640wide +'" data-src="'+ res.data.site.product.defaultImage.url640wide +'" alt="'+ res.data.site.product.name +'" title="'+ res.data.site.product.name +'"></span>';
-                                }
-                                product_card += '</div> </a> ';
-                                
-                                product_card += '<span class="product-wishlist" data-product-id="'+ res.data.site.product.entityId +'"> <button aria-label="wishlist_'+ res.data.site.product.entityId +'"> <i class="icon" aria-hidden="true"> <svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/></svg> <svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"/></svg> </i> </button></span>';
-                                
-                                product_card += '</div> </figure> <div class="card-body"> <div> <a class="card-link" href="'+ res.data.site.product.path +'"> <h3 class="card-text brand-name">'+ res.data.site.product.brand.name +'</h3> <h4 class="card-title">'+ res.data.site.product.name +'</h4> ';
-                                if(res.data.site.product.customFields.edges){
-                                    product_card += '<div class="card-fields"> <div class="custom-fields-list"> ';
-                                    var UK = '';
-                                    var US = '';
-                                    var FR = '';
-                                    var IT = '';
-                                    var SML = '';
-                                    var EU = '';
-                                    var both = '';
-                                    var count = 0;
-                                    for(var i=0; i<res.data.site.product.customFields.edges.length; i++){
-                                        var node = res.data.site.product.customFields.edges[i].node;
-                                        if(node.name == 'SML'){
-                                            SML = '' + node.value +',&nbsp;';    
-                                        } 
-                                        if(node.name == 'UK'){
-                                            UK = '' + node.name + '&nbsp;' + node.value +',&nbsp;' ;  
+                            console.log('response', res);
+                            ids.forEach(function(id){
+                                let p_edges = res.data.site.products.edges;
+                                p_edges.forEach(function(data){
+                                    let p_id = data.node.entityId;
+                                    if(id == p_id){
+                                        product_card += '<div class="product"><article class="card" data-entity-id="'+ data.node.entityId +'" data-name="'+ data.node.name +'" data-product-price="'+ data.node.prices.basePrice.formatted +'"> <figure class="card-figure"> <div class="badge-wishlist-wrapper"> <a href="'+ data.node.path +'" class="card-alt-img--hover card-image-normal" data-event-type="product-click"> <div class="card-img-container"> <span class="card-main-image"> <img class="card-image" src="'+ data.node.defaultImage.url640wide +'" data-src="'+ data.node.defaultImage.url640wide +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
+                                        if(data.node.images.edges[1]){
+                                            product_card += '<span class="card-alt-image"><img class="card-image" src="'+ data.node.images.edges[1].node.url +'" data-src="'+ data.node.images.edges[1].node.url +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
+                                        }else{
+                                            product_card += '<span class="card-alt-image"><img class="card-image" src="'+ data.node.defaultImage.url640wide +'" data-src="'+ data.node.defaultImage.url640wide +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
                                         }
-                                        if(node.name == 'US'){
-                                            US = '' + node.name + '&nbsp;' + node.value +',&nbsp;';  
-                                        }
-                                        if(node.name == 'FR'){
-                                            FR = '' + node.name + '&nbsp;' + node.value +',&nbsp;';
-                                        }
-                                        if(node.name == 'EU'){
-                                            count++;
-                                            EU = '' + node.name + '&nbsp;' + node.value +'';    
-                                        }
-                                        if(node.name == 'IT'){
-                                            count++;
-                                            IT = '' + node.name + '&nbsp;' + node.value +'';    
-                                        }
-                                        if(count == 2){
-                                            both = 'EU/IT' + '&nbsp;' + node.value +'';    
-                                        } 
+                                        product_card += '</div> </a> ';
                                         
+                                        product_card += '<span class="product-wishlist" data-product-id="'+ data.node.entityId +'"> <button aria-label="wishlist_'+ data.node.entityId +'"> <i class="icon" aria-hidden="true"> <svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/></svg> <svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"/></svg> </i> </button></span>';
+                                        
+                                        product_card += '</div> </figure> <div class="card-body"> <div> <a class="card-link" href="'+ data.node.path +'"> <h3 class="card-text brand-name">'+ data.node.brand.name +'</h3> <h4 class="card-title">'+ data.node.name +'</h4> ';
+                                        if(data.node.customFields.edges){
+                                            product_card += '<div class="card-fields"> <div class="custom-fields-list"> ';
+                                            var UK = '';
+                                            var US = '';
+                                            var FR = '';
+                                            var IT = '';
+                                            var SML = '';
+                                            var EU = '';
+                                            var both = '';
+                                            var count = 0;
+                                            for(var i=0; i<data.node.customFields.edges.length; i++){
+                                                var node = data.node.customFields.edges[i].node;
+                                                if(node.name == 'SML'){
+                                                    SML = '' + node.value +',&nbsp;';    
+                                                } 
+                                                if(node.name == 'UK'){
+                                                    UK = '' + node.name + '&nbsp;' + node.value +',&nbsp;' ;  
+                                                }
+                                                if(node.name == 'US'){
+                                                    US = '' + node.name + '&nbsp;' + node.value +',&nbsp;';  
+                                                }
+                                                if(node.name == 'FR'){
+                                                    FR = '' + node.name + '&nbsp;' + node.value +',&nbsp;';
+                                                }
+                                                if(node.name == 'EU'){
+                                                    count++;
+                                                    EU = '' + node.name + '&nbsp;' + node.value +'';    
+                                                }
+                                                if(node.name == 'IT'){
+                                                    count++;
+                                                    IT = '' + node.name + '&nbsp;' + node.value +'';    
+                                                }
+                                                if(count == 2){
+                                                    both = 'EU/IT' + '&nbsp;' + node.value +'';    
+                                                } 
+                                                
+                                            }
+                                            if(both){
+                                                product_card += '' + SML + UK + US + FR + both +'</div> </div>';
+                                            }else{
+                                                product_card += '' + SML + UK + US + FR + EU + IT +'</div> </div>';
+                                            }
+                                        }
+                                        product_card += '<div class="card-text" data-test-info-type="price"><div class="price-section price-section--withoutTax">';
+                                            
+                                        if(data.node.prices.retailPrice){        
+                                            product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'</span></div>';
+                                        }        
+                                        if(data.node.prices.salePrice){
+                                            var old = data.node.prices.basePrice.value;
+                                            var sale = data.node.prices.salePrice.value;
+                                            var discount = parseInt(Math.round((100 * (old - sale)) / old)) ;
+                                            product_card += '<span class="price price--non-sale">'+ data.node.prices.basePrice.formatted +'</span> <div class="price price--listPrice has-sale-price"> <div class="price price--saving"> <span class="saving-percentage">-'+ discount +'%</span></div><span class="price price--withoutTax">'+ data.node.prices.salePrice.formatted +'</span> </div> </div> </div>';
+                                        }else{
+                                            product_card += '<span class="price price--withoutTax">'+ data.node.prices.basePrice.formatted +'</span> </div> </div> </div>';
+                                        }
+                                        product_card += '</a> </div> </div> </article></div>';
+                                        
+                                        $('.miros-products-custom').html(product_card);
                                     }
-                                    if(both){
-                                        product_card += '' + SML + UK + US + FR + both +'</div> </div>';
-                                    }else{
-                                        product_card += '' + SML + UK + US + FR + EU + IT +'</div> </div>';
-                                    }
-                                }
-                                product_card += '<div class="card-text" data-test-info-type="price"><div class="price-section price-section--withoutTax">';
-                                    
-                                if(res.data.site.product.prices.retailPrice){        
-                                    product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ res.data.site.product.prices.retailPrice.formatted +'</span></div>';
-                                }        
-                                if(res.data.site.product.prices.salePrice){
-                                    var old = res.data.site.product.prices.basePrice.value;
-                                    var sale = res.data.site.product.prices.salePrice.value;
-                                    var discount = parseInt(Math.round((100 * (old - sale)) / old)) ;
-                                    product_card += '<span class="price price--non-sale">'+ res.data.site.product.prices.basePrice.formatted +'</span> <div class="price price--listPrice has-sale-price"> <div class="price price--saving"> <span class="saving-percentage">-'+ discount +'%</span></div><span class="price price--withoutTax">'+ res.data.site.product.prices.salePrice.formatted +'</span> </div> </div> </div>';
-                                }else{
-                                    product_card += '<span class="price price--withoutTax">'+ res.data.site.product.prices.basePrice.formatted +'</span> </div> </div> </div>';
-                                }
-                                product_card += '</a> </div> </div> </article></div>';
-                                
-                                $('.miros-products-custom').html(product_card);
-                            }
+                                });
+                            });
                         }
             });
-            
-            
-        }
-        
         
       }
     });
