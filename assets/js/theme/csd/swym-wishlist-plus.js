@@ -16,6 +16,89 @@ class CsdSwymWishlistPlus {
 			CsdHelpers.debug( 'CsdSwymWishlistPlus.load -> SwymCallbacks call', { swat } );
 			this.swat = swat;
 			this.init();
+			swat.fetch(function(allWishlistedProducts) {
+				
+				console.log(allWishlistedProducts);
+				for (let i=0;i<allWishlistedProducts.length;i++) {
+					var productId = [];
+					productId = allWishlistedProducts[i].empi;
+					
+					var variantId = [];
+					variantId = allWishlistedProducts[i].epi;
+					
+					var url = [];
+					url = allWishlistedProducts[i].du;
+					var productArray = productArray || {};
+					const g1 = `
+						query p1 {
+							site {
+								product(entityId: ${productId}) {
+									entityId
+									path
+									inventory {
+										isInStock
+									}
+									defaultImage {
+										urlOriginal
+									}
+									variants(first:${variantId ? 1 : 20}${variantId ? ', entityIds: [' + variantId + ']' : ''}) {
+										edges {
+											node {
+												entityId
+												defaultImage {
+													urlOriginal
+												}
+												prices {
+													price {
+														value
+													}
+												}
+												inventory {
+													isInStock
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						`;
+					fetch('/graphql', {
+						method: 'POST',
+						credentials: 'same-origin',
+						headers: {
+								'Content-Type': 'application/json',
+								'Authorization': `Bearer ${context.storefrontApiToken}`
+						},
+						body: JSON.stringify({
+							query: g1
+						}),
+					})
+					.then(res => res.json())
+					.then(function(res) {
+						
+						if(res.data.site.product.inventory.isInStock != true){
+							
+							let product = {
+								epi : res.data.site.product.variants.edges[0].node.entityId,
+								empi : res.data.site.product.entityId,
+								du : res.data.site.product.path 
+							}
+							
+							swat.removeFromWishList(product, function(response) {
+								console.log("product successfully removed from wishlist", response);
+							}, function(error) {
+								console.log("there was an error while removing the product from wishlist", error, product);
+							});
+						}else{
+							console.log("in stock", res.data.site.product.entityId);
+						}
+					});
+				}
+
+			  }, function(error) {
+				console.log("There was an error while fetching the wishlist", error)
+			  });
 		});
 
 	}

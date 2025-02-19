@@ -194,16 +194,21 @@ body{
     }
 }
 // Header CSS END 
+
+.page-default .body, #main-content{
+    margin-top: 0px;
+}
+
 .lc-inner{
-    text-align: center; padding: 12px 0 20px 0; min-height: 143px;
+    text-align: center; padding: 0px 0 20px 0 !important; min-height: 143px;
     @media screen and (min-width:768px) {
-        min-height: 165px;
+        min-height: 165px; 
     }
     @media screen and (min-width:801px) {
-        padding: 20px 0 25px 0; min-height: 170px;
+        padding: 0px 0 25px 0 !important; min-height: 170px;
     }
     @media screen and (min-width:801px) {
-        padding: 40px 0 25px;
+        padding: 0px 0 25px !important; 
     }
     #top-brands-2{
         padding-bottom: 0;
@@ -732,7 +737,7 @@ body{
     display: none;
 }
 .card .rrp-price--withoutTax{
-    height: 20px;
+    height: 40px;
     @media screen and (min-width: 768px){
         height: 20px;
     }
@@ -951,6 +956,10 @@ body{
                     max-width: 390px;
                 }
             }
+            &.show-similar{
+                text-align: center;
+                min-height: unset;
+            }
             .add-to-cart-wallet-buttons {
                 margin-top: 0;
                 .wallet-buttons-wrapper {
@@ -1025,6 +1034,7 @@ body{
                         display: flex; flex-wrap: wrap; align-items: baseline;
             .non-sale-price--withoutTax{
                 .price--non-sale{
+                    display: none;
                     font-size: 19px; line-height: 27px; color: #000000; padding: 0 7px 0 0;
                     @media screen and (min-width:568px){
                         font-size: 20px; line-height: 27px; 
@@ -1049,6 +1059,12 @@ body{
                 }
             }
             .rrp-price--withoutTax{
+                margin-bottom: 10px;
+            }
+            .save-as{
+                font-size: 16px;
+            }
+            .rrp-price--withoutTax{
                 width: 100%;
                 .price--rrp{
                     font-size: 13px; line-height: 17px; font-weight: 900;
@@ -1062,15 +1078,45 @@ body{
             }
         }
         .in-detail{
-            .size-section, .condition-section{
-                display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 5px;
+            .size-section{
+                span{
+                    font-weight: 600;
+                }
+                span:first-child{
+                    padding-left: 38px;
+                }
+                span:first-child:before{
+                        position: absolute;
+                        content: "Size:";
+                        bottom: 0;
+                        left: 0px;
+                        font-weight: 400;
+                        height: 100%;
+                    }
+                    span.last{
+                        padding-left: 0;
+                        &:before{
+                            display: none;
+                        }
+                    }
+            }
+            .size-section, .condition-section, .color-section{
+                display: flex; flex-wrap: wrap; margin-bottom: 5px;
                 .left-part{
-                    width: 67%; padding-right: 7px;
-                    @media screen and (min-width:768px){
-                        width: 60%;
+                    width: auto; padding-right: 15px; position: relative;
+                    
+                    // @media screen and (min-width:768px){
+                    //     width: 60%;
+                    // }
+                    span:last-child:after{
+                        position: absolute;
+                        content: ".";
+                        bottom: 0;
+                        right: 10px;
+                        font-weight: bold;
                     }
                     span{
-                        color: #000000; font-size: 13px; line-height: 20px;
+                        color: #000000; font-size: 13px; line-height: 20px; 
                         @media screen and (min-width:381px){
                             font-size: 14px; 
                         }
@@ -1082,13 +1128,15 @@ body{
                                 display: none;
                             }
                         }
+                        
+                        
                     }
                 }
                 .right-part{
-                    text-align: end; margin-bottom: 10px; width: 33%;
-                    @media screen and (min-width:768px){
-                        width: 40%;
-                    }
+                    text-align: end; margin-bottom: 10px; width: auto; font-size: 15px; line-height: 22px;
+                    // @media screen and (min-width:768px){
+                    //     width: 40%;
+                    // }
                     @media screen and (min-width:360px){
                         margin-bottom: 0;
                     }
@@ -1096,7 +1144,13 @@ body{
                         font-size: 13px; line-height: 17px; font-family: 'Montserrat', sans-serif; 
                     }
                     a{
-                        border-bottom: 1px solid #000000; font-size: 13px; line-height: 17px; font-family: 'Montserrat', sans-serif; transition: all 0.3s ease-in-out;
+                        text-decoration: underline; font-size: 13px; line-height: 20px; font-family: 'Montserrat', sans-serif; transition: all 0.3s ease-in-out; color: gray;
+                        @media screen and (min-width:381px){
+                            font-size: 14px; 
+                        }
+                        @media screen and (min-width:568px){
+                            font-size: 15px; line-height: 22px;
+                        }
                         &:hover{
                             opacity: 0.7;
                         }
@@ -1106,12 +1160,23 @@ body{
             .condition-section{
                 align-items: center;
                 .left-part, .right-part{
-                    width: 50% !important; margin-bottom: 0 !important;
+                    margin-bottom: 0 !important;
+                    span{
+                        &:not(:first-child){
+                            font-weight: 600;
+                        }
+                    }
                 }
             }
             .color-section{
                 span{
                     font-size: 15px; line-height: 22px; font-family: 'Montserrat', sans-serif; color: #000000;
+                    &:not(:first-child){
+                            font-weight: 600;
+                        }
+                }
+                span:last-child:after{
+                    display: none;
                 }
             }
         }
@@ -1129,8 +1194,8 @@ body{
             }
             .title{
                 font-family: 'Montserrat', sans-serif; font-size: 14px; line-height: 19px;
-                @media screen and (min-width:568px){
-                    font-size: 16px; line-height: 24px; 
+                @media screen and (min-width: 768px){
+                    font-size: 15px; line-height: 24px; 
                 }
                 a{
                     font-weight: 600; transition: all 0.3s ease-in-out; color: #000000; text-decoration: underline;
@@ -1210,18 +1275,22 @@ body{
             }
         }
         .shipping-timer{
-            display: flex; flex-wrap: nowrap; width: fit-content;  padding: 10px; background-color: #efefef; border-radius: 4px; max-width: 390px;
-            @media screen and (min-width:568px){
-                padding: 15px;
-            }
-            .shipping-timer-img-container{
-                margin-right: 5px; width: 20px;
+            display: flex; flex-wrap: nowrap; width: fit-content;  padding: 5px 0; border-radius: 4px; max-width: 390px;
+            
+            .shipping-timer-img-container{ 
+                margin-right: 10px; width: 25px; 
+                @media screen and (min-width: 768px){
+                    width: 50px;
+                }
                 img{
                     max-width: 20px;
                 }
             }
             span{
                 font-size: 14px; line-height: 21px;
+                @media screen and (min-width: 768px){
+                    font-size: 15px;
+                }
             }
         }
         .wishlist-and-cart-product-count{
@@ -2546,7 +2615,7 @@ figure.blog-thumbnail {
     display: block !important;
 }
 .klarna-msg{
-    width: 100%; margin-bottom: 10px;
+    width: 100%;
     @media(min-width: 468px) {
         width: 70%;
     }
@@ -2899,4 +2968,28 @@ html {
     border-radius: 50%;
     text-align: center;
     font-weight: bold;
+}
+
+.desktop-image-banner-beside-item .two-banner-top{
+    display: flex;
+    flex-direction: column;
+    a{
+        flex-grow: 1;display: flex;
+    }
+}
+.price--non-sale, .price--saving{
+    display: none;
+}
+.save-as{
+    color: #a41315;
+    font-weight: bolder; 
+    padding-left: 5px;
+    @media screen and (max-width: 767px) {
+        display: block;
+        padding-top: 3px;
+        padding-left: 0px;
+    }
+} 
+.page-product .save-as{
+    display: inline-block;
 }

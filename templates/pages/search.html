@@ -46,7 +46,7 @@ product_results:
             </li>
             {{#unless product_results.faceted_search_enabled}}
                 <li class="navBar-item navBar-item--separate">
-                    <a class="navBar-action toggleLink" data-collapsible="advanced-search-content" href="" aria-controls="advanced-search-content" aria-expanded="false">
+                    <a class="navBar-action toggleLink" data-collapsible="advanced-search-content" href="#" aria-controls="advanced-search-content" aria-expanded="false">
                         <span class="toggleLink-text toggleLink-text--on">
                             {{lang 'forms.search.hide'}}
                         </span>
@@ -66,6 +66,12 @@ product_results:
 
 <section class="page">
     <div class="page-sidebar-sticky">
+        <h3>All Filters</h3>
+            <a href="javascript:;" class="close-filter">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="#0F1729"/>
+                </svg>
+            </a>
         <aside class="aside page-sidebar{{#if forms.search.section '!=' 'product'}} u-hiddenVisually{{/if}}" id="faceted-search-container">
             <nav>
                 <div class="brand-product-count">
@@ -79,17 +85,23 @@ product_results:
     </div>
     <main class="page-content">
         <div class="miros-search-section">
-            <form class="actionBar" method="get" data-sort-by="product">
-                <fieldset class="form-fieldset actionBar-section">
-                    <div class="form-field">
-                        <select class="form-select form-select--small " name="sort" id="sort" role="listbox">
-                            <option value="discount_percentage">Discount</option>
-                            <option value="price_discounted">Price</option>
-                            <option value="score" selected="">Relevance</option>
-                        </select>
-                    </div>
-                </fieldset>
-            </form>
+            <div class="top-wrapper">
+                <button class="all-filter-link">All Filter <span class="filter-count"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 28 28" fill="none"><path d="M4 7C4 6.44771 4.44772 6 5 6H24C24.5523 6 25 6.44771 25 7C25 7.55229 24.5523 8 24 8H5C4.44772 8 4 7.55229 4 7Z" fill="#000000"/><path d="M4 13.9998C4 13.4475 4.44772 12.9997 5 12.9997L16 13C16.5523 13 17 13.4477 17 14C17 14.5523 16.5523 15 16 15L5 14.9998C4.44772 14.9998 4 14.552 4 13.9998Z" fill="#000000"/><path d="M5 19.9998C4.44772 19.9998 4 20.4475 4 20.9998C4 21.552 4.44772 21.9997 5 21.9997H22C22.5523 21.9997 23 21.552 23 20.9998C23 20.4475 22.5523 19.9998 22 19.9998H5Z" fill="#000000"/></svg>
+                </button>
+                <form class="actionBar" method="get" data-sort-by="product">
+                    <fieldset class="form-fieldset actionBar-section">
+                        <div class="form-field">
+                            <select class="form-select form-select--small " name="sort" id="sort" role="listbox">
+                                <option value="score" selected="">Relevance</option>
+                                <option value="discount_percentage">Discount</option>
+                                <option value="priceasc">Price: Low to High</option>
+                                <option value="pricedesc">Price: High to Low</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
             <div data-list-name="Search Results">
                 <ul class="productGrid miros-search-result">
                 </ul>
@@ -143,6 +155,7 @@ function miros_query_load() {
         const end = "&_bc_fsnf=1&";
         const sort = "&sort=";
         let sort_val = 'score';
+        let order_val = 'desc';
         let filter_val = ''; 
         let skip_val = 0;
         let price = 'price';
@@ -164,7 +177,21 @@ function miros_query_load() {
 
         if (url.includes(sort)) {
             sort_val = url.split(sort).pop().split('&')[0];
-            $('#sort option[value="'+sort_val+'"]').attr('selected', true);
+            if(sort_val == 'priceasc'){
+                console.log("price low to high");
+                sort_val = "price_discounted";
+                order_val = "asc";
+                $('#sort option[value="priceasc"]').attr('selected', true);
+            }
+            else if(sort_val == 'pricedesc'){
+                console.log("price high to low");
+                sort_val = "price_discounted";
+                order_val = "desc";
+                $('#sort option[value="pricedesc"]').attr('selected', true);
+            }
+            else{
+                $('#sort option[value="'+sort_val+'"]').attr('selected', true);
+            }
         }
         if (url.includes('&page=')) {
             if (match) {
@@ -219,7 +246,6 @@ function miros_query_load() {
             filter_query = `{price_discounted: {__gte: ${minPrice}, __lte: ${maxPrice}}}`;
             filter_val = minPrice+ '-' +maxPrice;
         } else {
-            console.log("else che!!!");
             storedValue = url.split("/search.php?search_query=").pop().split('&')[0];
         }
         storedValue = storedValue.replaceAll('%20', ' ');
@@ -228,14 +254,15 @@ function miros_query_load() {
         storedValue = decodeURIComponent(storedValue);
         console.log('Search query', storedValue);
         console.log('Sort Value:', sort_val);
+        console.log('Order Value:', order_val);
         console.log('filters', filters);
         console.log('Filter Query:', filter_query);
         console.log('Skip val:', skip_val);
-      
+        
         if(storedValue.includes('/search.php')){
             $('.page').html("No Results Found!").css({'text-align' : 'center', 'padding-top' : '20px'});
         }else{
-            // Construct GraphQL query
+        // Construct GraphQL query
             const graphqlQuery = `
                 query SearchQuery($integration_id: String!, $search_query: String!, $text_query_language: String!) {
                     search(query: {
@@ -245,7 +272,8 @@ function miros_query_load() {
                         limit: 60,
                         skip: ${skip_val},
                         sort: {
-                            field: ${sort_val}
+                            field: ${sort_val},
+                            order: ${order_val}
                         },
                         filter_query: ${filter_query}
                     }) {
@@ -272,7 +300,6 @@ function miros_query_load() {
                 'Access-Control-Allow-Origin': '*'
             };
         
-    
             // Execute the GraphQL query via AJAX
             $.ajax({
                 type: 'POST',
@@ -290,12 +317,12 @@ function miros_query_load() {
                     //console.log('SKU Array Length:', skus.length);
                     localStorage.setItem('hits', res.data.search.approximate_hits);
                     let ids = res.data.search.data.map(item => item.payload.metadata.product_id);
-
+    
                     var chunkedArrays = splitArrayIntoChunks(ids, 50);
-                
+                  
                     
                     //console.log('ID Array Length:', ids.length);
-
+    
                     //let page_count = Math.ceil(skus.length / 3);
                     var page_count = Math.ceil(res.data.search.approximate_hits / 60);
                     //console.log('Page Count:', page_count); 
@@ -321,9 +348,7 @@ function miros_query_load() {
                                         </svg>
                                         <span>Filters</span>
                                     </div>`;
-                                    //console.log('str_nameeee', str_val);
                         if (str_val.length > 0) {
-                            //console.log('yesss');
                             //console.log("filter value on update", filter_val);
                             accordion_block += '<div class="facetedSearch-refineFilters sidebarBlock accordion-block"><h2 class="sidebarBlock-heading desk-only">Filters</h2><ul class="inlineList inlineList--labels">';
                             
@@ -334,8 +359,6 @@ function miros_query_load() {
                     
                                     // Split the query part by '&' to get key-value pairs
                                     let queryParams = queryPart.split('&');
-
-                                    console.log('queryParamsssss', queryParams);
                                     
                                     // Check if both min_price and max_price exist in the array
                                     if ($.grep(queryParams, function(param) { return param.startsWith("min_price="); }).length &&
@@ -380,7 +403,7 @@ function miros_query_load() {
                                             }
                                             url.search = searchParams.toString();
                                             updatedUrl = url.toString();
-                                        
+                                           
                                             
                                             accordion_block += '<li><a href="'+updatedUrl+'" class="facetLabel" rel="nofollow" data-faceted-search-facet="">'+filter_val+'<svg class="icon"><use href="#icon-close"></use></svg></a></li>'
                                         }
@@ -392,20 +415,20 @@ function miros_query_load() {
                                             val_new = val_new.replaceAll('+', ' ');
                                             val_new = val_new.replaceAll('%2F', '/');
                                             // Define the value to match for removal
-                                        
+                                           
                                             var valueToRemove = val_new;
                                             // Get the current URL
                                             var url = new URL(window.location.href);
                                             // Retrieve all query parameters
                                             var searchParams = new URLSearchParams(url.search);
-
+    
                                             // Loop through all query parameters to find and remove the one with the specified value
                                             for (let [key, value] of searchParams) {
                                                 
                                                 if(key !== 'page'){
-                                                
+                                                   
                                                     value = value.replace(/\+/g, ' ');
-                                                    //console.log("valueeeee", value);
+                                                    //console.log("valuee", value , valueToRemove);
                                                     if ((value === valueToRemove) && (value !== 'discount_percentage') && (value !== 'price_discounted') && (value !== 'score')){
                                                         searchParams.delete(key);
                                                         // Update the URL in the browser without reloading the page
@@ -445,9 +468,10 @@ function miros_query_load() {
                                             <fieldset class="form-fieldset actionBar-section">
                                                 <div class="form-field">
                                                     <select class="form-select form-select--small " name="sort" id="sort" role="listbox">
-                                                        <option value="discount_percentage">Discount</option>
-                                                        <option value="price_discounted">Price</option>
                                                         <option value="score" selected="">Relevance</option>
+                                                        <option value="discount_percentage">Discount</option>
+                                                        <option value="priceasc">Price: Low to High</option>
+                                                        <option value="pricedesc">Price: High to Low</option>
                                                     </select>
                                                 </div>
                                             </fieldset>
@@ -513,7 +537,7 @@ function miros_query_load() {
                                 var x = '&_bc_fsnf=1&';
                                 url = window.location.href;
                                 
-                                // Parse the URL
+                                   // Parse the URL
                                     let parsedUrl = new URL(url);
                                     
                                     // Get the search params
@@ -525,7 +549,7 @@ function miros_query_load() {
                                         searchParams.delete('page');
                                         
                                         // Construct the new URL
-                                        url = parsedUrl.origin + parsedUrl.pathname + '?' + searchParams.toString();
+                                         url = parsedUrl.origin + parsedUrl.pathname + '?' + searchParams.toString();
                                         
                                         // Log the new URL
                                         
@@ -560,15 +584,15 @@ function miros_query_load() {
                                                                 if(element === subKey)
                                                                 is_selected = 1; 
                                                             })
-
+    
                                                             let classVal =  subKey
                                                             .toLowerCase()                   // Convert the whole string to lowercase
                                                             .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g,   // Find the first letter of each word
                                                                 (match, index) => index === 0 ? match.toLowerCase() : match.toUpperCase()) // Capitalize subsequent words
                                                             .replace(/\s+/g, '');
-
+    
                                                             // console.log("urllllll", url);
-
+    
                                                             // console.log("data", x, key, filter_name);
                                                             return `
                                                                 <li class="navList-item ${classVal}">
@@ -595,6 +619,9 @@ function miros_query_load() {
                                             </div><div class="blocker" style="display: none;"></div>
                     </div></div></div></nav>`;
                     $('.aside').html(accordion_block);
+                    if($('.inlineList').length > 0){
+                        $('.filter-count').text("(" + $('.inlineList li').length + ")");
+                    }
                     $('.brand-product-count').html('Showing <strong>' + res.data.search.approximate_hits + '</strong> results for "' +storedValue+'"');
                     $('.accordion').css('opacity', '1');
                     if(minPrice && maxPrice){
@@ -623,19 +650,19 @@ function miros_query_load() {
                                         }
                                         images {
                                             edges {
-                                            node {
+                                              node {
                                                 url(width: 640)
-                                            }
+                                              }
                                             }
                                         }
                                         customFields {
                                             edges {
-                                            node {
+                                              node {
                                                 name
                                                 value
+                                              }
                                             }
-                                            }
-                                        }
+                                          }
                                         prices{
                                             basePrice{
                                                 value
@@ -665,11 +692,11 @@ function miros_query_load() {
                                 dataType: 'json',
                                 success: function (res) {
                                     //console.log('search_query', res);
-
-                                    prd_ids.forEach(function(id){
+    
+                                    ids.forEach(function(id){
                                         
                                         let p_edges = res.data.site.products.edges; 
-
+    
                                         p_edges.forEach(function(data){
                                             let p_id = data.node.entityId;
                                             if(id == p_id){
@@ -687,7 +714,7 @@ function miros_query_load() {
                                                     
                                                     product_card += '<span class="product-wishlist" data-product-id="'+ data.node.entityId +'"> <button aria-label="wishlist_'+ data.node.entityId +'"> <i class="icon" aria-hidden="true"> <svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/></svg> <svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"/></svg> </i> </button></span>';
                                                     
-                                                    product_card += '</div> </figure> <div class="card-body"> <div> <a class="card-link" href="'+ data.node.path +'"> <h3 class="card-text brand-name">'+ data.node.brand.name +'</h3> <h4 class="card-title">'+ data.node.name +'</h4> ';
+                                                    product_card += '</div> </figure> <div class="card-body"><p class="view-link" data-miros-entry="custom" data-miros-item="'+ data.node.sku +'"><svg xmlns="http://www.w3.org/2000/svg" id="Layer_2" viewBox="0 0 64 64" data-name="Layer 2"><path d="m53.75 35.99-15.42 5.73c-2.42.91-4.32 2.8-5.22 5.22l-5.73 15.44-5.73-15.44c-.9-2.42-2.8-4.32-5.22-5.22l-15.42-5.73 15.42-5.73c2.42-.9 4.32-2.8 5.22-5.22l5.73-15.42 5.73 15.42c.9 2.42 2.8 4.32 5.22 5.22z"/><path d="m63 19.13-6.42 2.39c-.16.06-.29.2-.36.36l-2.38 6.42-2.39-6.42c-.06-.16-.18-.29-.36-.36l-6.42-2.39 6.42-2.38c.17-.06.29-.2.36-.36l2.39-6.42 2.38 6.42c.06.16.2.29.36.36z"/><path d="m45.29 6.48-3.29 1.23c-.17.06-.29.2-.36.36l-1.23 3.29-1.22-3.29c-.06-.16-.2-.29-.37-.36l-3.28-1.23 3.28-1.22c.17-.06.31-.2.37-.37l1.22-3.28 1.23 3.28c.06.17.18.31.36.37z"/></svg>Search This Style</p> <div> <a class="card-link" href="'+ data.node.path +'"> <p class="card-text brand-name">'+ data.node.brand.name +'</p> <h4 class="card-title">'+ data.node.name +'</h4> ';
                                                     if(data.node.customFields.edges){
                                                         product_card += '<div class="card-fields"> <div class="custom-fields-list"> ';
                                                         var UK = '';
@@ -735,17 +762,25 @@ function miros_query_load() {
                                                     product_card += '<div class="card-text" data-test-info-type="price"><div class="price-section price-section--withoutTax">';
                                                         
                                                     if(data.node.prices.retailPrice){        
-                                                        product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'</span></div>';
+                                                        
+                                                        if(data.node.prices.salePrice){ 
+                                                            var retail = data.node.prices.retailPrice.value;
+                                                            var sale = data.node.prices.salePrice.value;
+                                                            var discount = parseInt(Math.round(100 * ((retail - sale) / retail)));
+                                                            product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'<span class="save-as">Save ' + discount + '%</span></span></div>';
+                                                        }else{
+                                                            product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'</span></div>';
+                                                        }
                                                     }        
                                                     if(data.node.prices.salePrice){
-                                                        var old = data.node.prices.basePrice.value;
+                                                        //var old = data.node.prices.basePrice.value;
                                                         var sale = data.node.prices.salePrice.value;
-                                                        var discount = parseInt(Math.round((100 * (old - sale)) / old)) ;
+                                                        //var discount = parseInt(Math.round((100 * (old - sale)) / old)) ;
                                                         product_card += '<span class="price price--non-sale">'+ data.node.prices.basePrice.formatted +'</span> <div class="price price--listPrice has-sale-price"> <div class="price price--saving"> <span class="saving-percentage">-'+ discount +'%</span></div><span class="price price--withoutTax">'+ data.node.prices.salePrice.formatted +'</span> </div> </div> </div>';
                                                     }else{
                                                         product_card += '<span class="price price--withoutTax">'+ data.node.prices.basePrice.formatted +'</span> </div> </div> </div>';
                                                     }
-                                                    product_card += '</a><p class="view-link" data-miros-entry="custom" data-miros-item="'+data.node.sku+'">View Similar</p> </div> </div> </article></li>';
+                                                    product_card += '</a></div> </div> </article></li>';
                                                     
                                                     
                                                     $('.miros-search-result').append(product_card);
@@ -770,7 +805,7 @@ function miros_query_load() {
                     if(page_count === 0){
                         $('.miros-search-result').html("No Results Found!").css('font-size', '15px');
                     }
-                    // Pagination Logic
+                     // Pagination Logic
                     if (page_count > 1) {
                         let pagination_block = '<ul class="pagination-list">';
                         const currentPage = parseInt(new URLSearchParams(window.location.search).get('page') || 1);
@@ -815,6 +850,7 @@ function miros_query_load() {
                 // }
                 
             });
+            
         }
     }
     
@@ -828,6 +864,7 @@ function miros_query_updated(url, old_url){
         const end = "&_bc_fsnf=1&";
         const sort = "&sort=";
         let sort_val = 'score';
+        let order_val = 'desc';
         let filter_val = ''; // Initialize filter_val with an empty string
         let skip_val = 0;
         let limit_val = 60;
@@ -877,6 +914,16 @@ function miros_query_updated(url, old_url){
         // Determine sort value
         if (url.includes(sort)) {
             sort_val = url.split(sort).pop().split('&')[0];
+            if(sort_val == 'priceasc'){
+                console.log("price low to high");
+                sort_val = "price_discounted";
+                order_val = "asc"
+            }
+            if(sort_val == 'pricedesc'){
+                console.log("price high to low");
+                sort_val = "price_discounted";
+                order_val = "desc"
+            }
         }
         if (url.includes('&page=')) {
             //skip_val = parseInt(a.split('&page=').pop()) - 1;
@@ -939,7 +986,6 @@ function miros_query_updated(url, old_url){
                 filter_val = filter_val.replaceAll('+', ' ');
                 if ((str_name !== 'page') && (str_name !== 'sort'))
                 filter_query = `{${str_name}: {__eq: "${filter_val}"}}`;
-                console.log('test', str_name, str_val);
             }
             filters = extractFilterParams(url);
             filter_query = constructFilterQuery(filters);
@@ -959,6 +1005,7 @@ function miros_query_updated(url, old_url){
         storedValue = decodeURIComponent(storedValue);
         console.log('Search query', storedValue);
         console.log('Sort Value:', sort_val);
+        console.log('Order Value:', order_val);
         console.log('Limit value', limit_val);
         console.log('filters', filters);
         console.log('Filter Query:', filter_query);
@@ -968,68 +1015,69 @@ function miros_query_updated(url, old_url){
             $('.page').html("No Results Found!").css({'text-align' : 'center', 'padding-top' : '20px'});
         }else{
             let graphqlQuery = `query SearchQuery($integration_id: String!, $search_query: String!, $text_query_language: String!) {
-              search(query: {
-                integration_id: $integration_id,
-                text_query: $search_query,
-                text_query_language: $text_query_language,
-                limit: ${limit_val},
-                skip: ${skip_val},
-                sort: {
-                    field: ${sort_val}
-                },
-                filter_query: ${filter_query}
-              }) {
-                filter_facets
-                approximate_hits
-                data {
-                  alias
-                  name
-                  payload
-                }
-              }
-            }`;
-        
+                  search(query: {
+                    integration_id: $integration_id,
+                    text_query: $search_query,
+                    text_query_language: $text_query_language,
+                    limit: ${limit_val},
+                    skip: ${skip_val},
+                    sort: {
+                        field: ${sort_val},
+                        order: ${order_val}
+                    },
+                    filter_query: ${filter_query}
+                  }) {
+                    filter_facets
+                    approximate_hits
+                    data {
+                      alias
+                      name
+                      payload
+                    }
+                  }
+                }`;
+            
             const variables = {
-            integration_id: '7fb78fcf-d37e-4021-abab-74d146bc9997',
-            search_query: storedValue,
-            text_query_language: 'en'
+              integration_id: '7fb78fcf-d37e-4021-abab-74d146bc9997',
+              search_query: storedValue,
+              text_query_language: 'en'
             };
             const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer {{ settings.storefront_api.token }}',
-            'Access-Control-Allow-Origin': '*'
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer {{ settings.storefront_api.token }}',
+              'Access-Control-Allow-Origin': '*'
             };
-        
+            
             $.ajax({
-            type: 'POST',
-            url: 'https://api.miros.services/graphql',
-            headers: headers,
-            data: JSON.stringify({ 
+              type: 'POST',
+              url: 'https://api.miros.services/graphql',
+              headers: headers,
+              data: JSON.stringify({ 
                 query: graphqlQuery,
                 variables: variables
-            }),
-            dataType: 'json',
-            success: function (res) {
-            console.log('miros res on filter', res);
-            //console.log("approximate_hits", res.data.search.approximate_hits);
+              }),
+              dataType: 'json',
+              success: function (res) {
+             console.log('miros res on filter', res);
+             //console.log("approximate_hits", res.data.search.approximate_hits);
                 // let skus = res.data.search.data.map(item => item.alias);
                 // console.log('SKU Array Length:', skus.length);
-
-            let ids = res?.data?.search?.data.map(item => item?.payload?.metadata?.product_id);
-
-            localStorage.setItem('hits', res.data.search.approximate_hits);
-
-            var chunkedArrays = splitArrayIntoChunks(ids, 50);
     
-            //console.log("chunkedArrays", chunkedArrays);
-            
-            //var page_count = Math.ceil((skus.length)/60);
-            var page_count = Math.ceil((res.data.search.approximate_hits)/60);
-            //console.log('page_count', page_count);
-            $('.facetedSearch-navList').html('');
-            $('.miros-search-result').html('');
-            let accordion_block = '';
-            accordion_block += `<nav><div class="brand-product-count"></div>
+               let ids = res?.data?.search?.data.map(item => item?.payload?.metadata?.product_id);
+    
+               localStorage.setItem('hits', res.data.search.approximate_hits);
+    
+               var chunkedArrays = splitArrayIntoChunks(ids, 50);
+     
+               //console.log("chunkedArrays", chunkedArrays);
+               
+               //var page_count = Math.ceil((skus.length)/60);
+               var page_count = Math.ceil((res.data.search.approximate_hits)/60);
+               //console.log('page_count', page_count);
+               $('.facetedSearch-navList').html('');
+               $('.miros-search-result').html('');
+               let accordion_block = '';
+               accordion_block += `<nav><div class="brand-product-count"></div>
                         <div class="accordion accordion--navList">
                             <div id="facetedSearch" class="facetedSearch sidebarBlock">
                                 <a role="button" class="facetedSearch-toggle toggleLink is-open" data-collapsible="" aria-label="Filters Filters" aria-controls="facetedSearch-navList" aria-expanded="true"> 
@@ -1051,10 +1099,10 @@ function miros_query_updated(url, old_url){
                                         <span>Filters</span>
                                     </div>`;
         
-                if (str_val.length > 0) {
+               if (str_val.length > 0) {
                 //console.log("filter value on update", filter_val);
                 accordion_block += '<div class="facetedSearch-refineFilters sidebarBlock accordion-block"><h2 class="sidebarBlock-heading desk-only">Filters</h2><ul class="inlineList inlineList--labels">';
-                
+                   
                         // Get the part of the URL after "_bc_fsnf=1&"
                         const queryPart = url.split(end).pop();
                         //console.log('queryPart', queryPart);
@@ -1111,7 +1159,7 @@ function miros_query_updated(url, old_url){
                                 var url = new URL(window.location.href);
                                 // Retrieve all query parameters
                                 var searchParams = new URLSearchParams(url.search);
-
+    
                                 // Loop through all query parameters to find and remove the one with the specified value
                                 for (let [key, value] of searchParams) {
                                     if(key !== 'page'){
@@ -1123,15 +1171,15 @@ function miros_query_updated(url, old_url){
                                             url.search = searchParams.toString();
                                             
                                             updatedUrl = url.toString();
-
-                                        
-                                        let classVal =  value
+    
+                                           
+                                          let classVal =  value
                                             .toLowerCase()                   // Convert the whole string to lowercase
                                             .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g,   // Find the first letter of each word
                                                 (match, index) => index === 0 ? match.toLowerCase() : match.toUpperCase()) // Capitalize subsequent words
                                             .replace(/\s+/g, '');
-
-                                        
+    
+                                           
                                             let latstUrl = updatedUrl;
                                                             setTimeout(() => {
                                                                 //console.log("latstUrl", latstUrl);
@@ -1152,24 +1200,25 @@ function miros_query_updated(url, old_url){
                             }
                         });
                         //console.log('filterValues', filterValues);
-                accordion_block += '</ul><a href="/search.php?search_query='+storedValue+'&_bc_fsnf=1" class="reset-btn desk-only" data-faceted-search-facet="">Reset filters</a></div>';
-            }    
+                   accordion_block += '</ul><a href="/search.php?search_query='+storedValue+'&_bc_fsnf=1" class="reset-btn desk-only" data-faceted-search-facet="">Reset filters</a></div>';
+               }    
                 accordion_block += `<div class="mobile-only category-sort">
                                         <form class="actionBar" method="get" data-sort-by="product">
                                             <fieldset class="form-fieldset actionBar-section">
                                                 <div class="form-field">
                                                     <select class="form-select form-select--small " name="sort" id="sort" role="listbox">
-                                                        <option value="discount_percentage">Discount</option>
-                                                        <option value="price_discounted">Price</option>
                                                         <option value="score" selected="">Relevance</option>
+                                                        <option value="discount_percentage">Discount</option>
+                                                        <option value="priceasc">Price: Low to High</option>
+                                                        <option value="pricedesc">Price: High to Low</option>
                                                     </select>
                                                 </div>
                                             </fieldset>
                                         </form>
                                     </div>
                             <div class="accordion-1 accordion--navList-1">`;
-            let arr = res.data.search.filter_facets;
-            for (const [key, value] of Object.entries(arr)) {
+               let arr = res.data.search.filter_facets;
+               for (const [key, value] of Object.entries(arr)) {
                         if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
                             const filter_label = key.replaceAll('_', ' ');
                             //console.log('key', key);
@@ -1240,13 +1289,13 @@ function miros_query_updated(url, old_url){
                                         searchParams.delete('page');
                                         
                                         // Construct the new URL
-                                        url = parsedUrl.origin + parsedUrl.pathname + '?' + searchParams.toString();
+                                         url = parsedUrl.origin + parsedUrl.pathname + '?' + searchParams.toString();
                                         
                                         // Log the new URL
                                         
                                 }
                                 console.log("Updated URL:", url);
-
+    
                                 if (url.includes("_bc_fsnf")) {
                                     x = '&';
                                 }
@@ -1308,6 +1357,9 @@ function miros_query_updated(url, old_url){
                                             </div><div class="blocker" style="display: none;"></div>
                     </div></div></div></nav>`;
                     $('.aside').html(accordion_block);
+                    if($('.inlineList').length > 0){
+                        $('.filter-count').text("(" + $('.inlineList li').length + ")");
+                    }
                     $('.brand-product-count').html('Showing <strong>' + res.data.search.approximate_hits + '</strong> results for "' +storedValue+'"');
                     $('.accordion').css('opacity', '1');
                     if(minPrice && maxPrice){
@@ -1333,19 +1385,19 @@ function miros_query_updated(url, old_url){
                                         }
                                         images {
                                             edges {
-                                            node {
+                                              node {
                                                 url(width: 640)
-                                            }
+                                              }
                                             }
                                         }
                                         customFields {
                                             edges {
-                                            node {
+                                              node {
                                                 name
                                                 value
+                                              }
                                             }
-                                            }
-                                        }
+                                          }
                                         prices{
                                             basePrice{
                                                 value
@@ -1365,7 +1417,7 @@ function miros_query_updated(url, old_url){
                             }
                         }
                     }`
-                
+                   
                     $.ajax({
                                 type: 'POST',
                                 url: '/graphql',
@@ -1378,7 +1430,7 @@ function miros_query_updated(url, old_url){
                                     ids.forEach(function(id){
                                         
                                         let p_edges = res.data.site.products.edges; 
-
+    
                                         p_edges.forEach(function(data){
                                             let p_id = data.node.entityId;
                                             if(id == p_id){
@@ -1396,7 +1448,7 @@ function miros_query_updated(url, old_url){
                                                     
                                                     product_card += '<span class="product-wishlist" data-product-id="'+ data.node.entityId +'"> <button aria-label="wishlist_'+ data.node.entityId +'"> <i class="icon" aria-hidden="true"> <svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/></svg> <svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"/></svg> </i> </button></span>';
                                                     
-                                                    product_card += '</div> </figure> <div class="card-body"> <div> <a class="card-link" href="'+ data.node.path +'"> <h3 class="card-text brand-name">'+ data.node.brand.name +'</h3> <h4 class="card-title">'+ data.node.name +'</h4> ';
+                                                    product_card += '</div> </figure> <div class="card-body"><p class="view-link" data-miros-entry="custom" data-miros-item="'+ data.node.sku +'"><svg xmlns="http://www.w3.org/2000/svg" id="Layer_2" viewBox="0 0 64 64" data-name="Layer 2"><path d="m53.75 35.99-15.42 5.73c-2.42.91-4.32 2.8-5.22 5.22l-5.73 15.44-5.73-15.44c-.9-2.42-2.8-4.32-5.22-5.22l-15.42-5.73 15.42-5.73c2.42-.9 4.32-2.8 5.22-5.22l5.73-15.42 5.73 15.42c.9 2.42 2.8 4.32 5.22 5.22z"/><path d="m63 19.13-6.42 2.39c-.16.06-.29.2-.36.36l-2.38 6.42-2.39-6.42c-.06-.16-.18-.29-.36-.36l-6.42-2.39 6.42-2.38c.17-.06.29-.2.36-.36l2.39-6.42 2.38 6.42c.06.16.2.29.36.36z"/><path d="m45.29 6.48-3.29 1.23c-.17.06-.29.2-.36.36l-1.23 3.29-1.22-3.29c-.06-.16-.2-.29-.37-.36l-3.28-1.23 3.28-1.22c.17-.06.31-.2.37-.37l1.22-3.28 1.23 3.28c.06.17.18.31.36.37z"/></svg>Search This Style</p> <div> <a class="card-link" href="'+ data.node.path +'"> <p class="card-text brand-name">'+ data.node.brand.name +'</p> <h4 class="card-title">'+ data.node.name +'</h4> ';
                                                     if(data.node.customFields.edges){
                                                         product_card += '<div class="card-fields"> <div class="custom-fields-list"> ';
                                                         var UK = '';
@@ -1443,13 +1495,22 @@ function miros_query_updated(url, old_url){
                                                     }
                                                     product_card += '<div class="card-text" data-test-info-type="price"><div class="price-section price-section--withoutTax">';
                                                         
-                                                    if(data.node.prices.retailPrice){        
-                                                        product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'</span></div>';
+                                                    if(data.node.prices.retailPrice){  
+                                                        
+                                                        if(data.node.prices.salePrice){ 
+                                                            var retail = data.node.prices.retailPrice.value;
+                                                            var sale = data.node.prices.salePrice.value;
+                                                            var discount = parseInt(Math.round(100 * ((retail - sale) / retail)));
+                                                            product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'<span class="save-as">Save ' + discount + '%</span></span></div>';
+                                                        }else{
+                                                            product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'</span></div>';
+                                                        }
                                                     }        
                                                     if(data.node.prices.salePrice){
-                                                        var old = data.node.prices.basePrice.value;
+                                                        //var old = data.node.prices.basePrice.value;
                                                         var sale = data.node.prices.salePrice.value;
-                                                        var discount = parseInt(Math.round((100 * (old - sale)) / old)) ;
+                                                        //var discount = parseInt(Math.round((100 * (old - sale)) / old)) ;
+                                                        
                                                         product_card += '<span class="price price--non-sale">'+ data.node.prices.basePrice.formatted +'</span> <div class="price price--listPrice has-sale-price"> <div class="price price--saving"> <span class="saving-percentage">-'+ discount +'%</span></div><span class="price price--withoutTax">'+ data.node.prices.salePrice.formatted +'</span> </div> </div> </div>';
                                                     }else{
                                                         product_card += '<span class="price price--withoutTax">'+ data.node.prices.basePrice.formatted +'</span> </div> </div> </div>';
@@ -1472,8 +1533,8 @@ function miros_query_updated(url, old_url){
                     storedValue = storedValue.replaceAll('%2B', ' ');
                     storedValue = storedValue.replaceAll('%2B%2B%2B', ' + ');
                     // Pagination Logic
-                    console.log("page_count2", page_count);
-                    if(page_count === 0){
+                     console.log("page_count2", page_count);
+                     if(page_count === 0){
                         $('.miros-search-result').html("No Results Found!").css('font-size', '15px');
                     }
                     if (page_count > 1) {
@@ -1521,11 +1582,10 @@ function miros_query_updated(url, old_url){
                     
                 // }
                 
-            }
+              }
             });
         }
     }
-    
     
     // Utility function to generate the URL for pagination
     function getPaginationUrl(pageNumber) {

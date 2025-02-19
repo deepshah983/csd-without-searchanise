@@ -2,45 +2,13 @@
 {{{ checkout.checkout_head }}}
 {{{ stylesheet '/assets/css/optimized-checkout.css' }}}
 {{ getFontsCollection }}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 <script src="{{cdn 'assets/js/jquery-3.6.3.min.js'}}"></script>
 <script src="https://cdn.attn.tv/csd/dtag.js"></script>
 <script type="text/javascript">
     window.language = {{{langJson 'optimized_checkout'}}};
 </script>
-<script type="text/javascript">
-
-!function(e){if(!window.pintrk){window.pintrk=function()
-
-{window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
-
-n=window.pintrk;n.queue=[],n.version="3.0";var
-
-t=document.createElement("script");t.async=!0,t.src=e;var
-
-r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}
-
-("https://s.pinimg.com/ct/core.js");
-
-
-
-pintrk('load','2612737624778', { em: '%%GLOBAL_BillingEmail%%', });
-
-pintrk('page');
-
-</script>
-<!--<noscript>-->
-<!--    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=2612737624778&noscript=1"/>-->
-<!--</noscript>-->
-<script>
-    pintrk('track', 'checkout', {
-        order_id: '{{checkout.order.id}}',
-    value: '%%ORDER_AMOUNT%%',
-    currency: '{{currency_selector.active_currency_code}}',
- });
-</script>
-<noscript>
-    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=YOUR_TAG_ID&amp;event=checkout&amp;noscript=1" />
-</noscript>
 
 {{{head.scripts}}}
 
@@ -66,24 +34,54 @@ pintrk('page');
 
 {{{ footer.scripts }}}
 
-{{/partial}}
-
-{{> layout/empty}}
-
+<!--Pinterest API start-->
 <script>
-
+    
     $(document).ready(function(){
         fetch('/api/storefront/order/{{checkout.order.id}}', {credentials: 'include'})
                 .then((res) => res.json()).then(function (res) {
-               
-              var coupon = ''; 
+            
+        var order_id = '{{checkout.order.id}}';
+        var email = '{{customer.email}}';
+        var user_id = '{{customer.id}}';
+        let timestamp_new = Math.floor(Date.now() / 1000);
+        let timestamp_checkout = timestamp_new + 'checkout1';
+        let sessionData = JSON.parse(sessionStorage.getItem('__klarna_sdk_default-config'));
+        let sessionId = sessionData.config.sessionId;
+        console.log(sessionId);
+    
+        // Email
+        if (email) {
+            var hashedEmail = CryptoJS.SHA256(email).toString();
+            var hashedId = CryptoJS.SHA256(user_id).toString();
+        } else {
+            var hashedEmail = "24aba99b2defbb47ee981b4200313f61f3ae31541d8717bdac1e463c838939b0";
+            var hashedId = CryptoJS.SHA256(sessionId).toString();
+        }
+        console.log("Hashed Email", hashedEmail);
+
+        var currency = "{{currency_selector.active_currency_code}}";
+        
+        //User Agent
+        var client_user_agent = navigator.userAgent;
+        console.log("Client User Agent:", client_user_agent);
+
+        var coupon = ''; 
             if(res.coupons.length > 0){
                 coupon = res.coupons[0].code;
             };
             var product_array = [];
-            let response = res.lineItems.physicalItems;
-            response.forEach(element => {
             
+            let ids = [];
+            let items = [];
+            let response = res.lineItems.physicalItems;
+            var total_price_value = 0;
+            var price_value = response[0].salePrice;
+            var product_name = response[0].name;
+            var product_brand = response[0].brand;
+            
+            response.forEach(element => {
+                    total_price_value += element.salePrice;
                     var obj =  {
                                 productId: element.productId,
                                 productVariantId: element.variantId,
@@ -96,10 +94,90 @@ pintrk('page');
                                 quantity: element.quantity
                             };
                             
+                    
+                            var id_obj = element.productId;
+                            var item_obj = {
+                                "id": ""+element.productId+"",
+                                "item_price": ""+element.salePrice+"",
+                                "quantity": 1,
+                                "item_name": ""+element.name+"",
+                                "item_brand": ""+element.brand+""
+                            }
+                            ids.push(""+id_obj);               
+                            items.push(item_obj);
+                            console.log("id array", ids);
+                            console.log("items array", items);
+                            
              product_array.push(obj);
+             
+             
             });
+            pintrk('track', 'checkout', {event_id: timestamp_checkout, value: total_price_value, currency: currency, order_id: order_id  });
             
-           window.attentive.analytics.purchase(
+            checkout_event(price_value, product_name, product_brand, ids, items, total_price_value);
+
+            function checkout_event(p_val, p_name, p_brand, ids, items, total_price_value) {
+                // Declare variables globally
+                var client_ip_address, country;
+        
+                $.getJSON('https://ipinfo.io/json', function(data) {
+                    client_ip_address = data.ip;
+                    country = CryptoJS.SHA256(data.country).toString();
+                    checkIfDataReady();
+                });
+                
+                function checkIfDataReady() {
+                    if (client_ip_address && country) { 
+                        console.log("Client IP Address:", client_ip_address);
+                        console.log("Country:", country);
+                        //Time Stamp
+                        var currentTimestamp = Math.floor(Date.now() / 1000);
+                        console.log("Current Timestamp:", currentTimestamp);
+                        var settings = {
+                            "url": "https://consignor.csd.shop/emailtest/pinterest.php", 
+                            "method": "POST",
+                            "contentType": "application/json",
+                            "data": JSON.stringify({
+                                "data": [
+                                    {
+                                        "event_name": "checkout",
+                                        "action_source": "web",
+                                        "event_time": currentTimestamp,
+                                        "event_id": timestamp_checkout,
+                                        "event_source_url": window.location.href,
+                                        "opt_out": false,
+                                        "user_data": {
+                                            "em": [hashedEmail],
+                                            "country": [country],
+                                            "hashed_maids": [],
+                                            "client_ip_address": client_ip_address,
+                                            "client_user_agent": client_user_agent,
+                                            "external_id": [hashedId]
+                                        },
+                                        "custom_data": {
+                                            "currency": currency,
+                                            "value": ""+total_price_value+"",
+                                            "content_ids": ids,
+                                            "content_name": p_name,
+                                            "content_brand": p_brand,
+                                            "contents": items,
+                                            "num_items": 1,
+                                            "order_id": ""+order_id+""
+                                        }
+                                    }
+                                ]
+                            })
+                        };
+        
+                        $.ajax(settings).done(function(response) {
+                            console.log("Checkout", response);
+                        });
+                    }
+                }
+            }
+            
+           
+                 window.attentive.analytics.purchase(
                     {
                         items: product_array,
                         cart: {
@@ -143,3 +221,10 @@ pintrk('page');
     });
     
 </script>
+<noscript>
+    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=2612737624778&event=checkout&ed[event_id]=timestamp_checkout&noscript=1" />
+</noscript>
+
+{{/partial}}
+
+{{> layout/empty}}

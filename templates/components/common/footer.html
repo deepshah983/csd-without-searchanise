@@ -1,5 +1,3 @@
-
-
 <footer class="footer" role="contentinfo">
     {{#if banners.bottom}}
 <div class="banners" data-banner-location="bottom">
@@ -11,7 +9,7 @@
         </div>
     </div>
     {{/each}}
-</div>
+</div> 
 {{/if}}
 {{#unless page_type '===' 'default'}}
 {{#if banners.top}}
@@ -31,7 +29,7 @@
     <div class="custom-newsletter">
         <div class="first-order-offer offer-wrapper">
             <br>
-            <h2 class="page-heading">GET 15% OFF YOUR FIRST ORDER</h2>
+            <h2 class="page-heading">GET UP TO 20% OFF YOUR FIRST ORDER</h2>
             <p>Sign up for promotions, tailored new arrivals, stock updates and more – straight to your inbox</p>
         </div>
         <form novalidate="" id="newsletter-form" class="newsletter-form offer-wrapper">
@@ -1120,7 +1118,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
         $(document).ready(function () {
             $.ajax({
-                url: 'https://consignor.csd.shop/vc_data/csd_category_data.json',
+                url: 'https://store-5zask1yt8t.mybigcommerce.com/content/vc_data/csd_category_data.json',
                 type: "GET",
                 crossDomain: true,
                 success: function (res) {
@@ -1665,5 +1663,62 @@ const currentPageUrl = document.URL;
             }
     });
 </script>
-{{/if}}
 
+{{#if currency_selector.active_currency_code '==' 'USD'}}
+<script>
+    $(document).ready(function(){
+        $.getJSON('https://ipinfo.io/json', function(data) {
+            var country = data.country;
+            console.log("country", country);
+            if(country == 'US'){
+                $('.shipment-text').text("Import duties included for shipments to US");
+            }
+        });
+    });
+</script>
+{{/if}}
+{{#if currency_selector.active_currency_code '==' 'CAD'}}
+<script>
+    $(document).ready(function(){
+        $.getJSON('https://ipinfo.io/json', function(data) {
+            var country = data.country;
+            console.log("country", country);
+            if(country == 'CA'){
+                $('.shipment-text').text("Import duties included for shipments to Canada");
+            }
+        });
+    });
+</script>
+{{/if}} 
+{{/if}}
+ 
+<!-- All filters overlay in listing page -->
+ <script> 
+    $(document).ready(function(){
+        if($('.inlineList').length > 0){
+            $('.filter-count').text("(" + $('.inlineList li').length + ")");
+        }
+    });
+    $(document).on('click', '.close-filter', function(){
+        $('.page-sidebar-sticky').removeClass('is-open');
+        $('body').removeClass('filter-open');
+        if($('.inlineList').length > 0){
+            $('.filter-count').text("(" + $('.inlineList li').length + ")");
+        }
+    });
+    $(document).on('click', '.all-filter-link', function(){
+        $('.page-sidebar-sticky').addClass('is-open');
+        $('body').addClass('filter-open');
+    }); 
+ </script>
+ 
+ <!--<script>-->
+ <!--    $(document).ready(function(){-->
+ <!--        $('.navUser-item-wishlistLabel').click(function(){-->
+ <!--           setTimeout(function(){-->
+ <!--               console.log($('.swym-add-to-cart-btn.swym-disabled').length); -->
+ <!--               $('.swym-add-to-cart-btn.swym-disabled').parent().parent('li').hide();-->
+ <!--           }, 800);-->
+ <!--        });-->
+ <!--    })-->
+ <!--</script>-->

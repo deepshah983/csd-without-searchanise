@@ -101,6 +101,9 @@ data-product-category="
         </figcaption>
     </figure>
     <div class="card-body">
+        <p class="view-link" data-miros-entry="custom" data-miros-item="{{sku}}">
+            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_2" viewBox="0 0 64 64" data-name="Layer 2"><path d="m53.75 35.99-15.42 5.73c-2.42.91-4.32 2.8-5.22 5.22l-5.73 15.44-5.73-15.44c-.9-2.42-2.8-4.32-5.22-5.22l-15.42-5.73 15.42-5.73c2.42-.9 4.32-2.8 5.22-5.22l5.73-15.42 5.73 15.42c.9 2.42 2.8 4.32 5.22 5.22z"/><path d="m63 19.13-6.42 2.39c-.16.06-.29.2-.36.36l-2.38 6.42-2.39-6.42c-.06-.16-.18-.29-.36-.36l-6.42-2.39 6.42-2.38c.17-.06.29-.2.36-.36l2.39-6.42 2.38 6.42c.06.16.2.29.36.36z"/><path d="m45.29 6.48-3.29 1.23c-.17.06-.29.2-.36.36l-1.23 3.29-1.22-3.29c-.06-.16-.2-.29-.37-.36l-3.28-1.23 3.28-1.22c.17-.06.31-.2.37-.37l1.22-3.28 1.23 3.28c.06.17.18.31.36.37z"/></svg>
+            Search This Style</p> 
         <div class="card-link">
             <a href="{{url}}">
                 {{#and rating show_rating}}
@@ -135,8 +138,6 @@ data-product-category="
                 {{> components/products/bulk-discount-rates}}
             </a>
             
-            <p class="view-link" data-miros-entry="custom" data-miros-item="{{sku}}">View Similar</p>
-            
         </div>
         {{#or has_options add_to_cart_url }}
             {{> components/csd/products/wishlist id=id customer=customer}}
@@ -157,7 +158,7 @@ data-product-category="
             <a href="#" onclick="pintrk('track', 'addtocart', {
             'value':'{{#if price.with_tax}}{{price.with_tax.value}}{{else}}{{price.without_tax.value}}{{/if}}',
             'order_quantity':'{{#if min_purchase_quantity}}{{min_purchase_quantity}}{{else}}1{{/if}}',
-            'currency': '{{currency_code}}'
+            'currency': '{{currency_code}}', {event_id: 'addTocart1',},
         });" data-event-type="product-click" data-button-type="add-cart" data-product-id="{{id}}" class="button button--small card-figcaption-button custom-add-to-cart">{{lang 'products.add_to_cart'}}</a>
             <span class="product-status-message aria-description--hidden">{{lang 'category.add_cart_announcement'}}</span>
         {{/if}}
