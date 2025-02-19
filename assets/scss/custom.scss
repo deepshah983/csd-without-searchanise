@@ -286,8 +286,8 @@ input:focus, button:focus, textarea:focus, select:focus, details:focus, [href]:f
 			}
         .form {
             max-width: 100%;
-            input {
-                padding: 0 14px 0 14px; font-size: 16px; line-height: 28px;
+            input { 
+                padding: 0 44px 0 14px; font-size: 16px;  line-height: 28px;
                 background: url(https://store-5zask1yt8t.mybigcommerce.com/content/image/icon-search%20%281%29.svg) no-repeat right 10px center;
                 @media (min-width: 576px) {
                 	background: none;
@@ -1254,8 +1254,20 @@ body.fixed{
 		}
 	}
 	.prdct-detail{
-		.shipping-timer.btm-space{
-			margin-bottom: 21px;
+		.shipping-timer.btm-space{ 
+			margin: 0 0 10px 3px;
+			svg{
+			    width: 30px;
+                height: 30px;
+                fill: #507e4e;
+                @media screen and (min-width: 768px){
+                    width: 40px;
+                    height: 40px;
+                }
+			}
+			.shipping-timer-timer{
+			    font-weight: 600;
+			}
 		}
 	}
 }
@@ -2088,13 +2100,44 @@ button.gpay-button.black.short.en {
 }
 
 .view-link.miros-unsupported{
-	display: none; height: 21px;
+	height: 21px;
 }
 .view-link.miros-supported{
 	height: 21px;
 }
 .view-link{
 	margin-bottom: 10px;
+	text-decoration: underline;
+	svg{
+	    width: 18px;
+        height: 18px;
+        display: inline-block !important;
+        vertical-align: middle;
+        margin-right: 6px;
+	}
+} 
+.show-similar{
+    color: #000;
+    border-color: #000;
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 15px;
+    line-height: 18px;
+    font-weight: 600;
+    svg{
+	    width: 18px;
+        height: 18px;
+        display: inline-block;
+        vertical-align: text-top;
+        margin-right: 6px;
+	}
+	&:hover{
+	    color: #fff;
+	    background-color: #000;
+	    svg{
+	        fill: #fff;
+	    }
+	}
 }
 
 .page-product{
@@ -2871,12 +2914,17 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 }
 #quickSearch{
 	.search-icon, .close-icon{
-		display: none;
-		width: 20px;
-		height: 20px;
-		position: absolute;
-		right: 15px;
-		top: 12px;
+		display: none; 
+        height: 43px;
+    width: 43px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    padding: 10px;
+    cursor: pointer;
+        pointer-events: auto;
+        z-index:9999999999999999999999 !important;
+        overflow: auto !important;
 	}
 }
 #quickSearch{
@@ -3039,4 +3087,56 @@ button.swym-add-to-cart-btn.swym-button.swym-button-1.swym-is-button.swym-bg-2.s
 .cart-additionalCheckoutButtons{
     width: auto !important;
 }
+.grandTotal-li{
+	.cart-total-label, .cart-total-value{
+		padding-bottom: 0;
+	}
+}
+.klarna-msg{
+	margin: 10px 0;
+}
+@media (max-width: 1025px) {
+    .shipment-text{
+        font-size: 13px;
+    }
+}
+@media (min-width: 801px) {
+    .productView-price {
+        margin-bottom: 0;
+    }
+}
+.productView-options {
+    margin: 0;
+}
+.stock-status{
+    margin-left: 5px;
+    p{
+        font-size: 14px;
+        @media screen and (min-width: 768px){
+            font-size: 15px;
+        }
+    }
+    svg{
+        width: 30px;
+        height: 30px;
+        vertical-align: middle;
+        margin-right: 5px;
+        @media screen and (min-width: 768px){
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+    }
+}
 
+#banner-region-bdc9dbc6-e716-4df1-bac9-5eda8800d824{
+    float: none !important;
+    width: 100% !important;
+    margin: 0 0 0 auto;
+    @media screen and (min-width: 768px) {
+        width: 60% !important;
+    }
+    @media screen and (min-width: 991px) {
+        width: 40% !important;
+    }
+}

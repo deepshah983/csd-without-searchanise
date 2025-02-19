@@ -106,7 +106,7 @@
             {{> components/cart/gift-certificate-input}}
         </li>
     {{/if}}
-    <li class="cart-total">
+    <li class="cart-total grandTotal-li">
         <div class="cart-total-label">
             <strong>{{lang 'cart.checkout.grand_total'}}:</strong>
         </div>
@@ -117,6 +117,7 @@
                 {{> components/common/login-for-pricing}}
             {{/or}}
         </div>
+        <span class="shipment-text"></span>
     </li>
     {{#each cart.taxes}}
         {{#if included}}
@@ -131,3 +132,29 @@
         {{/if}}
     {{/each}}
 </ul>
+{{#if currency_selector.active_currency_code '==' 'USD'}}
+<script>
+    $(document).ready(function(){
+        $.getJSON('https://ipinfo.io/json', function(data) {
+            var country = data.country;
+            console.log("country", country);
+            if(country == 'US'){
+                $('.shipment-text').text("Import duties included for shipments to US");
+            }
+        });
+    });
+</script>
+{{/if}}
+{{#if currency_selector.active_currency_code '==' 'CAD'}}
+<script>
+    $(document).ready(function(){
+        $.getJSON('https://ipinfo.io/json', function(data) {
+            var country = data.country;
+            console.log("country", country);
+            if(country == 'CA'){
+                $('.shipment-text').html('Import duties included for shipments to Canada. Provincial sales taxes of 5% - 15% due upon import, <a href="https://csd.shop/customs-taxes/" style="text-decoration: underline;">learn more</a>');
+            }
+        });
+    });
+</script>
+{{/if}}

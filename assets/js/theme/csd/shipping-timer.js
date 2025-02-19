@@ -85,10 +85,10 @@ class CsdShippingTimer {
 		
 		if (
 				( ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].indexOf( dayOfWeekToday ) !== -1 ) &&
-				( hours < 16 )
+				( hours < 12 )
 			) {
-			// Ship same day if order placed before 15:59 from Monday till Friday
-			dispatchDate.setUTCHours( 15 );
+			// Ship same day if order placed before 11:59 from Monday till Friday
+			dispatchDate.setUTCHours( 11 );
 			dispatchDate.setUTCMinutes( 59 );
 			dispatchDate.setUTCSeconds( 59 );
 

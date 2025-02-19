@@ -32,32 +32,124 @@ pintrk('page');
 <!--    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=2612737624778&noscript=1"/>-->
 <!--</noscript>-->
 
+{{#comment}}
 <script>
     pintrk('track', 'checkout', {
         order_id: '{{checkout.order.id}}',
-    value: '{{order.total.formatted}}',
-    currency: '{{currency_selector.active_currency_code}}',
+        value: '{{order.total.formatted}}',
+        currency: '{{currency_selector.active_currency_code}}',
  });
 </script>
 <noscript>
-    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=2612737624778&amp;event=checkout&amp;noscript=1" />
+    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=YOUR_TAG_ID&amp;event=checkout&amp;noscript=1" />
 </noscript>
 
  <noscript>
- <img
- height="1"
- width="1"
- style="display:none;"
- alt=""
- src="https://ct.pinterest.com/v3/?tid=2612737624778&event=checkout&ed[value]={{order.total.formatted}}&ed[order_quantity]=2&ed[event_id]=eventId0001&noscript=1"
- />
+     <img
+     height="1"
+     width="1"
+     style="display:none;"
+     alt=""
+     src="https://ct.pinterest.com/v3/?tid=YOUR_TAG_ID&event=checkout&ed[value]={{order.total.formatted}}&ed[order_quantity]=2&ed[event_id]=eventId0001&noscript=1"
+     />
  </noscript>
+{{/comment}}
 
 {{{head.scripts}}}
 
 <script nonce="AFAvSlUTZoMMUUou+GTtTA==" async type="text/javascript" src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=QR7xcN&module=CONSENT_AT_CHECKOUT"></script>
 
 <script>
+    $(document).ready(function() {
+    // Target a more specific section of the checkout page (e.g., the cart container)
+        const targetNode = document.getElementById('checkout-app'); // Replace with the appropriate selector
+
+        const observer = new MutationObserver(function(mutationsList) {
+            mutationsList.forEach(function(mutation) {
+                if (mutation.type === 'attributes') {
+                    console.log("mutation.type", mutation.type);
+                
+                    fetch('/api/storefront/carts', options)
+                    .then(response => response.json())
+                    .then(function (response) {
+                        //console.log("cart response", response);
+                        var cart_id = response[0].id;
+                        //console.log("cart id", cart_id);
+                            fetch('/api/storefront/checkouts/'+cart_id, {credentials: 'include'})
+                            .then((res) => res.json()).then(function (res) {
+                                //console.log("checkout response", res);
+                                setInterval(function(){
+                                    if($('.checkout-step--shipping .shippingOptions-container').length === 0){
+                                        $('.layout-cart div[data-test="cart-shipping"] .cart-priceItem-value span').text("CALCULATED AT NEXT STEP");
+                                    }
+                                    $('.cartDrawer').click(function(){
+                                        setTimeout(function(){
+                                            if($('.staticConsignmentContainer .shippingOption-price').length > 0){
+                                                $('.cart-modal-body div[data-test="cart-shipping"] .cart-priceItem-value span').text($('.shippingOption-price').text());
+                                            }else if($('.checkout-step--shipping .shippingOptions-container').length === 0){
+                                                $('.cart-modal-body div[data-test="cart-shipping"] .cart-priceItem-value span').text("CALCULATED AT NEXT STEP");
+                                            }
+                                        }, 500);
+                                    });
+                                }, 2000);
+                                
+                            });
+                            
+                    });
+                }
+            });
+        });
+
+        const config = {
+            childList: true,     // Detect added or removed items in the cart
+            subtree: true,       // Observe changes in all descendants (cart items)
+            attributes: true,    // Watch for changes to attributes in cart elements
+            characterData: true  // Watch for changes in the cart's text content
+        };
+
+        observer.observe(targetNode, config);
+    });
+
+    const options = {
+        method: 'GET',
+        headers: {Accept: 'application/json', 'Content-Type': 'application/json'}
+    };
+
+    fetch('/api/storefront/carts', options)
+        .then(response => response.json())
+        .then(function (response) {
+            console.log("cart response", response);
+            var cart_id = response[0].id;
+            console.log("cart id", cart_id);
+                fetch('/api/storefront/checkouts/'+cart_id, {credentials: 'include'})
+                .then((res) => res.json()).then(function (res) {
+                    console.log("checkout response", res);
+                    setInterval(function(){
+                        if($('.layout-cart').length > 0){
+                            if($('.layout-cart').hasClass('aside-added')){}
+                            else{
+                                $('.layout-cart').addClass('aside-added');
+                                $('.layout-cart div[data-test="cart-shipping"] .cart-priceItem-value span').text("CALCULATED AT NEXT STEP");
+                                
+                            }
+                        }
+                        $('.cartDrawer').click(function(){
+                            setTimeout(function(){
+                                if($('.staticConsignmentContainer .shippingOption-price').length > 0){
+                                    $('.cart-modal-body div[data-test="cart-shipping"] .cart-priceItem-value span').text($('.shippingOption-price').text());
+                                }else if($('.checkout-step--shipping .shippingOptions-container').length === 0){
+                                    $('.cart-modal-body div[data-test="cart-shipping"] .cart-priceItem-value span').text("CALCULATED AT NEXT STEP");
+                                }
+                            }, 500);
+                        });
+                    }, 2000);
+                    
+                });
+                
+        });
+    
+       
+    
     setInterval(function(){
         if($('#checkout-customer-guest').length > 0){
             $('#checkout-app').addClass('not-loggedin');
@@ -109,8 +201,8 @@ pintrk('page');
         var brandElement = document.getElementsByClassName('product-brand')[i];
         var sizeElement = document.getElementsByClassName('product-size')[i];
 
-        $(brandElement).load("/cart.php tr:nth-child("+(i + 1)+") p[class='cart-item-brand']");
-        $(sizeElement).load("/cart.php tr:nth-child("+(i + 1)+") [class='definitionList-value']");
+        $(brandElement).load("https://csd.shop/cart.php tr:nth-child("+(i + 1)+") p[class='cart-item-brand']");
+        $(sizeElement).load("https://csd.shop/cart.php tr:nth-child("+(i + 1)+") [class='definitionList-value']");
     }
 
     function initProcessMobile() {

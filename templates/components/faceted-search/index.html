@@ -1,8 +1,7 @@
 <div id="facetedSearch" class="facetedSearch sidebarBlock">
     
-
     <a href="#facetedSearch-navList" role="button" class="facetedSearch-toggle toggleLink" data-collapsible>
-
+ 
         <span class="facetedSearch-toggle-indicator">
             <span class="toggleLink-text toggleLink-text--on">
                 {{lang 'search.faceted.hide-filters'}}
@@ -68,7 +67,7 @@
         </div>
         {{/if}} 
         {{#any facets visible=true}}
-            <div class="accordion-1 accordion--navList-1">
+            <div class="accordion-1 accordion--navList-1 test">
                 {{#each facets}}
                     {{#if visible}}
                         {{{dynamicComponent 'components/faceted-search/facets'}}}
@@ -76,7 +75,7 @@
                 {{/each}}
             </div>
             <div class="mobile-bottom mobile-only">
-                <div class="brand-product-count">Showing <span class="product-totlecount"><b>{{brand.total_products}}</b></span> products</div>
+                <!--<div class="brand-product-count">Showing <span class="product-totlecount"><b>{{brand.total_products}}</b></span> products</div>-->
                 
                 {{> components/faceted-search/selected-facets-custom selected}}
                 

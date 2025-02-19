@@ -6,7 +6,7 @@
         <title>{{ head.title }}</title>
         {{{ resourceHints }}}
         {{{ head.meta_tags }}}
-        {{{ head.config }}} 
+        {{{ head.config }}}  
         {{#block "head"}} {{/block}} 
 
         <link href="{{ head.favicon }}" rel="shortcut icon">
@@ -20,8 +20,6 @@
             <link href="https://www.jquery-az.com/jquery/css/intlTelInput/intlTelInput.css" rel="stylesheet">
         {{/if}}
         
-        <!--<script src="{{cdn 'assets/js/jquery-3.6.3.min.js'}}"></script>-->
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         
@@ -102,6 +100,7 @@
 		
 	    <script type="module" src="https://content.miros.services/frontend/public/main/container/assets/container.bundle.js"></script>
 	    
+	    
 	    <script type="text/javascript">
 
         !function(e){if(!window.pintrk){window.pintrk=function()
@@ -126,7 +125,7 @@
         <noscript>
             <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=2612737624778&noscript=1"/>
         </noscript>
-
+        
 			
     </head>
     <body class="page-{{page_type}} {{#if page_type '==' 'page'}}page-{{page.title}}{{/if}}">
@@ -352,7 +351,8 @@
         {{/unless}}
         {{/if}}
         
-        <!-- <script>
+        {{#if page_type '===' 'editaccount' }}
+        <script>
             var form = new FormData();
             var email = '{{customer.email}}';
             form.append("email", email);
@@ -545,7 +545,9 @@
                     $('.account-list').show();
                 }, 1500);
             });
-        </script> -->
+        </script>
+        {{/if}}
+        
         <script>
             var liArray = new Array();
             document.addEventListener('DOMContentLoaded', function () {
@@ -586,768 +588,857 @@
             
         </script>
         
-    <script>
-        
-     // if window.dataLayer doesn't exist, make it an empty array
-      window.dataLayer = window.dataLayer || [];
-      
-     
-      // If window.bodlEvents.banner.viewed is available, then...
-      if (typeof window.bodlEvents?.banner?.viewed === 'function') {
-        
-        window.dataLayer = window.dataLayer || [];
-        // run the viewed function to get the payload
-        
-        window.bodlEvents.banner.viewed((payload) => {
-          // log the event payload
-          
-          var bodl_data = {
-              'event': 'bodl_v1_view_banner'
-          }
-          
-        bodl_data.bodl_ecommerce = payload;
-          
-        window.dataLayer.push(bodl_data);
-    
-        });
-      }   
-      
-      // If window.bodlEvents.product.pageViewed is available, then...
-      if (typeof window.bodlEvents?.product?.pageViewed === 'function') {
-          
-          window.dataLayer = window.dataLayer || [];
-        // run the pageViewed function to get the payload
-        window.bodlEvents.product.pageViewed((payload) => {
-          // log the event payload
-          
-          var bodl_data = {
-              'event': 'bodl_v1_product_page_viewed'
-          }
-           
-            bodl_data.bodl_ecommerce = payload;
-              
-            window.dataLayer.push(bodl_data);
-    
-        });
-      }
-        
-      // If window.bodlEvents.product.categoryViewed is available, then...
-      if (typeof window.bodlEvents?.product?.categoryViewed === 'function') {
-        
-        window.dataLayer = window.dataLayer || [];
-        // run the categoryViewed function to get the payload
-        window.bodlEvents.product.categoryViewed((payload) => {
-          // log the event payload
-          
-          var bodl_data = {
-              'event': 'bodl_v1_product_category_viewed'
-          }
-          
-            bodl_data.bodl_ecommerce = payload;
-          
-            window.dataLayer.push(bodl_data);
-        
-        });
-      }
-        
-      // If window.bodlEvents.cart.addItem is available, then...
-      if (typeof window.bodlEvents?.cart?.addItem === 'function') {
-          window.dataLayer = window.dataLayer || [];
-          
-        // run the addItem function to get the payload
-        window.bodlEvents.cart.addItem((payload) => {
-          // log the event payload
-          
-          var bodl_data = {
-              'event': 'bodl_v1_cart_product_added'
-          }
-          
-            bodl_data.bodl_ecommerce = payload;
-          
-            window.dataLayer.push(bodl_data);
-        });
-      }
-        
-      // If window.bodlEvents.cart.viewed is available, then...
-      if (typeof window.bodlEvents?.cart?.viewed === 'function') {
-          
-          window.dataLayer = window.dataLayer || [];
-        // run the viewed function to get the payload
-        window.bodlEvents.cart.viewed((payload) => {
-          // log the event payload
-          
-          var bodl_data = {
-              'event': 'bodl_v1_cart_viewed'
-          }
-
-          
-            bodl_data.bodl_ecommerce = payload;
-              
-            window.dataLayer.push(bodl_data);
-
-        });
-      }
-        
-      // If window.bodlEvents.cart.removeItem is available, then...
-      if (typeof window.bodlEvents?.cart?.removeItem === 'function') {
-          
-          window.dataLayer = window.dataLayer || [];
-        // run the removeItem function to get the payload
-        window.bodlEvents.cart.removeItem((payload) => {
-          // log the event payload
-          
-          var bodl_data = {
-              'event': 'bodl_v1_cart_product_removed'
-          }
-          
-            bodl_data.bodl_ecommerce = payload;
-              
-            window.dataLayer.push(bodl_data);
-        });
-      }
-
-
-        //swym wishlist script
-        window.SwymCallbacks = window.SwymCallbacks || [];
-        window.SwymCallbacks.push(function(swat) {
-          var wishlistContainerElement = document.querySelector("#swym-wishlist-render-container");
-          var queryParams = swat.utils.getEncodedAsObject(window.location.search);
-          // Contains queryParams["lid"] to render a specific list id
-          swat.ui.renderWishlistInContainer(wishlistContainerElement, queryParams);
-        });
-
-
- 
-    </script>
-    </body>
-</html>
-<script>
-    const toggleButtons = document.querySelectorAll('.accordion-navigation');
-    
-    toggleButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const navList = this.nextElementSibling; 
-        navList.style.display = navList.style.display === 'none' ? 'block' : 'none';
-    
-      });
-    });
-    </script>
-<script>
-  // resize iframe to fit content
-  const iframe = document.querySelector("#as-tracking-page");
-  window.addEventListener("message", (event) => {
-    if (
-      event.data &&
-      event.data.type === "resize" &&
-      typeof event.data.scrollHeight === "number" &&
-      iframe
-    ) {
-      iframe.style.height = event.data.scrollHeight + "px";
-    }
-  });
-
-  // support widget float
-  window.addEventListener("message", (event) => {
-    if (
-      event.data &&
-      event.data.type === "widgetScriptLoad" &&
-      typeof event.data.scripts === "object"
-    ) {
-      event.data.scripts.forEach((script) => {
-        const scriptDom = document.createElement("script");
-        scriptDom.innerHTML = script;
-        document.body.appendChild(scriptDom);
-        window.postMessage({ type: "hideAllWidget" }, "*");
-      });
-    }
-  });
-</script>
-
-
-<!-- <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        setTimeout(() => {
+        <script>
             
+         // if window.dataLayer doesn't exist, make it an empty array
+          window.dataLayer = window.dataLayer || [];
+          
+         
+          // If window.bodlEvents.banner.viewed is available, then...
+          if (typeof window.bodlEvents?.banner?.viewed === 'function') {
+            
+            window.dataLayer = window.dataLayer || [];
+            // run the viewed function to get the payload
+            
+            window.bodlEvents.banner.viewed((payload) => {
+              // log the event payload
+              
+              var bodl_data = {
+                  'event': 'bodl_v1_view_banner'
+              }
+              
+            bodl_data.bodl_ecommerce = payload;
+              
+            window.dataLayer.push(bodl_data);
         
-        const div = document.querySelector('.brand-product-count');
-        let text = div.innerHTML;
-
-        // Extract and wrap the number in a span
-        const number = text?.match(/\d+/)[0];
-        text = text.replace(number, `<span class="bold-number">${number}</span>`);
-
-        // Replace single quotes with double quotes around any text
-        text = text.replace(/'([^']+)'/, `"${'$1'}"`);
-
-        // Set the modified text back to the div
-        div.innerHTML = text;
-    }, 3000);
-    });
-</script> -->
-<script>
-    function trending_search(){
-        let graphqlQuery = `query SearchQuery($integration_id: String!) {
-            search(query: {
-                integration_id: $integration_id,
-            }) {
-                autocomplete_suggestions {
-                    suggestion
-                }
-            }
-        }`;
-    
-        const variables = {
-            integration_id: '7fb78fcf-d37e-4021-abab-74d146bc9997'
-        };
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer {{ settings.storefront_api.token }}',
-            'Access-Control-Allow-Origin': '*'
-        };
-        $.ajax({
-            type: 'POST',
-            url: 'https://api.miros.services/graphql',
-            headers: headers,
-            data: JSON.stringify({ 
-                query: graphqlQuery,
-                variables: variables
-            }),
-            dataType: 'json',
-            success: function (res) {
-                console.log("Trending response", res, res.data.search.autocomplete_suggestions.length);
-                var title = '<h3>Trending Searches</h3>';
-                var trending_list = $('<ul class="trending-list"></ul>');
-                for (var i = 0; i < res.data.search.autocomplete_suggestions.length; i++) {
-                    trending_list.append(`<li><a href="/search.php?search_query=${res.data.search.autocomplete_suggestions[i].suggestion}">${res.data.search.autocomplete_suggestions[i].suggestion}</a></li>`);
-                }
-
-                // Combine title and trending list
-                var combinedContent = title + trending_list.prop('outerHTML');
-
-                // Update the HTML of the target div
-                setTimeout(function(){
-                    $('.miros-quick-search .trending-list-div').html(combinedContent);
-                    if ($(window).width() < 1024) {
-                        $('.close-icon').show();
-                        $('.dropdown--quickSearch .form-input').css('background', 'none');
-                    } 
-                }, 500);
-            }
-        });
-    }
-    function miros_quick_search(searchValue) {
-        let graphqlQuery = `query SearchQuery($integration_id: String!, $search_query: String!, $text_query_language: String!) {
-          search(query: {
-            integration_id: $integration_id,
-            text_query: $search_query,
-            text_query_language: $text_query_language,
-            limit: 32
-          }) {
-            autocomplete_suggestions {
-                suggestion
-            }
-            data {
-              alias
-              payload
-            }
+            });
+          }   
+          
+          // If window.bodlEvents.product.pageViewed is available, then...
+          if (typeof window.bodlEvents?.product?.pageViewed === 'function') {
+              
+              window.dataLayer = window.dataLayer || [];
+            // run the pageViewed function to get the payload
+            window.bodlEvents.product.pageViewed((payload) => {
+              // log the event payload
+              
+              var bodl_data = {
+                  'event': 'bodl_v1_product_page_viewed'
+              }
+               
+                bodl_data.bodl_ecommerce = payload;
+                  
+                window.dataLayer.push(bodl_data);
+        
+            });
           }
-        }`;
+            
+          // If window.bodlEvents.product.categoryViewed is available, then...
+          if (typeof window.bodlEvents?.product?.categoryViewed === 'function') {
+            
+            window.dataLayer = window.dataLayer || [];
+            // run the categoryViewed function to get the payload
+            window.bodlEvents.product.categoryViewed((payload) => {
+              // log the event payload
+              
+              var bodl_data = {
+                  'event': 'bodl_v1_product_category_viewed'
+              }
+              
+                bodl_data.bodl_ecommerce = payload;
+              
+                window.dataLayer.push(bodl_data);
+            
+            });
+          }
+            
+          // If window.bodlEvents.cart.addItem is available, then...
+          if (typeof window.bodlEvents?.cart?.addItem === 'function') {
+              window.dataLayer = window.dataLayer || [];
+              
+            // run the addItem function to get the payload
+            window.bodlEvents.cart.addItem((payload) => {
+              // log the event payload
+              
+              var bodl_data = {
+                  'event': 'bodl_v1_cart_product_added'
+              }
+              
+                bodl_data.bodl_ecommerce = payload;
+              
+                window.dataLayer.push(bodl_data);
+            });
+          }
+            
+          // If window.bodlEvents.cart.viewed is available, then...
+          if (typeof window.bodlEvents?.cart?.viewed === 'function') {
+              
+              window.dataLayer = window.dataLayer || [];
+            // run the viewed function to get the payload
+            window.bodlEvents.cart.viewed((payload) => {
+              // log the event payload
+              
+              var bodl_data = {
+                  'event': 'bodl_v1_cart_viewed'
+              }
     
-        const variables = {
-            integration_id: '7fb78fcf-d37e-4021-abab-74d146bc9997',
-            search_query: searchValue,
-            text_query_language: 'en'
-        };
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer {{ settings.storefront_api.token }}',
-            'Access-Control-Allow-Origin': '*'
-        };
-
-        $.ajax({
-            type: 'POST',
-            url: 'https://api.miros.services/graphql',
-            headers: headers,
-            data: JSON.stringify({ 
-                query: graphqlQuery,
-                variables: variables
-            }),
-            dataType: 'json',
-            success: function (res) {
-                console.log("Miros response", res);
-                if(res.data.search.autocomplete_suggestions.length){
-                    var title = '<h3>Suggested Searches</h3>';
-                    var auto_list = $('<ul class="auto-suggestion-list"></ul>');
-                    for(var i=0; i<res.data.search.autocomplete_suggestions.length; i++){
-                        auto_list.append(`<li><a href="/search.php?search_query=`+ res.data.search.autocomplete_suggestions[i].suggestion +`">`+ res.data.search.autocomplete_suggestions[i].suggestion +`</a></li>`);
+              
+                bodl_data.bodl_ecommerce = payload;
+                  
+                window.dataLayer.push(bodl_data);
+    
+            });
+          }
+            
+          // If window.bodlEvents.cart.removeItem is available, then...
+          if (typeof window.bodlEvents?.cart?.removeItem === 'function') {
+              
+              window.dataLayer = window.dataLayer || [];
+            // run the removeItem function to get the payload
+            window.bodlEvents.cart.removeItem((payload) => {
+              // log the event payload
+              
+              var bodl_data = {
+                  'event': 'bodl_v1_cart_product_removed'
+              }
+              
+                bodl_data.bodl_ecommerce = payload;
+                  
+                window.dataLayer.push(bodl_data);
+            });
+          }
+    
+    
+            //swym wishlist script
+            window.SwymCallbacks = window.SwymCallbacks || [];
+            window.SwymCallbacks.push(function(swat) {
+              var wishlistContainerElement = document.querySelector("#swym-wishlist-render-container");
+              var queryParams = swat.utils.getEncodedAsObject(window.location.search);
+              // Contains queryParams["lid"] to render a specific list id
+              swat.ui.renderWishlistInContainer(wishlistContainerElement, queryParams);
+            });
+    
+    
+     
+        </script>
+        
+    
+        <script>
+            const toggleButtons = document.querySelectorAll('.accordion-navigation');
+            
+            toggleButtons.forEach(button => {
+              button.addEventListener('click', function() {
+                const navList = this.nextElementSibling; 
+                navList.style.display = navList.style.display === 'none' ? 'block' : 'none';
+            
+              });
+            });
+        </script>
+        <script>
+          // resize iframe to fit content
+          const iframe = document.querySelector("#as-tracking-page");
+          window.addEventListener("message", (event) => {
+            if (
+              event.data &&
+              event.data.type === "resize" &&
+              typeof event.data.scrollHeight === "number" &&
+              iframe
+            ) {
+              iframe.style.height = event.data.scrollHeight + "px";
+            }
+          });
+        
+          // support widget float
+          window.addEventListener("message", (event) => {
+            if (
+              event.data &&
+              event.data.type === "widgetScriptLoad" &&
+              typeof event.data.scripts === "object"
+            ) {
+              event.data.scripts.forEach((script) => {
+                const scriptDom = document.createElement("script");
+                scriptDom.innerHTML = script;
+                document.body.appendChild(scriptDom);
+                window.postMessage({ type: "hideAllWidget" }, "*");
+              });
+            }
+          });
+        </script>
+        
+        {{#if page_type '===' 'brand' }}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                setTimeout(() => {
+                    
+                
+                const div = document.querySelector('.brand-product-count');
+                let text = div.innerHTML;
+        
+                // Extract and wrap the number in a span
+                const number = text?.match(/\d+/)[0];
+                text = text.replace(number, `<span class="bold-number">${number}</span>`);
+        
+                // Replace single quotes with double quotes around any text
+                text = text.replace(/'([^']+)'/, `"${'$1'}"`);
+        
+                // Set the modified text back to the div
+                div.innerHTML = text;
+            }, 3000);
+            });
+        </script>
+        {{/if}}
+        <script>
+            function trending_search(){
+                let graphqlQuery = `query SearchQuery($integration_id: String!) {
+                    search(query: {
+                        integration_id: $integration_id,
+                    }) {
+                        autocomplete_suggestions {
+                            suggestion
+                        }
                     }
-                    // Combine title and trending list
-                    var combinedContent = title + auto_list.prop('outerHTML');
-
-                    // Update the HTML of the target div
-                    $('.miros-quick-search .trending-list-div').html(combinedContent);
-                    if ($(window).width() > 768) {
-                        $('.miros-quick-search .suggestion-div').css('width', '80%'); 
+                }`;
+            
+                const variables = {
+                    integration_id: '7fb78fcf-d37e-4021-abab-74d146bc9997'
+                };
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer {{ settings.storefront_api.token }}',
+                    'Access-Control-Allow-Origin': '*'
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://api.miros.services/graphql',
+                    headers: headers,
+                    data: JSON.stringify({ 
+                        query: graphqlQuery,
+                        variables: variables
+                    }),
+                    dataType: 'json',
+                    success: function (res) {
+                        console.log("Trending response", res, res.data.search.autocomplete_suggestions.length);
+                        var title = '<h3>Trending Searches</h3>';
+                        var trending_list = $('<ul class="trending-list"></ul>');
+                        for (var i = 0; i < res.data.search.autocomplete_suggestions.length; i++) {
+                            trending_list.append(`<li><a href="/search.php?search_query=${res.data.search.autocomplete_suggestions[i].suggestion}">${res.data.search.autocomplete_suggestions[i].suggestion}</a></li>`);
+                        }
+        
+                        // Combine title and trending list
+                        var combinedContent = title + trending_list.prop('outerHTML');
+        
+                        // Update the HTML of the target div
+                        setTimeout(function(){
+                            $('.miros-quick-search .trending-list-div').html(combinedContent);
+                            if ($(window).width() < 1024) {
+                                $('.close-icon').show();
+                                $('.dropdown--quickSearch .form-input').css('background', 'none');
+                            } 
+                        }, 500);
                     }
-                }else{
-                    $('.miros-quick-search .trending-list-div').html('');
-                    $('.miros-quick-search .suggestion-div').css('width', '100%'); 
-                }
-
-                    let ids = res.data.search.data.map(item => item.payload.metadata.product_id);
-                    var title = '<h3>Results</h3>';
-                    var productCardContainer = $('<ul class="productGrid test" data-list-name="Quick Search Results"></ul>');
-                        let productQuery = `query {
-                            site{
-                                products(entityIds: [` + ids + `], first: 50){
-                                    edges{
-                                        node{
-                                            name
-                                            sku
-                                            path
-                                            entityId
-                                            brand{
-                                                name
-                                            }
-                                            defaultImage {
-                                                url640wide: url(width: 640)
-                                            }
-                                            images {
-                                                edges {
-                                                    node {
-                                                        url(width: 640)
-                                                    }
-                                                }
-                                            }
-                                            customFields {
-                                                edges {
-                                                    node {
+                });
+            }
+            function miros_quick_search(searchValue) {
+                let graphqlQuery = `query SearchQuery($integration_id: String!, $search_query: String!, $text_query_language: String!) {
+                  search(query: {
+                    integration_id: $integration_id,
+                    text_query: $search_query,
+                    text_query_language: $text_query_language,
+                    limit: 32
+                  }) {
+                    autocomplete_suggestions {
+                        suggestion
+                    }
+                    data {
+                      alias
+                      payload
+                    }
+                  }
+                }`;
+            
+                const variables = {
+                    integration_id: '7fb78fcf-d37e-4021-abab-74d146bc9997',
+                    search_query: searchValue,
+                    text_query_language: 'en'
+                };
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer {{ settings.storefront_api.token }}',
+                    'Access-Control-Allow-Origin': '*'
+                };
+        
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://api.miros.services/graphql',
+                    headers: headers,
+                    data: JSON.stringify({ 
+                        query: graphqlQuery,
+                        variables: variables
+                    }),
+                    dataType: 'json',
+                    success: function (res) {
+                        console.log("Miros response", res);
+                        if(res.data.search.autocomplete_suggestions.length){
+                            var title = '<h3>Suggested Searches</h3>';
+                            var auto_list = $('<ul class="auto-suggestion-list"></ul>');
+                            for(var i=0; i<res.data.search.autocomplete_suggestions.length; i++){
+                                auto_list.append(`<li><a href="/search.php?search_query=`+ res.data.search.autocomplete_suggestions[i].suggestion +`">`+ res.data.search.autocomplete_suggestions[i].suggestion +`</a></li>`);
+                            }
+                            // Combine title and trending list
+                            var combinedContent = title + auto_list.prop('outerHTML');
+        
+                            // Update the HTML of the target div
+                            $('.miros-quick-search .trending-list-div').html(combinedContent);
+                            if ($(window).width() > 768) {
+                                $('.miros-quick-search .suggestion-div').css('width', '80%'); 
+                            }
+                        }else{
+                            $('.miros-quick-search .trending-list-div').html('');
+                            $('.miros-quick-search .suggestion-div').css('width', '100%'); 
+                        }
+        
+                            let ids = res.data.search.data.map(item => item.payload.metadata.product_id);
+                            var title = '<h3>Results</h3>';
+                            var productCardContainer = $('<ul class="productGrid test" data-list-name="Quick Search Results"></ul>');
+                                let productQuery = `query {
+                                    site{
+                                        products(entityIds: [` + ids + `], first: 50){
+                                            edges{
+                                                node{
+                                                    name
+                                                    sku
+                                                    path
+                                                    entityId
+                                                    brand{
                                                         name
-                                                        value
                                                     }
-                                                }
-                                            }
-                                            prices {
-                                                basePrice {
-                                                    value
-                                                    formatted
-                                                }
-                                                salePrice {
-                                                    value
-                                                    formatted
-                                                }
-                                                retailPrice {
-                                                    value
-                                                    formatted
+                                                    defaultImage {
+                                                        url640wide: url(width: 640)
+                                                    }
+                                                    images {
+                                                        edges {
+                                                            node {
+                                                                url(width: 640)
+                                                            }
+                                                        }
+                                                    }
+                                                    customFields {
+                                                        edges {
+                                                            node {
+                                                                name
+                                                                value
+                                                            }
+                                                        }
+                                                    }
+                                                    prices {
+                                                        basePrice {
+                                                            value
+                                                            formatted
+                                                        }
+                                                        salePrice {
+                                                            value
+                                                            formatted
+                                                        }
+                                                        retailPrice {
+                                                            value
+                                                            formatted
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
                                     }
+                                }`;
+            
+                                let ajaxRequest = $.ajax({
+                                    type: 'POST',
+                                    url: '/graphql',
+                                    async: false,
+                                    headers: headers,
+                                    data: JSON.stringify({ query: productQuery }),
+                                    dataType: 'json'
+                                }).done(function (res) {
+                                    
+                                    ids.forEach(function(id){
+                                            let p_edges = res.data.site.products.edges; 
+                                            p_edges.forEach(function(data){
+                                                let p_id = data.node.entityId;
+                                                if(id == p_id){
+                                                    
+                                                    count = 0;
+                                                    if(data){
+                                                        
+                                                        var product_card = '';
+                                                        product_card += '<li class="product"><article class="card" data-event-type="list" data-entity-id="'+ data.node.entityId +'" data-name="'+ data.node.name +'" data-product-price="'+ data.node.prices.basePrice.formatted +'"> <figure class="card-figure"> <div class="badge-wishlist-wrapper"> <a href="'+ data.node.path +'" class="card-alt-img--hover card-image-normal" data-event-type="product-click"> <div class="card-img-container"> <span class="card-main-image"> <img class="card-image" src="'+ data.node.defaultImage.url640wide +'" data-src="'+ data.node.defaultImage.url640wide +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
+                                                        if(data.node.images.edges[1]){
+                                                            product_card += '<span class="card-alt-image"><img class="card-image" src="'+ data.node.images.edges[1].node.url +'" data-src="'+ data.node.images.edges[1].node.url +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
+                                                        }else{
+                                                            product_card += '<span class="card-alt-image"><img class="card-image" src="'+ data.node.defaultImage.url640wide +'" data-src="'+ data.node.defaultImage.url640wide +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
+                                                        }
+                                                        product_card += '</div> </a> ';
+                                                        
+                                                        product_card += '<span class="product-wishlist" data-product-id="'+ data.node.entityId +'"> <button aria-label="wishlist_'+ data.node.entityId +'"> <i class="icon" aria-hidden="true"> <svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/></svg> <svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"/></svg> </i> </button></span>';
+                                                        
+                                                        product_card += '</div> </figure> <div class="card-body"><p class="view-link" data-miros-entry="custom" data-miros-item="'+ data.node.sku +'"><svg xmlns="http://www.w3.org/2000/svg" id="Layer_2" viewBox="0 0 64 64" data-name="Layer 2"><path d="m53.75 35.99-15.42 5.73c-2.42.91-4.32 2.8-5.22 5.22l-5.73 15.44-5.73-15.44c-.9-2.42-2.8-4.32-5.22-5.22l-15.42-5.73 15.42-5.73c2.42-.9 4.32-2.8 5.22-5.22l5.73-15.42 5.73 15.42c.9 2.42 2.8 4.32 5.22 5.22z"/><path d="m63 19.13-6.42 2.39c-.16.06-.29.2-.36.36l-2.38 6.42-2.39-6.42c-.06-.16-.18-.29-.36-.36l-6.42-2.39 6.42-2.38c.17-.06.29-.2.36-.36l2.39-6.42 2.38 6.42c.06.16.2.29.36.36z"/><path d="m45.29 6.48-3.29 1.23c-.17.06-.29.2-.36.36l-1.23 3.29-1.22-3.29c-.06-.16-.2-.29-.37-.36l-3.28-1.23 3.28-1.22c.17-.06.31-.2.37-.37l1.22-3.28 1.23 3.28c.06.17.18.31.36.37z"/></svg>Search This Style</p>  <div> <a class="card-link" href="'+ data.node.path +'"> <h3 class="card-text brand-name">'+ data.node.brand.name +'</h3> <h4 class="card-title">'+ data.node.name +'</h4> ';
+                                                        if(data.node.customFields.edges){
+                                                            product_card += '<div class="card-fields"> <div class="custom-fields-list"> ';
+                                                            var UK = '';
+                                                            var US = '';
+                                                            var FR = '';
+                                                            var IT = '';
+                                                            var SML = '';
+                                                            var EU = '';
+                                                            var both = '';
+                                                            var count = 0;
+                                                            for(var i=0; i<data.node.customFields.edges.length; i++){
+                                                                var node = data.node.customFields.edges[i].node;
+                                                                if(node.name == 'SML'){
+                                                                    SML = '' + node.value +',&nbsp;';    
+                                                                } 
+                                                                if(node.name == 'UK'){
+                                                                    UK = '' + node.name + '&nbsp;' + node.value +',&nbsp;' ;  
+                                                                }
+                                                                if(node.name == 'US'){
+                                                                    US = '' + node.name + '&nbsp;' + node.value +',&nbsp;';  
+                                                                }
+                                                                if(node.name == 'FR'){
+                                                                    FR = '' + node.name + '&nbsp;' + node.value +',&nbsp;';
+                                                                }
+                                                                if(node.name == 'EU'){
+                                                                    count++;
+                                                                    EU = '' + node.name + '&nbsp;' + node.value +'';    
+                                                                }
+                                                                if(node.name == 'IT'){
+                                                                    count++;
+                                                                    IT = '' + node.name + '&nbsp;' + node.value +''; 
+                                                                    IT_val = node.value;   
+                                                                }
+                                                                if(count == 2){
+                                                                    both = 'EU/IT' + '&nbsp;' + IT_val +'';    
+                                                                } 
+                                                                
+                                                            }
+                                                            if(both){
+                                                                product_card += '' + SML + UK + US + FR + both +'</div> </div>';
+                                                            }else{
+                                                                product_card += '' + SML + UK + US + FR + EU + IT +'</div> </div>';
+                                                            }
+                                                        }
+                                                        product_card += '<div class="card-text" data-test-info-type="price"><div class="price-section price-section--withoutTax">';
+                                                            
+                                                        if(data.node.prices.retailPrice){        
+                                                            
+                                                            if(data.node.prices.salePrice){ 
+                                                                var retail = data.node.prices.retailPrice.value;
+                                                                var sale = data.node.prices.salePrice.value;
+                                                                var discount = parseInt(Math.round(100 * ((retail - sale) / retail)));
+                                                                product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'<span class="save-as">Save ' + discount + '%</span></span></div>';
+                                                            }else{
+                                                                product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'</span></div>';
+                                                            }
+                                                        }        
+                                                        if(data.node.prices.salePrice){
+                                                            var old = data.node.prices.basePrice.value;
+                                                            var sale = data.node.prices.salePrice.value;
+                                                            var discount = parseInt(Math.round((100 * (old - sale)) / old)) ;
+                                                            product_card += '<span class="price price--non-sale">'+ data.node.prices.basePrice.formatted +'</span> <div class="price price--listPrice has-sale-price"> <div class="price price--saving"> <span class="saving-percentage">-'+ discount +'%</span></div><span class="price price--withoutTax">'+ data.node.prices.salePrice.formatted +'</span> </div> </div> </div>';
+                                                        }else{
+                                                            product_card += '<span class="price price--withoutTax">'+ data.node.prices.basePrice.formatted +'</span> </div> </div> </div>';
+                                                        }
+                                                        product_card += '</a></div> </div> </article></li>';
+                                                        
+                                                        productCardContainer.append(product_card);
+                                                        // Combine title and trending list
+                                                        var combinedContent = title + productCardContainer.prop('outerHTML');
+        
+                                                        $('.miros-quick-search .suggestion-div').html(combinedContent);
+                                                    }
+                                                }
+                                            });
+                                        });
+                                });
+                    }
+                });
+            }
+        
+        
+            function debounce(func, delay) {
+                let timer;
+                return function (...args) {
+                    clearTimeout(timer);
+                    timer = setTimeout(() => func.apply(this, args), delay);
+                };
+            }
+            async function performSearch(query) {
+                try {
+                    displayResults(encodeURIComponent(query));
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+            function displayResults(data) {
+                let searchValue = data;
+                searchValue = searchValue.replaceAll('%20', ' ');
+                searchValue = decodeURIComponent(searchValue);
+                miros_quick_search(searchValue);
+            }
+            
+                const searchInput = document.getElementById('nav-quick-search-header');
+                const debouncedSearch = debounce(performSearch, 1200);
+        
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value;
+                    if (query.length > 2) { 
+                        debouncedSearch(query);
+                        search();
+                    }
+                });
+                let isFirstClick = true;
+                searchInput.addEventListener('focus', function() {
+                    if (isFirstClick && searchInput.value === '') {
+                        console.log('Input field clicked for the first time and no text is added.');
+                        isFirstClick = false;
+                        trending_search();
+                    }
+                });
+                searchInput.addEventListener('blur', function() {
+                    isFirstClick = true;
+                });
+        
+                //For mobile search
+                const searchInputMob = document.getElementById('nav-quick-search');
+                const debouncedSearchMob = debounce(performSearch, 1200);
+        
+                searchInputMob.addEventListener('input', (e) => {
+                    const query = e.target.value;
+                    if (query.length > 2) { 
+                        debouncedSearchMob(query);
+                    }
+                });
+                searchInputMob.addEventListener('focus', function() {
+                    if (isFirstClick && searchInputMob.value === '') {
+                        console.log('Input field clicked for the first time and no text is added.');
+                        isFirstClick = false;
+                        trending_search();
+                    }
+                });
+                searchInputMob.addEventListener('blur', function() {
+                    isFirstClick = true;
+                });
+            
+        </script>
+        
+        <script>
+            let timestamp_new = Math.floor(Date.now() / 1000);
+            let timestamp_global = timestamp_new + 'pagevisit1';
+            pintrk('track', 'pagevisit', {event_id: timestamp_global,});
+            
+           let sessionData = JSON.parse(sessionStorage.getItem('__klarna_sdk_default-config'));
+           let sessionId = sessionData.config.sessionId;
+           console.log(sessionId);
+        
+        <!-- Pinterest API start -->
+        
+                var email = '{{customer.email}}';
+                var user_id = '{{customer.id}}';
+                // Email
+                if (email) {
+                    var hashedEmail = CryptoJS.SHA256(email).toString();
+                    var hashedId = CryptoJS.SHA256(user_id).toString();
+                } else {
+                    var hashedEmail = "24aba99b2defbb47ee981b4200313f61f3ae31541d8717bdac1e463c838939b0"; 
+                    var hashedId = CryptoJS.SHA256(sessionId).toString();
+                }
+                console.log("Hashed Email", hashedEmail);
+                console.log("Hashed ID", hashedId);
+        
+                var currency = "{{currency_selector.active_currency_code}}";
+                
+                //User Agent
+                var client_user_agent = navigator.userAgent;
+                
+        
+                // Declare variables globally
+                let client_ip_address, country;
+                
+                $.getJSON('https://ipinfo.io/json', function(data) {
+                    client_ip_address = data.ip;
+                    country = CryptoJS.SHA256(data.country).toString();
+                    checkIfDataReady();
+                });
+        
+                function checkIfDataReady() {
+                    if (client_ip_address && country) { 
+                        pageVisit(); 
+                    }
+                }
+                document.addEventListener("DOMContentLoaded", function() {
+                    checkIfDataReady();
+                });
+        
+                //Page Visit
+                /*
+                function pageVisit() {
+                    console.log("Client IP Address in function:", client_ip_address);
+                    console.log("Client User Agent in function:", client_user_agent);
+                    console.log("Country in function:", country);
+                    console.log("Hashed Email in function", hashedEmail);
+                    //Time Stamp
+                    var currentTimestamp = Math.floor(Date.now() / 1000);
+                    console.log("Current Timestamp in function:", currentTimestamp);
+                
+                    var settings = {
+                        "url": "https://consignor.csd.shop/emailtest/pinterest.php", 
+                        "method": "POST",
+                        "contentType": "application/json",
+                        "data": JSON.stringify({
+                            "data": [
+                                {
+                                    "event_name": "page_visit",
+                                    "action_source": "web",
+                                    "event_time": currentTimestamp,
+                                    "event_id": "pagevisit2",
+                                    "event_source_url": window.location.href,
+                                    "opt_out": false,
+                                    "user_data": {
+                                        "em": [hashedEmail],
+                                        "country": [country],
+                                        "hashed_maids": [],
+                                        "client_ip_address": client_ip_address,
+                                        "client_user_agent": client_user_agent
+                                    },
+                                    "custom_data": {
+                                        "currency": currency,
+                                        "value": "",
+                                        "content_ids": [],
+                                        "content_name": "",
+                                        "content_category": "",
+                                        "content_brand": "",
+                                        "contents": [],
+                                        "num_items": 0,
+                                        "order_id": ""
+                                    }
+                                }
+                            ]
+                        })
+                    };
+        
+                    $.ajax(settings).done(function(response) {
+                        console.log("pageVisit", response);
+                    });
+                }
+                */
+                
+                function pageVisit() {
+                    
+                    console.log("Client IP Address in function:", client_ip_address);
+                    console.log("Client User Agent in function:", client_user_agent);
+                    console.log("Country in function:", country);
+                    console.log("Hashed Email in function", hashedEmail);
+                
+                    var currentTimestamp = Math.floor(Date.now() / 1000);
+                    //console.log("timestamp_global in function:", timestamp_global);
+                
+                    var payload = {
+                        "data": [
+                            {
+                                "event_name": "page_visit",
+                                "action_source": "web",
+                                "event_time": currentTimestamp,
+                                "event_id": timestamp_global,
+                                "event_source_url": window.location.href,
+                                "opt_out": false,
+                                "user_data": {
+                                    "em": [hashedEmail],
+                                    "country": [country],
+                                    "hashed_maids": [],
+                                    "client_ip_address": client_ip_address,
+                                    "client_user_agent": client_user_agent,
+                                    "external_id": [hashedId]
+                                },
+                                "custom_data": {
+                                    "currency": currency,
+                                    "value": "",
+                                    "content_ids": [],
+                                    "content_name": "",
+                                    "content_category": "",
+                                    "content_brand": "",
+                                    "contents": [],
+                                    "num_items": 0,
+                                    "order_id": ""
                                 }
                             }
-                        }`;
-    
-                        let ajaxRequest = $.ajax({
-                            type: 'POST',
-                            url: '/graphql',
-                            async: false,
-                            headers: headers,
-                            data: JSON.stringify({ query: productQuery }),
-                            dataType: 'json'
-                        }).done(function (res) {
-                            
-                            ids.forEach(function(id){
-                                    let p_edges = res.data.site.products.edges; 
-                                    p_edges.forEach(function(data){
-                                        let p_id = data.node.entityId;
-                                        if(id == p_id){
-                                            
-                                            count = 0;
-                                            if(data){
-                                                
-                                                var product_card = '';
-                                                product_card += '<li class="product"><article class="card" data-event-type="list" data-entity-id="'+ data.node.entityId +'" data-name="'+ data.node.name +'" data-product-price="'+ data.node.prices.basePrice.formatted +'"> <figure class="card-figure"> <div class="badge-wishlist-wrapper"> <a href="'+ data.node.path +'" class="card-alt-img--hover card-image-normal" data-event-type="product-click"> <div class="card-img-container"> <span class="card-main-image"> <img class="card-image" src="'+ data.node.defaultImage.url640wide +'" data-src="'+ data.node.defaultImage.url640wide +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
-                                                if(data.node.images.edges[1]){
-                                                    product_card += '<span class="card-alt-image"><img class="card-image" src="'+ data.node.images.edges[1].node.url +'" data-src="'+ data.node.images.edges[1].node.url +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
-                                                }else{
-                                                    product_card += '<span class="card-alt-image"><img class="card-image" src="'+ data.node.defaultImage.url640wide +'" data-src="'+ data.node.defaultImage.url640wide +'" alt="'+ data.node.name +'" title="'+ data.node.name +'"></span>';
-                                                }
-                                                product_card += '</div> </a> ';
-                                                
-                                                product_card += '<span class="product-wishlist" data-product-id="'+ data.node.entityId +'"> <button aria-label="wishlist_'+ data.node.entityId +'"> <i class="icon" aria-hidden="true"> <svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/></svg> <svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"/></svg> </i> </button></span>';
-                                                
-                                                product_card += '</div> </figure> <div class="card-body"> <div> <a class="card-link" href="'+ data.node.path +'"> <h3 class="card-text brand-name">'+ data.node.brand.name +'</h3> <h4 class="card-title">'+ data.node.name +'</h4> ';
-                                                if(data.node.customFields.edges){
-                                                    product_card += '<div class="card-fields"> <div class="custom-fields-list"> ';
-                                                    var UK = '';
-                                                    var US = '';
-                                                    var FR = '';
-                                                    var IT = '';
-                                                    var SML = '';
-                                                    var EU = '';
-                                                    var both = '';
-                                                    var count = 0;
-                                                    for(var i=0; i<data.node.customFields.edges.length; i++){
-                                                        var node = data.node.customFields.edges[i].node;
-                                                        if(node.name == 'SML'){
-                                                            SML = '' + node.value +',&nbsp;';    
-                                                        } 
-                                                        if(node.name == 'UK'){
-                                                            UK = '' + node.name + '&nbsp;' + node.value +',&nbsp;' ;  
-                                                        }
-                                                        if(node.name == 'US'){
-                                                            US = '' + node.name + '&nbsp;' + node.value +',&nbsp;';  
-                                                        }
-                                                        if(node.name == 'FR'){
-                                                            FR = '' + node.name + '&nbsp;' + node.value +',&nbsp;';
-                                                        }
-                                                        if(node.name == 'EU'){
-                                                            count++;
-                                                            EU = '' + node.name + '&nbsp;' + node.value +'';    
-                                                        }
-                                                        if(node.name == 'IT'){
-                                                            count++;
-                                                            IT = '' + node.name + '&nbsp;' + node.value +''; 
-                                                            IT_val = node.value;   
-                                                        }
-                                                        if(count == 2){
-                                                            both = 'EU/IT' + '&nbsp;' + IT_val +'';    
-                                                        } 
-                                                        
-                                                    }
-                                                    if(both){
-                                                        product_card += '' + SML + UK + US + FR + both +'</div> </div>';
-                                                    }else{
-                                                        product_card += '' + SML + UK + US + FR + EU + IT +'</div> </div>';
-                                                    }
-                                                }
-                                                product_card += '<div class="card-text" data-test-info-type="price"><div class="price-section price-section--withoutTax">';
-                                                    
-                                                if(data.node.prices.retailPrice){        
-                                                    product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'</span></div>';
-                                                }        
-                                                if(data.node.prices.salePrice){
-                                                    var old = data.node.prices.basePrice.value;
-                                                    var sale = data.node.prices.salePrice.value;
-                                                    var discount = parseInt(Math.round((100 * (old - sale)) / old)) ;
-                                                    product_card += '<span class="price price--non-sale">'+ data.node.prices.basePrice.formatted +'</span> <div class="price price--listPrice has-sale-price"> <div class="price price--saving"> <span class="saving-percentage">-'+ discount +'%</span></div><span class="price price--withoutTax">'+ data.node.prices.salePrice.formatted +'</span> </div> </div> </div>';
-                                                }else{
-                                                    product_card += '<span class="price price--withoutTax">'+ data.node.prices.basePrice.formatted +'</span> </div> </div> </div>';
-                                                }
-                                                product_card += '</a><p class="view-link" data-miros-entry="custom" data-miros-item="data.node.sku">View Similar</p> </div> </div> </article></li>';
-                                                
-                                                productCardContainer.append(product_card);
-                                                // Combine title and trending list
-                                                var combinedContent = title + productCardContainer.prop('outerHTML');
-
-                                                $('.miros-quick-search .suggestion-div').html(combinedContent);
-                                            }
-                                        }
-                                    });
-                                });
-                        });
-            }
-        });
-    }
-
-
-    function debounce(func, delay) {
-        let timer;
-        return function (...args) {
-            clearTimeout(timer);
-            timer = setTimeout(() => func.apply(this, args), delay);
-        };
-    }
-    async function performSearch(query) {
-        try {
-            displayResults(encodeURIComponent(query));
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-    function displayResults(data) {
-        let searchValue = data;
-        searchValue = searchValue.replaceAll('%20', ' ');
-        searchValue = decodeURIComponent(searchValue);
-        miros_quick_search(searchValue);
-    }
-    
-        const searchInput = document.getElementById('nav-quick-search-header');
-        const debouncedSearch = debounce(performSearch, 1200);
-
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value;
-            if (query.length > 2) { 
-                debouncedSearch(query);
-                search();
-            }
-        });
-        let isFirstClick = true;
-        searchInput.addEventListener('focus', function() {
-            if (isFirstClick && searchInput.value === '') {
-                console.log('Input field clicked for the first time and no text is added.');
-                isFirstClick = false;
-                trending_search();
-            }
-        });
-        searchInput.addEventListener('blur', function() {
-            isFirstClick = true;
-        });
-
-        //For mobile search
-        const searchInputMob = document.getElementById('nav-quick-search');
-        const debouncedSearchMob = debounce(performSearch, 1200);
-
-        searchInputMob.addEventListener('input', (e) => {
-            const query = e.target.value;
-            if (query.length > 2) { 
-                debouncedSearchMob(query);
-            }
-        });
-        searchInputMob.addEventListener('focus', function() {
-            if (isFirstClick && searchInputMob.value === '') {
-                console.log('Input field clicked for the first time and no text is added.');
-                isFirstClick = false;
-                trending_search();
-            }
-        });
-        searchInputMob.addEventListener('blur', function() {
-            isFirstClick = true;
-        });
-    
-</script>
-
-<script>
-    pintrk('track', 'pagevisit');
-</script>
-<noscript>
-    <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=YOUR_TAG_ID&event=pagevisit&noscript=1"/>
-</noscript>
-
-<!-- Pinterest API start -->
-<script>
-        var email = '{{customer.email}}';
-        // Email
-        if (email) {
-            var hashedEmail = CryptoJS.SHA256(email).toString();
-        } else {
-            var hashedEmail = "24aba99b2defbb47ee981b4200313f61f3ae31541d8717bdac1e463c838939b0";
-        }
-        //console.log("Hashed Email", hashedEmail);
-
-        var currency = "{{currency_selector.active_currency_code}}";
-        let pin_url = "https://consignor.csd.shop/emailtest/pinterest.php";
-        if(currency == 'USD'){
-            pin_url = "test";
-        }
-        console.log('pinterest url', pin_url);
-        //User Agent
-        var client_user_agent = navigator.userAgent;
-        //console.log("Client User Agent:", client_user_agent);
-
-        // Declare variables globally
-        let client_ip_address, country;
-
-        $.getJSON('https://api.ipify.org?format=json', function(data) {
-            client_ip_address = data.ip;
-            checkIfDataReady();  // Check if both values are ready
-        });
-
-        $.getJSON('http://ip-api.com/json/', function(data) {
-            country = CryptoJS.SHA256(data.country).toString();
-            checkIfDataReady(); 
-        });
-
-        function checkIfDataReady() {
-            if (client_ip_address && country) { 
-                pageVisit(); 
-            }
-        }
-        document.addEventListener("DOMContentLoaded", function() {
-            checkIfDataReady();
-        });
-
-        //Page Visit
-        function pageVisit() {
-            //console.log("Client IP Address:", client_ip_address);
-            //console.log("Country:", country);
-            //Time Stamp
-            var currentTimestamp = Math.floor(Date.now() / 1000);
-            //console.log("Current Timestamp:", currentTimestamp);
-        
-            var settings = {
-                "url": pin_url, 
-                "method": "POST",
-                "contentType": "application/json",
-                "data": JSON.stringify({
-                    "data": [
-                        {
-                            "event_name": "page_visit",
-                            "action_source": "web",
-                            "event_time": currentTimestamp,
-                            "event_id": "pagevisit1",
-                            "event_source_url": window.location.href,
-                            "opt_out": false,
-                            "user_data": {
-                                "em": [hashedEmail],
-                                "country": [country],
-                                "hashed_maids": [],
-                                "client_ip_address": client_ip_address,
-                                "client_user_agent": client_user_agent
-                            },
-                            "custom_data": {
-                                "currency": currency,
-                                "value": "",
-                                "content_ids": [],
-                                "content_name": "",
-                                "content_category": "",
-                                "content_brand": "",
-                                "contents": [],
-                                "num_items": 0,
-                                "order_id": ""
-                            }
-                        }
-                    ]
-                })
-            };
-
-            $.ajax(settings).done(function(response) {
-                console.log("pageVisit", response);
-            });
-        }
-
-        
-        //Search
-        $(document).on("click", "#nav-quick-search-header", function(){
-            search();
-        });
-        function search() {
-            //console.log("Client IP Address:", client_ip_address);
-            //console.log("Country:", country);
-            //Time Stamp
-            var currentTimestamp = Math.floor(Date.now() / 1000);
-            //console.log("Current Timestamp:", currentTimestamp);
-            var settings = {
-                "url": "https://consignor.csd.shop/emailtest/pinterest.php", 
-                "method": "POST",
-                "contentType": "application/json",
-                "data": JSON.stringify({
-                    "data": [
-                        {
-                            "event_name": "search",
-                            "action_source": "web",
-                            "event_time": currentTimestamp,
-                            "event_id": "search1",
-                            "event_source_url": window.location.href,
-                            "opt_out": false,
-                            "user_data": {
-                                "em": [hashedEmail],
-                                "country": [country],
-                                "hashed_maids": [],
-                                "client_ip_address": client_ip_address,
-                                "client_user_agent": client_user_agent
-                            },
-                            "custom_data": {
-                                "currency": currency,
-                                "value": "",
-                                "content_ids": [],
-                                "content_name": "",
-                                "content_category": "",
-                                "content_brand": "",
-                                "contents": [],
-                                "num_items": 0,
-                                "order_id": ""
-                            }
-                        }
-                    ]
-                })
-            };
-
-            $.ajax(settings).done(function(response) {
-                console.log("Search", response);
-            });
-        }
-
-
-        //Add to cart
-        $(document).on("click", "#form-action-addToCart", function(){
-            var price_value = $(this).attr('data-product-price');
-            var product_name = $(this).attr('data-product-name');
-            var product_cat = $(this).attr('data-product-cat');
-            var product_brand = $(this).attr('data-product-brand');
-            
-            setTimeout(function(){
-                //console.log('Log Cart');
-                fetch('/api/storefront/carts', {
-                    credentials: 'include'
-                }).then((res) => res.json()).then(function (res) {
-                    //console.log("cart items", res[0].lineItems.physicalItems);
-                    let ids = [];
-                    let items = [];
-                    let response = res[0].lineItems.physicalItems;
-                    response.forEach(element => {
-                            var id_obj = element.productId;
-                            var item_obj = {
-                                "id": ""+element.productId+"",
-                                "item_price": ""+element.salePrice+"",
-                                "quantity": 1,
-                                "item_name": ""+element.name+"",
-                                "item_brand": ""+element.brand+""
-                            }
-                            ids.push(""+id_obj);               
-                            items.push(item_obj);
-                            //console.log("id array", ids);
-                            //console.log("items array", items);
+                        ]
+                    };
+                
+                    console.log("Payload being sent:", JSON.stringify(payload));
+                
+                    var settings = {
+                        "url": "https://consignor.csd.shop/emailtest/pinterest.php",
+                        "method": "POST",
+                        "contentType": "application/json",
+                        "data": JSON.stringify(payload)
+                    };
+                
+                    $.ajax(settings).done(function(response) {
+                        console.log("API called");
+                        console.log("pageVisit response:", response);
+                    }).fail(function(error) {
+                        console.error("AJAX call failed:", error);
                     });
-                    addTocart(price_value, product_name, product_cat, product_brand, ids, items);
+                }
+        
+                
+                //Search
+                $(document).on("change", ".default-search", function(){
+                    let timestamp_new = Math.floor(Date.now() / 1000);
+                    let timestamp_search = timestamp_new + 'search1';
+                    pintrk('track', 'search', {event_id: timestamp_search,});
+                    
+                    search(timestamp_search);
                 });
-            }, 3000);
-            
-        });
-        function addTocart(p_val, p_name, p_cat, p_brand, ids, items) {
-            //console.log("Client IP Address:", client_ip_address);
-            //console.log("Country:", country);
-            //Time Stamp
-            var currentTimestamp = Math.floor(Date.now() / 1000);
-            //console.log("Current Timestamp:", currentTimestamp);
-            var settings = {
-                "url": "https://consignor.csd.shop/emailtest/pinterest.php", 
-                "method": "POST",
-                "contentType": "application/json",
-                "data": JSON.stringify({
-                    "data": [
-                        {
-                            "event_name": "add_to_cart",
-                            "action_source": "web",
-                            "event_time": currentTimestamp,
-                            "event_id": "addTocart1",
-                            "event_source_url": window.location.href,
-                            "opt_out": false,
-                            "user_data": {
-                                "em": [hashedEmail],
-                                "country": [country],
-                                "hashed_maids": [],
-                                "client_ip_address": client_ip_address,
-                                "client_user_agent": client_user_agent
-                            },
-                            "custom_data": {
-                                "currency": currency,
-                                "value": p_val,
-                                "content_ids": ids,
-                                "content_name": p_name,
-                                "content_category": p_cat,
-                                "content_brand": p_brand,
-                                "contents": items,
-                                "num_items": 1,
-                                "order_id": ""
-                            }
-                        }
-                    ]
-                })
-            };
-
-            $.ajax(settings).done(function(response) {
-                console.log("Add to cart", response);
-            });
-        }
-</script>
+                function search(timestamp_search) {
+                    //console.log("Client IP Address:", client_ip_address);
+                    //console.log("Country:", country);
+                    //Time Stamp
+                    var currentTimestamp = Math.floor(Date.now() / 1000);
+                    //console.log("Current Timestamp:", currentTimestamp);
+                    var settings = {
+                        "url": "https://consignor.csd.shop/emailtest/pinterest.php", 
+                        "method": "POST",
+                        "contentType": "application/json",
+                        "data": JSON.stringify({
+                            "data": [
+                                {
+                                    "event_name": "search",
+                                    "action_source": "web",
+                                    "event_time": currentTimestamp,
+                                    "event_id": timestamp_search,
+                                    "event_source_url": window.location.href,
+                                    "opt_out": false,
+                                    "user_data": {
+                                        "em": [hashedEmail],
+                                        "country": [country],
+                                        "hashed_maids": [],
+                                        "client_ip_address": client_ip_address,
+                                        "client_user_agent": client_user_agent,
+                                        "external_id": [hashedId]
+                                    },
+                                    "custom_data": {
+                                        "currency": currency,
+                                        "value": "",
+                                        "content_ids": [],
+                                        "content_name": "",
+                                        "content_category": "",
+                                        "content_brand": "",
+                                        "contents": [],
+                                        "num_items": 0,
+                                        "order_id": ""
+                                    }
+                                }
+                            ]
+                        })
+                    };
+        
+                    $.ajax(settings).done(function(response) {
+                        console.log("Search", response);
+                    });
+                }
+        
+        
+                //Add to cart
+                $(document).on("click", "#form-action-addToCart", function(){
+                    let timestamp_new = Math.floor(Date.now() / 1000);
+                    let timestamp_cart = timestamp_new + 'addTocart1';
+                    
+                    var price_value = $(this).attr('data-product-price');
+                    var product_name = $(this).attr('data-product-name');
+                    var product_cat = $(this).attr('data-product-cat');
+                    var product_brand = $(this).attr('data-product-brand');
+                    
+                    pintrk('track', 'addtocart', {event_id: timestamp_cart, value: price_value, order_quantity: 1, currency: currency,});
+                    
+                    setTimeout(function(){
+                        console.log('Log Cart');
+                        fetch('/api/storefront/carts', {
+                            credentials: 'include'
+                        }).then((res) => res.json()).then(function (res) {
+                            console.log("cart items", res[0].lineItems.physicalItems);
+                            let ids = [];
+                            let items = [];
+                            let response = res[0].lineItems.physicalItems;
+                            response.forEach(element => {
+                                    var id_obj = element.productId;
+                                    var item_obj = {
+                                        "id": ""+element.productId+"",
+                                        "item_price": ""+element.salePrice+"",
+                                        "quantity": 1,
+                                        "item_name": ""+element.name+"",
+                                        "item_brand": ""+element.brand+""
+                                    }
+                                    ids.push(""+id_obj);               
+                                    items.push(item_obj);
+                                    //console.log("id array", ids);
+                                    //console.log("items array", items);
+                            });
+                            addTocart(price_value, product_name, product_cat, product_brand, ids, items, timestamp_cart);
+                        });
+                    }, 3000);
+                    
+                });
+                function addTocart(p_val, p_name, p_cat, p_brand, ids, items, timestamp_cart) {
+                    //console.log("Client IP Address:", client_ip_address);
+                    //console.log("Country:", country);
+                    //Time Stamp
+                    var currentTimestamp = Math.floor(Date.now() / 1000);
+                    //console.log("Current Timestamp:", currentTimestamp);
+                    var settings = {
+                        "url": "https://consignor.csd.shop/emailtest/pinterest.php", 
+                        "method": "POST",
+                        "contentType": "application/json",
+                        "data": JSON.stringify({
+                            "data": [
+                                {
+                                    "event_name": "add_to_cart",
+                                    "action_source": "web",
+                                    "event_time": currentTimestamp,
+                                    "event_id": timestamp_cart,
+                                    "event_source_url": window.location.href,
+                                    "opt_out": false,
+                                    "user_data": {
+                                        "em": [hashedEmail],
+                                        "country": [country],
+                                        "hashed_maids": [],
+                                        "client_ip_address": client_ip_address,
+                                        "client_user_agent": client_user_agent,
+                                        "external_id": [hashedId]
+                                    },
+                                    "custom_data": {
+                                        "currency": currency,
+                                        "value": p_val,
+                                        "content_ids": ids,
+                                        "content_name": p_name,
+                                        "content_category": p_cat,
+                                        "content_brand": p_brand,
+                                        "contents": items,
+                                        "num_items": 1,
+                                        "order_id": ""
+                                    }
+                                }
+                            ]
+                        })
+                    };
+        
+                    $.ajax(settings).done(function(response) {
+                        console.log("Add to cart", response);
+                    });
+                }
+        </script>
+        <noscript>
+            <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=2612737624778&event=pagevisit&ed[event_id]=timestamp_global&noscript=1"/>
+            <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=2612737624778&event=search&ed[event_id]=timestamp_search&noscript=1"/>
+            <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/v3/?tid=2612737624778&event=addtocart&ed[event_id]=timestamp_cart&noscript=1"/>
+        </noscript>
+        
+    </body>
+</html>

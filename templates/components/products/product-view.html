@@ -212,7 +212,7 @@
                             {{> components/common/login-for-pricing}}
                         {{/or}}                    
                     </div>
-    
+                    <span class="shipment-text"></span>
                 {{#comment}}
                     {{#unless product.out_of_stock}}
                     <div class="klarna-msg">
@@ -234,20 +234,6 @@
                     {{{region name="product_below_price"}}}
                 </div>
                 
-                <div class="price-wrapper">
-                    {{#unless product.out_of_stock}}
-                    <div class="klarna-msg">
-                        <!-- Placement v2 -->
-                        <klarna-placement
-                        data-key="credit-promotion-badge"
-                        data-locale="en-{{#if currency_selector.active_currency_code '===' 'USD'}}US{{else if currency_selector.active_currency_code '===' 'CAD'}}GB{{else}}GB{{/if}}"
-                        data-purchase-amount="{{round (multiply product.price.without_tax.value 100)}}"
-                        ></klarna-placement>
-                        <!-- end Placement -->
-                    </div>
-                    {{/unless}}
-                </div>
-                
             {{/if}}
             
             {{#if settings.bulk_discount_enabled}}
@@ -258,8 +244,9 @@
 
             <div class="in-detail btm-space">
                 <div class="size-section">
+                    
                     <div class="left-part">
-
+                        
                     {{assignVar "field_availability" 0}}
                     {{#each product.custom_fields}}
                         {{#if name '===' 'Availability'}}
@@ -270,6 +257,7 @@
                         {{/if}}
                     {{/each}}
                     {{#if (getVar "field_availability") '===' 0}}
+                    
                         {{#each product.category}}
                             {{#if @first}}
                                 {{#if this '===' 'Shoes'}}
@@ -281,6 +269,7 @@
                         {{/each}}
                     
                         {{#if (getVar "categoryShoes") '===' 'true'}}
+                        
                             {{assignVar "field_eu" 0}}
                             {{assignVar "field_it" 0}}                            
                             {{#each product.custom_fields}}
@@ -319,6 +308,7 @@
                         {{/if}}
                     {{/if}}
                     </div>
+                    
                     {{#if (getVar 'shoeGuide') '===' 'true'}}
                     <div class="right-part">
                         {{> components/csd/products/size-guide}}
@@ -327,7 +317,9 @@
                 </div>
 
                 <div class="condition-section">
+                    
                     <div class="left-part">
+                        <span>Condition: </span>
                     {{#each product.custom_fields}} 
                         {{#or (if name "==" "Condition")}} 
                                 {{#if value "==" "Never worn, with tag"}}
@@ -337,6 +329,7 @@
                                 {{/if}}
                         {{/or}} 
                     {{/each}} 
+                    
                     </div>
                     <div class="right-part">
                         {{> components/csd/products/condition-guide}}
@@ -344,11 +337,15 @@
                 </div>
 
                 <div class="color-section">
-                    {{#each product.custom_fields}} 
-                        {{#or (if name "==" "Colour")}} 
-                            <span>{{{value}}}</span>
-                        {{/or}} 
-                    {{/each}} 
+                    
+                    <div class="left-part">
+                        <span>Colour: </span>
+                        {{#each product.custom_fields}} 
+                            {{#or (if name "==" "Colour")}} 
+                                <span>{{{value}}}</span>
+                            {{/or}} 
+                        {{/each}} 
+                    </div>
                 </div>
             </div>
             
@@ -379,8 +376,26 @@
                 {{/if}}
                 {{/comment}}
             </div>
-            
-            <a href="#" data-miros-entry="custom" data-miros-item="{{product.sku}}">Show Similar Products</a>
+            <dl class="custom-fields">
+                {{#each product.custom_fields}}
+                    {{#if name '===' 'Branch Status'}}
+                        {{#if value '===' 'Marylebone'}}
+                            <dt class="productView-info-name">Location:</dt>
+                            <dd class="productView-info-value"><a href="https://csd.shop/marylebone-lane-store/">Marylebone Lane Store</a></dd>
+                        {{else if value '===' 'BPS STORE'}}
+                            <dt class="productView-info-name">Location:</dt>
+                            <dd class="productView-info-value"><a href="https://csd.shop/battersea-power-station-store/">Battersea Power Station Store</a></dd>
+                        {{else if value '===' 'Notting Hill Store'}}
+                            <dt class="productView-info-name">Location:</dt>
+                            <dd class="productView-info-value"><a href="https://csd.shop/csd-notting-hill-store/">Notting Hill Store</a></dd>
+                        {{else}}
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+            </dl>
+            <a href="#" class="show-similar button productView-options" data-miros-entry="custom" data-miros-item="{{product.sku}}">
+                <svg xmlns="http://www.w3.org/2000/svg" id="Layer_2" viewBox="0 0 64 64" data-name="Layer 2"><path d="m53.75 35.99-15.42 5.73c-2.42.91-4.32 2.8-5.22 5.22l-5.73 15.44-5.73-15.44c-.9-2.42-2.8-4.32-5.22-5.22l-15.42-5.73 15.42-5.73c2.42-.9 4.32-2.8 5.22-5.22l5.73-15.42 5.73 15.42c.9 2.42 2.8 4.32 5.22 5.22z"/><path d="m63 19.13-6.42 2.39c-.16.06-.29.2-.36.36l-2.38 6.42-2.39-6.42c-.06-.16-.18-.29-.36-.36l-6.42-2.39 6.42-2.38c.17-.06.29-.2.36-.36l2.39-6.42 2.38 6.42c.06.16.2.29.36.36z"/><path d="m45.29 6.48-3.29 1.23c-.17.06-.29.2-.36.36l-1.23 3.29-1.22-3.29c-.06-.16-.2-.29-.37-.36l-3.28-1.23 3.28-1.22c.17-.06.31-.2.37-.37l1.22-3.28 1.23 3.28c.06.17.18.31.36.37z"/></svg>
+                Search This Style</a>
             
             {{product.detail_messages}}
             <dl class="productView-info btm-space">
@@ -467,25 +482,27 @@
                 {{/comment}}
                    
             </dl>
-            <dl class="custom-fields">
-                {{#each product.custom_fields}}
-                    {{#if name '===' 'Branch Status'}}
-                        {{#if value '===' 'Marylebone'}}
-                            <dt class="productView-info-name">Location:</dt>
-                            <dd class="productView-info-value"><a href="https://csd.shop/marylebone-lane-store/">Marylebone Lane Store</a></dd>
-                        {{else if value '===' 'BPS STORE'}}
-                            <dt class="productView-info-name">Location:</dt>
-                            <dd class="productView-info-value"><a href="https://csd.shop/battersea-power-station-store/">Battersea Power Station Store</a></dd>
-                        {{else if value '===' 'Notting Hill Store'}}
-                            <dt class="productView-info-name">Location:</dt>
-                            <dd class="productView-info-value"><a href="https://csd.shop/csd-notting-hill-store/">Notting Hill Store</a></dd>
-                        {{else}}
-                        {{/if}}
-                    {{/if}}
-                {{/each}}
-            </dl>
+            
             {{> components/csd/verified-and-authenticated}}
-
+            {{#unless product.out_of_stock}}
+                {{> components/csd/products/shipping-timer}}
+            {{/unless}}
+            {{#if product.stock_level '===' '1'}}
+                <div class="stock-status">
+                    <p><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns:svgjs="http://svgjs.dev/svgjs" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg1632" x="0px" y="0px" viewBox="0 0 300 300" style="enable-background:new 0 0 300 300;" xml:space="preserve">
+                        <style type="text/css">
+                        	.st0{fill:#507E4E;}
+                        </style>
+                        <g>
+                        	<path class="st0" d="M246.7,89.2L150,53.4L53.3,89.2v122.2l96.7,35.8l96.7-35.8V89.2z M201.2,97.3L150,116.3L98.8,97.3L150,78.4   L201.2,97.3z M76.8,114.2l61.5,22.8v80.9L76.8,195V114.2z M161.7,217.8v-80.9l61.5-22.8V195L161.7,217.8z"/>
+                        	<path class="st0" d="M23.4,35.2c0-6.5,5.3-11.7,11.7-11.7H68V0H35.2C15.8,0,0,15.8,0,35.2V68h23.4V35.2z"/>
+                        	<path class="st0" d="M264.8,0H232v23.4h32.8c6.5,0,11.7,5.3,11.7,11.7V68H300V35.2C300,15.8,284.2,0,264.8,0z"/>
+                        	<path class="st0" d="M276.6,264.8c0,6.5-5.3,11.7-11.7,11.7H232V300h32.8c19.4,0,35.2-15.8,35.2-35.2V232h-23.4V264.8z"/>
+                        	<path class="st0" d="M23.4,264.8V232H0v32.8C0,284.2,15.8,300,35.2,300H68v-23.4H35.2C28.7,276.6,23.4,271.3,23.4,264.8z"/>
+                        </g>
+                        </svg>Only 1 in stock. Don't miss your chance. Order now.</p>
+                </div>
+            {{/if}}
         </div>
     </div>
 
@@ -587,8 +604,20 @@
                 {{/contains}}
             {{/each}}
         {{/if}}
+        <div class="price-wrapper">
+            {{#unless product.out_of_stock}}
+            <div class="klarna-msg">
+                        <!-- Placement v2 -->
+                <klarna-placement
+                        data-key="credit-promotion-badge"
+                        data-locale="en-{{#if currency_selector.active_currency_code '===' 'USD'}}US{{else if currency_selector.active_currency_code '===' 'CAD'}}GB{{else}}GB{{/if}}"
+                        data-purchase-amount="{{round (multiply product.price.without_tax.value 100)}}"
+                ></klarna-placement>
+                        <!-- end Placement -->
+            </div>
+            {{/unless}}
+        </div>
         {{#unless product.out_of_stock}}
-            {{> components/csd/products/shipping-timer}}
         
             <div id="prdct-description">
                 <div class="description-tabs">
@@ -769,7 +798,7 @@ $(document).ready(function(){
                                         
                                         product_card += '<span class="product-wishlist" data-product-id="'+ data.node.entityId +'"> <button aria-label="wishlist_'+ data.node.entityId +'"> <i class="icon" aria-hidden="true"> <svg class="wishlist-solid" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path fill="currentColor" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/></svg> <svg class="wishlist-outline" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.534 477.534" xml:space="preserve"><path d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909l-8.431-8.909C181.284,5.762,98.662,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z M413.787,234.226h-0.017L238.802,418.768L63.818,234.226c-39.78-42.916-39.78-109.233,0-152.149c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484l20.804,21.948c6.856,6.812,17.925,6.812,24.781,0l20.804-21.931c36.125-39.154,97.152-41.609,136.306-5.484c1.901,1.754,3.73,3.583,5.484,5.484C453.913,125.078,454.207,191.516,413.787,234.226z"/></svg> </i> </button></span>';
                                         
-                                        product_card += '</div> </figure> <div class="card-body"> <div> <a class="card-link" href="'+ data.node.path +'"> <h3 class="card-text brand-name">'+ data.node.brand.name +'</h3> <h4 class="card-title">'+ data.node.name +'</h4> ';
+                                        product_card += '</div> </figure> <div class="card-body"><p class="view-link" data-miros-entry="custom" data-miros-item="'+ data.node.sku +'"><svg xmlns="http://www.w3.org/2000/svg" id="Layer_2" viewBox="0 0 64 64" data-name="Layer 2"><path d="m53.75 35.99-15.42 5.73c-2.42.91-4.32 2.8-5.22 5.22l-5.73 15.44-5.73-15.44c-.9-2.42-2.8-4.32-5.22-5.22l-15.42-5.73 15.42-5.73c2.42-.9 4.32-2.8 5.22-5.22l5.73-15.42 5.73 15.42c.9 2.42 2.8 4.32 5.22 5.22z"/><path d="m63 19.13-6.42 2.39c-.16.06-.29.2-.36.36l-2.38 6.42-2.39-6.42c-.06-.16-.18-.29-.36-.36l-6.42-2.39 6.42-2.38c.17-.06.29-.2.36-.36l2.39-6.42 2.38 6.42c.06.16.2.29.36.36z"/><path d="m45.29 6.48-3.29 1.23c-.17.06-.29.2-.36.36l-1.23 3.29-1.22-3.29c-.06-.16-.2-.29-.37-.36l-3.28-1.23 3.28-1.22c.17-.06.31-.2.37-.37l1.22-3.28 1.23 3.28c.06.17.18.31.36.37z"/></svg>Search This Style</p> <div> <a class="card-link" href="'+ data.node.path +'"> <p class="card-text brand-name">'+ data.node.brand.name +'</p> <h4 class="card-title">'+ data.node.name +'</h4> ';
                                         if(data.node.customFields.edges){
                                             product_card += '<div class="card-fields"> <div class="custom-fields-list"> ';
                                             var UK = '';
@@ -816,7 +845,15 @@ $(document).ready(function(){
                                         product_card += '<div class="card-text" data-test-info-type="price"><div class="price-section price-section--withoutTax">';
                                             
                                         if(data.node.prices.retailPrice){        
-                                            product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'</span></div>';
+                                            
+                                            if(data.node.prices.salePrice){ 
+                                                var retail = data.node.prices.retailPrice.value;
+                                                var sale = data.node.prices.salePrice.value;
+                                                var discount = parseInt(Math.round(100 * ((retail - sale) / retail)));
+                                                product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'<span class="save-as">Save ' + discount + '%</span></span></div>';
+                                            }else{
+                                                product_card += '<div class="price-section price-section--withoutTax price--rrp rrp-price--withoutTax"> <span data-product-rrp-without-tax="" class="price price--rrp">Est. Retail&nbsp;'+ data.node.prices.retailPrice.formatted +'</span></div>';
+                                            }
                                         }        
                                         if(data.node.prices.salePrice){
                                             var old = data.node.prices.basePrice.value;
@@ -841,5 +878,4 @@ $(document).ready(function(){
 
 });
 </script>
-
 
